@@ -40,11 +40,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
-# TypeScript v1 declaration files
-typings/
-
-# TypeScript cache
+e
 *.tsbuildinfo
 
 # Optional npm cache directory
@@ -88,8 +84,6 @@ dist
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
-.vuepress/dist
 
 # Serverless directories
 .serverless/
