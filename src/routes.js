@@ -7,6 +7,10 @@ routes.get('/', (req,res) => {
     res.send('Hello World');
 });
 
-routes.get('/queues/list', queuesControllers.list);
+routes.get('/queues', queuesControllers.index);
+routes.post('/queues/store', queuesControllers.store);
+routes.delete('/queues/:name', queuesControllers.delete);
+routes.put('/queue/:name', queuesControllers.update);
+
 
 module.exports = routes;
