@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const queuesControllers = require('./controllers/queuesControllers');
 const queueMemberControllers = require('./controllers/queueMemberControllers');
+const ramalControllers = require('./controllers/ramalControllers');
 
 const routes = new Router();
 
@@ -19,5 +20,8 @@ routes.get('/queuemembers', queueMemberControllers.index);
 routes.post('/queuemembers/create', queueMemberControllers.create);
 routes.put('/queuemembers/:protocol/:ramal', queueMemberControllers.update);
 routes.delete('/queuemembers/:protocol/:ramal', queueMemberControllers.delete);
+
+routes.get('/ramais', ramalControllers.index);
+routes.get('/ramais/list', ramalControllers.list);
 
 module.exports = routes;
