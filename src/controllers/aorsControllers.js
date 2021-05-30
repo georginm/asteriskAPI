@@ -30,7 +30,7 @@ module.exports = {
             // Existe Aors no db?
             var query = await db.select("ps_aors", "id", {id: req.body.id});
             if(query.length == 0) { //Caso não exista
-                query = await db.insert("ps_aors", req.body, "name");
+                query = await db.insert("ps_aors", req.body, "id");
                 return res.status(200).json({query});
             } else { // Existe
                 return res.status(401).json({error: "Aors já existe"});
