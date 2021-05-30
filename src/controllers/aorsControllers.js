@@ -29,7 +29,7 @@ module.exports = {
         try {
             // Existe Aors no db?
             var query = await db.select("ps_aors", "id", {id: req.body.id});
-            if(query.legth == 0) { //Caso não exista
+            if(query.length == 0) { //Caso não exista
                 query = await db.insert("ps_aors", req.body, "name");
                 return res.status(200).json({query});
             } else { // Existe
@@ -41,22 +41,14 @@ module.exports = {
     },
 
     async update (req, res) {
-        const { id } = req.params;
-        const body = req.body;
         try {
             // Existe Aors no db?
-            var query = await db.select("ps_aors", "id", {id});
-            if(query.legth == 0) { //Caso não haja registro
+            var query = await db.select("ps_aors", "id", {id: req.body.id});
+            if(query.length == 0) { //Caso não haja registro
                 return res.status(401).json({error: "Não há registro da Aor passada"});
-            }
-            else { // Existe
-                query = await db.select("ps_aors", "id", {id: body.id});
-                if(query.legth == 0) { // Caso o registro passado no bod não exista
-                    query = await db.insert("ps_aors", {body}, {id});
-                    return res.status(200).send();
-                } else { // Caso exista
-                    return res.status(401).json({error: "O AOR informado no corpo da requisição já está cadastrado"});
-                }
+            } else { // Existe
+                query = await db.update("ps_aors", req.body, {id: req.body.id}, "id");
+                return res.status(200).send();
             }
         } catch (error) {
             return res.status(400).json({error: `${error.message}`});
@@ -69,7 +61,7 @@ module.exports = {
         try {
             var query = await db.select("ps_aors", "id", {id});
 
-            if(query.legth == 0) { // Caso não exista registro
+            if(query.length == 0) { // Caso não exista registro
                 return res.status(401).json("Não existe regristro para ser deletado");
             } else {
                 query = await db.delete("ps_aors", {id});

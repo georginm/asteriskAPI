@@ -50,19 +50,13 @@ module.exports = {
     async update(req, res){
         try {
             // Procura item cadastrado
-            var query = await db.select("ps_endpoints", "id", {id: req.params.id});
+            var query = await db.select("ps_endpoints", "id", {id: req.body.id});
             // Existe registro?
             if(query.length == 0){ // Caso não exista
                 return res.status(401).json({error: "Não há registro para ser atualizado"});
             } else { // Existe regristro
-                // verifica se há algum registro com o item passado no body
-                query = await db.select("ps_endpoints", "id", {id: req.body.id});
-                if(query.length == 0) { // não existe registro
-                    query = await db.update("ps_endpoints", req.body, {id: req.params.id}, "id");
-                    return res.status(204).send();
-                } else {
-                    return res.status(401).json({error: "Enpoint passado no body já está cadastrado"});
-                }
+                query = await db.update("ps_endpoints", req.body, {id: req.body.id}, "id");
+                return res.status(200).send();
             }
         } catch (error) {
             return res.status(400).json({error: `${error.message}`});
