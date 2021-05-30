@@ -1,7 +1,6 @@
 const conn = require('../database/db');
 const dbRamal = require('../services/dbRamal');
 
-
 module.exports = {
     async index(req, res){
         const select = [
@@ -19,6 +18,7 @@ module.exports = {
             'ps_auths.password',
             'ps_auths.username'
         ];
+        
         try{
             const query = await dbRamal.select2Join(
                 'ps_endpoints',
@@ -30,7 +30,7 @@ module.exports = {
             
             return res.status(200).json(query);
         } catch (error) {
-            return res.status(400).json({error: `${error}`});
+            return res.status(400).json({error: `${error.message}`});
         }
     },
 
@@ -45,7 +45,7 @@ module.exports = {
             
             return res.status(200).json(query);
         } catch (error) {
-            return res.status(400).json({error: `${error}`});
+            return res.status(400).json({error: `${error.message}`});
         }
     }
 }

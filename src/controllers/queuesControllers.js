@@ -1,18 +1,17 @@
 const db = require('../services/db');
+const select = [
+    'name',
+    'musiconhold', 
+    'timeout', 
+    'ringinuse', 
+    'monitor_type',
+    'strategy',
+    'joinempty',
+    'leavewhenempty'
+];
 
 module.exports = {
     async index(req, res){
-        const select = [
-            'name',
-            'musiconhold', 
-            'timeout', 
-            'ringinuse', 
-            'monitor_type',
-            'strategy',
-            'joinempty',
-            'leavewhenempty'
-        ];
-
         try {
             const query = await db.select('queues',select, req.query)
             return  res.status(200).json(query);
@@ -42,8 +41,7 @@ module.exports = {
             // Essa interface já está em algum registro do banco?
             if(query.length == 0) { // Caso não tenha registro
                 const lastId = await db.getLastId('queues');
-                const query = await db.insert('queues', {id: lastId, ...req.body}, 'name');
-
+                const query = await db.insert('queues', {id: lastId, ...req.body}, select);
                 return res.status(200).json(query);
             }
             else { //Caso tenha
