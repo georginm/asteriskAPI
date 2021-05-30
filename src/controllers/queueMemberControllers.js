@@ -60,7 +60,7 @@ module.exports = {
         const interface = `${protocol}/${ramal}`;
 
         try {
-            var query = await db.selectAll('queue_members', "interface", {interface: req.body.interfaceace});
+            var query = await db.select('queue_members', "interface", {interface});
             // Essa interface já está em algum registro do banco?
             if(query.length == 0){ // Caso não tenha registro
                 return res.status(401).json({error: "Não há registro dessa interface no banco de dados"});
