@@ -23,19 +23,19 @@ routes.put('/queues/:name', queuesControllers.update);
 
 routes.get('/queuemembers', queueMemberControllers.index);
 routes.post('/queuemembers/create', queueMemberControllers.create);
-routes.put('/queuemembers', queueMemberControllers.update);
+routes.put('/queuemembers/:protocol/:ramal', queueMemberControllers.update);
 routes.delete('/queuemembers/:protocol/:ramal', queueMemberControllers.delete);
 
 routes.get('/aors', aorsControllers.index);
 routes.get('/aors/list', aorsControllers.list);
 routes.post('/aors/create', aorsControllers.create);
 routes.delete('/aors/:id', aorsControllers.delete);
-routes.put('/aors', aorsControllers.update);
+routes.put('/aors/:id', aorsControllers.update);
 
 routes.get('/endpoint', endpointsController.index);
 routes.get('/endpoint/list', endpointsController.list);
 routes.post('/endpoint/create', endpointsController.create);
-routes.put('/endpoint', endpointsController.update);
+routes.put('/endpoint/:id', endpointsController.update);
 routes.delete('/endpoint/:id', endpointsController.delete);
 
 routes.get('/auth', authControllers.index);
@@ -47,6 +47,6 @@ routes.put('/auth/:id', authControllers.update);
 routes.get('/extensions', extensionsControllers.index);
 routes.post('/extensions/create', extensionsControllers.create);
 routes.delete('/extensions/:id', extensionsControllers.delete);
-routes.put('/extensions', extensionsControllers.update);
+routes.put('/extensions/:id', extensionsControllers.update);
 
 module.exports = routes;
