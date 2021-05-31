@@ -33,10 +33,21 @@ module.exports = {
 
     async create(req, res){
         try {
+            // A aor e auth fornecidos precisam existir
+            const aors = await db.select("ps_aors", "id", {id: req.body.aors});
+            const auth = await db.select("ps_auths", "id", {id: req.body.auth});
+            
+            if(!aors.length){
+                return res.status(400).json({error: "Aors não existe"});
+            }
+
+            if(!auth.length){
+                return res.status(400).json({error: "Auth não existe"});
+            }
             // Procura item cadastrodo
             var query = await db.select("ps_endpoints","*", {id : req.body.id});
             // Existe registro?
-            if(query.length == 0) { // Caso não exista registro
+            if(!query.length) { // Caso não exista registro
                 query = await db.insert("ps_endpoints", req.body);
                 return res.status(204).send();
             } else { // Caso exista
@@ -50,12 +61,12 @@ module.exports = {
     async update(req, res){
         try {
             // Procura item cadastrado
-            var query = await db.select("ps_endpoints", "id", {id: req.body.id});
+            var query = await db.select("ps_endpoints", "id", {id: req.params.id});
             // Existe registro?
-            if(query.length == 0){ // Caso não exista
+            if(!query.length){ // Caso não exista
                 return res.status(401).json({error: "Não há registro para ser atualizado"});
             } else { // Existe regristro
-                query = await db.update("ps_endpoints", req.body, {id: req.body.id}, "id");
+                query = await db.update("ps_endpoints", req.body, {id: req.params.id}, "id");
                 return res.status(200).send();
             }
         } catch (error) {
@@ -69,7 +80,7 @@ module.exports = {
         try {
             var query = await db.selectAll('ps_endpoints', { id });
             // Essa id já está em algum registro do banco?
-            if(query.length == 0){ // Caso não tenha registros
+            if(!query.length){ // Caso não tenha registros
                 return res.status(401).json({error: "Não existe registro com essa id"});
             }
             else { // Caso tenha

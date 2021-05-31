@@ -29,7 +29,7 @@ module.exports = {
         try {
             // Existe Aors no db?
             var query = await db.select("ps_aors", "id", {id: req.body.id});
-            if(query.length == 0) { //Caso não exista
+            if(!query.length) { //Caso não exista
                 query = await db.insert("ps_aors", req.body, "id");
                 return res.status(200).json({query});
             } else { // Existe
@@ -43,11 +43,11 @@ module.exports = {
     async update (req, res) {
         try {
             // Existe Aors no db?
-            var query = await db.select("ps_aors", "id", {id: req.body.id});
-            if(query.length == 0) { //Caso não haja registro
+            var query = await db.select("ps_aors", "id", {id: req.params.id});
+            if(!query.length) { //Caso não haja registro
                 return res.status(401).json({error: "Não há registro da Aor passada"});
             } else { // Existe
-                query = await db.update("ps_aors", req.body, {id: req.body.id}, "id");
+                query = await db.update("ps_aors", req.body, {id: req.params.id}, "id");
                 return res.status(200).send();
             }
         } catch (error) {
@@ -61,9 +61,10 @@ module.exports = {
         try {
             var query = await db.select("ps_aors", "id", {id});
 
-            if(query.length == 0) { // Caso não exista registro
+            if(!query.length) { // Caso não exista registro
                 return res.status(401).json("Não existe regristro para ser deletado");
             } else {
+                query = await db.delete("ps_endpoints", {id});
                 query = await db.delete("ps_aors", {id});
                 return res.status(204).send();
 
