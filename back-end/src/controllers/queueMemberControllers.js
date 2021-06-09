@@ -4,12 +4,7 @@ const db = require('../services/db');
 Cada ramal só pode pertencer a uma fila
 */
 module.exports = {
-    /**
-     * Mostra todos os itens cadastrados. Também aceita query params
-     * @param {*} req 
-     * @param {*} res 
-     * @returns 
-     */
+    
     async index(req,res) {
         try {
             var query = await db.selectAll('queue_members', req.query);
@@ -41,8 +36,8 @@ module.exports = {
             var query = await db.selectAll('queue_members', {interface});
             // Essa interface já está em algum registro do banco?
             if(!query.length){ //caso não tenha registro
-                const lastId = await db.getLastId('queue_members');
-                query = await db.insert('queue_members', {uniqueid: lastId.uniqueid + 1, ...req.body}, 'interface');
+                const { uniqueid } = await db.getLastId('queue_members');
+                query = await db.insert('queue_members', {...req.body, uniqueid: uniqueid + 1}, 'interface');
                 return res.status(201).json(query);
             }
             else { //caso tenha
