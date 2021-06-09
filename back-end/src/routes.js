@@ -2,16 +2,17 @@ const { Router } = require('express');
 
 const queuesControllers = require('./controllers/queuesControllers');
 const queueMemberControllers = require('./controllers/queueMemberControllers');
-const ramalControllers = require('./controllers/ramalControllers');
-const aorsControllers = require('./controllers/aorsControllers');
+const brancheControllers = require('./controllers/brancheControllers');
+const aorsControllers = require('./controllers/aorControllers');
 const endpointsController = require('./controllers/endpointsController');
 const authControllers = require('./controllers/authControllers');
 const extensionsControllers = require('./controllers/extensionsControllers');
 
 const routes = new Router();
 
-routes.get('/', ramalControllers.index);
-routes.get('/ramais', ramalControllers.list);
+routes.get('/', brancheControllers.index);
+routes.get('/branches/list', brancheControllers.list);
+routes.delete('/branches/:id', brancheControllers.delete);
 
 
 routes.get('/queues', queuesControllers.index);
@@ -23,8 +24,8 @@ routes.put('/queues/:name', queuesControllers.update);
 
 routes.get('/queuemembers', queueMemberControllers.index);
 routes.post('/queuemembers/create', queueMemberControllers.create);
-routes.put('/queuemembers/:protocol/:ramal', queueMemberControllers.update);
-routes.delete('/queuemembers/:protocol/:ramal', queueMemberControllers.delete);
+routes.put('/queuemembers/:protocol/:branche', queueMemberControllers.update);
+routes.delete('/queuemembers/:protocol/:branche', queueMemberControllers.delete);
 
 routes.get('/aors', aorsControllers.index);
 routes.get('/aors/list', aorsControllers.list);
