@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
-const queuesControllers = require('./controllers/queuesControllers');
+const queuesControllers = require('./controllers/queueControllers');
 const queueMemberControllers = require('./controllers/queueMemberControllers');
 const brancheControllers = require('./controllers/brancheControllers');
 const aorsControllers = require('./controllers/aorControllers');
-const endpointsController = require('./controllers/endpointsController');
+const endpointsController = require('./controllers/endpointController');
 const authControllers = require('./controllers/authControllers');
-const extensionsControllers = require('./controllers/extensionsControllers');
+const extensionsControllers = require('./controllers/extensionControllers');
 
 const routes = new Router();
 
