@@ -36,7 +36,7 @@ module.exports = {
             var query = await db.selectAll('queue_members', {interface});
             // Essa interface já está em algum registro do banco?
             if(!query.length){ //caso não tenha registro
-                const { uniqueid } = await db.getLastId('queue_members');
+                const { uniqueid } = await db.getLast('queue_members');
                 query = await db.insert('queue_members', {...req.body, uniqueid: uniqueid + 1}, 'interface');
                 return res.status(201).json(query);
             }
@@ -79,7 +79,6 @@ module.exports = {
                 query = await db.delete('queue_members', {interface});
                 return res.status(204).send();
             }
-
         } catch (error) {
             return res.status(400).json({error: `${error.message}`})
         }

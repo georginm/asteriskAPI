@@ -22,9 +22,16 @@ module.exports = {
      * @returns retultado da query
      */
     async select(table, select = '*', query = ""){
+        if(table === 'queues'){
+            return await connection(table)
+            .select(select)
+            .where(query)
+            .orderBy("name");
+        }
         return await connection(table)
             .select(select)
-            .where(query);
+            .where(query)
+            .orderBy("id");
     },
 
     /**
@@ -72,20 +79,25 @@ module.exports = {
      * @param {*} table nome da tabela
      * @returns ultimo elemento do banco de dados
      */
-    async getLastId(table){
+    async getLast(table){
+
         if(table == 'queue_members'){
             const items = await connection(table)
                 .select('*')
                 .orderBy('uniqueid');
-            
+            if(!items.length){
+                return {id:0};
+            }
             return items.pop();
         }
         else{
             const items = await connection(table)
                 .select('*')
                 .orderBy('id');
-
-             return items.pop();
+            if(!items.length){
+                return {id:0};
+            }
+            return items.pop();
         }
         
     }

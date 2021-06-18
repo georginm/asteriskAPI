@@ -22,9 +22,10 @@ module.exports = {
     async create(req, res) {
         try {
             // Existe Extensions no db?
-            var query = await db.select("extensions", "id", {id: req.body.id});
+            var query = await db.select("extensions", "id", {...req.body});
             if(!query.length) { //Caso não exista
-                query = await db.insert("extensions", req.body, select);
+                const { id } = await db.getLast('extensions');
+                query = await db.insert("extensions", {id:parseInt(id)+1, ...req.body}, select);
                 return res.status(200).json(query);
             } else { // Existe
                 return res.status(401).json({error: "Extensions já existe"});
