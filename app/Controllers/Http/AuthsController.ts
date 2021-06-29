@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, success } from 'App/Helpers/http-helper'
 import Auth from 'App/Models/Auth'
+import Endpoint from 'App/Models/Endpoint'
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
@@ -48,6 +49,11 @@ export default class AuthController {
     }
 
     await data.delete()
+
+    const endpoint = await Endpoint.find(id)
+    if (endpoint) {
+      await endpoint.delete
+    }
 
     return success(response, { message: 'Auth Has Been Deleted' })
   }
