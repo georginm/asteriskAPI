@@ -15,20 +15,20 @@ export default class Endpoint extends BaseModel {
   @column()
   public disallow: string
 
-  @column()
-  public rewrite_contact: string
+  @column({ columnName: 'rewrite_contact' })
+  public rewriteContact: string
 
-  @column()
-  public rtp_symmetric: string
+  @column({ columnName: 'rtp_symmetric' })
+  public rtpSymmetric: string
 
-  @column()
-  public force_rport: string
+  @column({ columnName: 'force_rport' })
+  public forceRPort: string
 
   @column()
   public allow: string
 
-  @column()
-  public direct_media: string
+  @column({ columnName: 'direct_media' })
+  public directMedia: string
 
   @column()
   public aors: string
