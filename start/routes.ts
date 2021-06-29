@@ -43,6 +43,7 @@ Route.get('/extensions/:id', extensionController.list)
 
 Route.get('/queues', queueController.index)
 Route.post('/queues', queueController.store)
+Route.get('/queues/deleted', queueController.listDeleted)
 Route.put('/queues/:name', queueController.update)
 Route.delete('/queues/:name', queueController.delete)
-Route.get('/queues/:name', queueController.list)
+Route.get('/queues/list/:name', queueController.list)
