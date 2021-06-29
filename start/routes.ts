@@ -1,11 +1,13 @@
 import Route from '@ioc:Adonis/Core/Route'
 import AorsController from 'App/Controllers/Http/AorsController'
-import AuthController from 'App/Controllers/Http/AuthController'
+import AuthController from 'App/Controllers/Http/AuthsController'
 import EndpointsController from 'App/Controllers/Http/EndpointsController'
+import ExtensionsController from 'App/Controllers/Http/ExtensionsController'
 
 const endpointController = new EndpointsController()
 const authController = new AuthController()
 const aorController = new AorsController()
+const extensionController = new ExtensionsController()
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -30,3 +32,9 @@ Route.post('/aors', aorController.store)
 Route.put('/aors/:id', aorController.update)
 Route.delete('/aors/:id', aorController.delete)
 Route.get('/aors/:id', aorController.list)
+
+Route.get('/extensions', extensionController.index)
+Route.post('/extensions', extensionController.store)
+Route.put('/extensions/:id', extensionController.update)
+Route.delete('/extensions/:id', extensionController.delete)
+Route.get('/extensions/:id', extensionController.list)
