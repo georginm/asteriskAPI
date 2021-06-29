@@ -3,11 +3,13 @@ import AorsController from 'App/Controllers/Http/AorsController'
 import AuthController from 'App/Controllers/Http/AuthsController'
 import EndpointsController from 'App/Controllers/Http/EndpointsController'
 import ExtensionsController from 'App/Controllers/Http/ExtensionsController'
+import QueuesController from 'App/Controllers/Http/QueuesController'
 
 const endpointController = new EndpointsController()
 const authController = new AuthController()
 const aorController = new AorsController()
 const extensionController = new ExtensionsController()
+const queueController = new QueuesController()
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -38,3 +40,9 @@ Route.post('/extensions', extensionController.store)
 Route.put('/extensions/:id', extensionController.update)
 Route.delete('/extensions/:id', extensionController.delete)
 Route.get('/extensions/:id', extensionController.list)
+
+Route.get('/queues', queueController.index)
+Route.post('/queues', queueController.store)
+Route.put('/queues/:name', queueController.update)
+Route.delete('/queues/:name', queueController.delete)
+Route.get('/queues/:name', queueController.list)
