@@ -5,7 +5,12 @@ import { DateTime } from 'luxon'
 
 export default class QueuesController {
   public async index({ response }: HttpContextContract) {
-    const data = await Queue.all()
+    const data = await Queue.query().whereNull('deleted_at')
+
+    if (!data) {
+      return badRequest(response, { message: 'Queue Not Exists' })
+    }
+
     return success(response, data)
   }
 
@@ -31,19 +36,30 @@ export default class QueuesController {
     if (!data) {
       return badRequest(response, { message: 'Queue Not Exists' }, 404)
     }
+    // If the body has name, the current queue is disabled and another
+    // one is generated with the given name
+    const nameBody = request.body().name
 
-    // const nameBody = request.body().name
-    // console.log(nameBody)
-    await data.merge(request.body())
+    if (!nameBody) {
+      await data.merge(request.body())
+      await data.save()
+      return success(response, data)
+    }
 
-    await data.save()
+    const newNameExists = await Queue.find(nameBody)
 
-    return success(response, data)
+    if (!newNameExists) {
+      await data.merge({ deletedAt: DateTime.now() }).save()
+      const newData = await Queue.create(request.body())
+
+      return success(response, newData)
+    }
+
+    return badRequest(response, { message: 'Queue Already Exists' })
   }
 
   public async delete({ request, response }: HttpContextContract) {
     const { name } = request.params()
-
     const data = await Queue.find(name)
 
     if (!data) {
@@ -63,5 +79,15 @@ export default class QueuesController {
     }
 
     return success(response, data, 200)
+  }
+
+  public async listDeleted({ response }: HttpContextContract) {
+    const data = await Queue.query().whereNotNull('deleted_at')
+
+    if (!data) {
+      return badRequest(response, { message: 'Queue Not Exists' })
+    }
+
+    return success(response, data)
   }
 }
