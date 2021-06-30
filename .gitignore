@@ -5,3 +5,7 @@ coverage
 .DS_STORE
 .env
 tmp
+
+asterisk-db-manage/config.ini
+asterisk-db-manage/queue_log.ini
+asterisk-db-manage/cdr.ini
