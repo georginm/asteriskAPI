@@ -1,20 +1,25 @@
-- Install Asterisk 18
+Install Asterisk 18
+=========================
 
-  - Create a Folder no /usr/src/asterisk
+  Create a Folder
+  ---------------
 
     sudo mkdir /usr/src/asterisk
     cd /usr/src/asterisk
 
-  - Download Package:
+  Download Package:
+  -----------------
 
     wget https://downloads.asterisk.org/pub/telephony/asterisk/asterisk-18-current.tar.gz
 
-  - Unzip the file
+  Unzip the file
+  --------------
 
     tar -zxvf asterisk-18-current.tar.gz
     cd asterisk-18.4.0/
 
-  - Use the following commands (install gcc if necessary)
+  Use the following commands (install gcc if necessary)
+  --------------------------------------------
 
     ./contrib/scripts/install_prereq install
 
@@ -26,13 +31,16 @@
 
     make samples
 
-  - Install o initscript
+  Install o initscript
+  --------------------
+
     make config
 
-    - Asterisk Log Manager
+    * Asterisk Log Manager
     make install-logrotate
 
-  - Check if asterisk is running
+  Check if asterisk is running
+  ----------------------------
 
     /etc/init.d/asterisk status
 
@@ -40,7 +48,8 @@
     /etc/init.d/asterisk start
 
 
-- Installing and Using Alembic
+Installing and Using Alembic
+============================
 
   https://wiki.asterisk.org/wiki/display/AST/Setting+up+PJSIP+Realtime
 
