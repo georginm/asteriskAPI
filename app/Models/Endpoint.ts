@@ -35,4 +35,7 @@ export default class Endpoint extends BaseModel {
 
   @column()
   public auth: string
+
+  @column({ columnName: 'mac_address' })
+  public macAddress: string
 }
