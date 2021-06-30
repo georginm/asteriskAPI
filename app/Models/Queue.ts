@@ -29,5 +29,5 @@ export default class Queue extends BaseModel {
   public leaveWhenEmpty: string
 
   @column({ columnName: 'deleted_at' })
-  public deletedAt: DateTime
+  public deletedAt: DateTime | null
 }
