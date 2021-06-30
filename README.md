@@ -43,7 +43,9 @@ Install Asterisk 18
 
     make config
 
-    * Asterisk Log Manager
+  Asterisk Log Manager
+  --------------------
+  
     make install-logrotate
 
   Check if asterisk is running
