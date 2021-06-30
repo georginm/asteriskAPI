@@ -55,11 +55,7 @@ Install Asterisk 18
     /etc/init.d/asterisk start
 
 
-Installing and Using Alembic
+Installing and Using Alembic and run migrations
 ============================
 
   https://wiki.asterisk.org/wiki/display/AST/Setting+up+PJSIP+Realtime
-
-
-  - Migration files are available within this project
-    cd app/database/asterisk-db-manager
