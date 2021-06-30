@@ -1,3 +1,10 @@
+Asterisk API
+=========================
+
+API developed to perform CRUD on Asterisk database tables. Asterisk is a free, open source software that implements in software the features found in a conventional PBX, using VoIP technology.
+
+At the moment the api is under construction.
+
 Install Asterisk 18
 =========================
 
