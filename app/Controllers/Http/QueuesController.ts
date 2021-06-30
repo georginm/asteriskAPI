@@ -88,7 +88,7 @@ export default class QueuesController {
     const { name } = request.params()
     const data = await Queue.find(name)
     if (!data) {
-      return badRequest(response, { message: 'Queue Not Exists' })
+      return badRequest(response, { message: 'There are not Queues' })
     }
 
     return success(response, data, 200)
@@ -97,10 +97,19 @@ export default class QueuesController {
   public async listDeleted({ response }: HttpContextContract) {
     const data = await Queue.query().whereNotNull('deleted_at')
 
-    if (!data) {
-      return badRequest(response, { message: 'Queue Not Exists' })
+    if (!data.length) {
+      return badRequest(response, { message: 'There are not Queues' })
     }
 
     return success(response, data)
+  }
+
+  public async activate({ request, response }: HttpContextContract) {
+    const { name } = request.params()
+    console.log(name)
+    const data = await Queue.findBy('name', name)
+
+    // @ts-ignore: Object is possibly 'null'.
+    await data.merge({ deletedAt: null }).save()
   }
 }
