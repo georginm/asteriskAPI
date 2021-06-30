@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, success } from 'App/Helpers/http-helper'
 import QueueMember from 'App/Models/QueueMember'
+import Queue from 'App/Models/Queue'
 import { alreadyExists, insert } from 'App/Services/DatabaseMethods'
 
 export default class QueueMembersController {
@@ -11,6 +12,13 @@ export default class QueueMembersController {
 
   public async store({ request, response }: HttpContextContract) {
     const inter = request.only(['interface'])
+    const queue = request.only(['queue_name'])
+
+    const queueAlreadyExists = await Queue.find(queue)
+
+    if (!queueAlreadyExists) {
+      return badRequest(response, { message: 'Queue Not Found' }, 404)
+    }
 
     const dataExists = await alreadyExists('queue_members', inter)
 
