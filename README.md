@@ -61,3 +61,25 @@ Installing and Using Alembic and run migrations
 ============================
 
   https://wiki.asterisk.org/wiki/display/AST/Setting+up+PJSIP+Realtime
+
+Create an .env file at the root of the project and add the following information
+=============================
+  - API Server
+  -----------------------
+  PORT=
+  HOST=
+  NODE_ENV=development
+  APP_KEY=ecbPKAuB0-4Bix0RsUOcdTiA2yxKN_Wk
+
+  - Database informations
+  -----------------------
+  DB_CONNECTION=pg
+  PG_HOST= your_db_host
+  PG_PORT= your_db_port
+  PG_USER= your_db_user
+  PG_PASSWORD= your_db_password
+  PG_DB_NAME= your_db_name
+
+  If you use a database other than Postgres see the official adonis documentation to configure your database:
+
+  https://docs.adonisjs.com/guides/database/introduction
