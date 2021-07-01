@@ -3,6 +3,7 @@ import AorsController from 'App/Controllers/Http/AorsController'
 import AuthController from 'App/Controllers/Http/AuthsController'
 import EndpointsController from 'App/Controllers/Http/EndpointsController'
 import ExtensionsController from 'App/Controllers/Http/ExtensionsController'
+import IaxsController from 'App/Controllers/Http/IaxsController'
 import QueueMembersController from 'App/Controllers/Http/QueueMembersController'
 import QueuesController from 'App/Controllers/Http/QueuesController'
 
@@ -12,6 +13,7 @@ const aorController = new AorsController()
 const extensionController = new ExtensionsController()
 const queueController = new QueuesController()
 const queueMembersController = new QueueMembersController()
+const iaxController = new IaxsController()
 
 Route.get('/', async () => {
   return { hello: 'world' }
@@ -57,3 +59,9 @@ Route.get('/queuemembers/list/:protocol/:endpoint', queueMembersController.list)
 Route.post('/queuemembers', queueMembersController.store)
 Route.put('/queuemembers/:protocol/:endpoint', queueMembersController.update)
 Route.delete('/queuemembers/:protocol/:endpoint', queueMembersController.delete)
+
+Route.get('/iax', iaxController.index)
+Route.post('/iax', iaxController.store)
+Route.put('/iax/:id', iaxController.update)
+Route.delete('/iax/:id', iaxController.delete)
+Route.get('/iax/:id', iaxController.list)
