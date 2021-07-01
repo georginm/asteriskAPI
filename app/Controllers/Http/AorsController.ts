@@ -1,26 +1,25 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, success } from 'App/Helpers/http-helper'
+import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
 import Aor from 'App/Models/Aor'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
     const data = await Aor.all()
-    return success(response, data)
+    return ok(response, data)
   }
 
   public async store({ request, response }: HttpContextContract) {
     const { id } = request.body()
-
     const dataExists = await Aor.find(id)
 
     if (dataExists) {
-      return badRequest(response, { message: 'Aor Already Exists' })
+      return badRequest(response, 'Aor Already Exists')
     }
 
     const data = await Aor.create(request.body())
 
-    return success(response, data, 201)
+    return created(response, data)
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -29,14 +28,14 @@ export default class AorsController {
     const data = await Aor.find(id)
 
     if (!data) {
-      return badRequest(response, { message: 'Aor Not Exists' }, 404)
+      return notFound(response, 'Aor Not Exists')
     }
 
     data.merge(request.body())
 
     await data.save()
 
-    return success(response, data)
+    return ok(response, data)
   }
 
   public async delete({ request, response }: HttpContextContract) {
@@ -45,7 +44,7 @@ export default class AorsController {
     const data = await Aor.find(id)
 
     if (!data) {
-      return badRequest(response, { message: 'Aor Not Exists' }, 404)
+      return notFound(response, 'Aor Not Exists')
     }
 
     await data.delete()
@@ -55,16 +54,16 @@ export default class AorsController {
       await endpoint.delete
     }
 
-    return success(response, { message: 'Aor Has Been Deleted' })
+    return ok(response, { message: 'Aor Has Been Deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
     const { id } = request.params()
     const data = await Aor.find(id)
     if (!data) {
-      return badRequest(response, { message: 'Aor Not Exists' })
+      return notFound(response, 'Aor Not Exists')
     }
 
-    return success(response, data, 200)
+    return ok(response, data)
   }
 }
