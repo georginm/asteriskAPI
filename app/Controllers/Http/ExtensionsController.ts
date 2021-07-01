@@ -9,17 +9,12 @@ export default class ExtensionsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body()
-
-    const dataExists = await Extension.find(id)
-
-    if (dataExists) {
-      return badRequest(response, 'Extension Already Exists')
+    try {
+      const data = await Extension.create(request.body())
+      return created(response, data)
+    } catch (error) {
+      return badRequest(response, error.message)
     }
-
-    const data = await Extension.create(request.body())
-
-    return created(response, data)
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -31,11 +26,11 @@ export default class ExtensionsController {
       return notFound(response, 'Extension Not Exists')
     }
 
-    data.merge(request.body())
+    await data.delete()
 
-    await data.save()
+    const teste = await Extension.create({ ...data.$attributes, ...request.body() })
 
-    return ok(response, data)
+    return ok(response, teste)
   }
 
   public async delete({ request, response }: HttpContextContract) {
