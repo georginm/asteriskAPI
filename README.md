@@ -62,17 +62,22 @@ Installing and Using Alembic and run migrations
 
   https://wiki.asterisk.org/wiki/display/AST/Setting+up+PJSIP+Realtime
 
-Create an .env file at the root of the project and add the following information
+Config API connection
 =============================
-  - API Server
-  -----------------------
+
+Create an .env file at the root of the project and add the following information
+
+API Server
+----------
+
   PORT=
   HOST=
   NODE_ENV=development
   APP_KEY=ecbPKAuB0-4Bix0RsUOcdTiA2yxKN_Wk
 
-  - Database informations
-  -----------------------
+Database informations
+---------------------
+
   DB_CONNECTION=pg
   PG_HOST= your_db_host
   PG_PORT= your_db_port
