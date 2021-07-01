@@ -65,7 +65,7 @@ Installing and Using Alembic and run migrations
 Config API connection
 =============================
 
-Create an .env file at the root of the project and add the following information
+Create an .env file at the source of the project and add the following information
 
   API Server
   ----------
