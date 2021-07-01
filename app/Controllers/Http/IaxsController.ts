@@ -10,9 +10,9 @@ export default class IaxsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body()
+    const { name } = request.body()
 
-    const dataExists = await Iax.find(id)
+    const dataExists = await Iax.findBy('name', name)
 
     if (dataExists) {
       return badRequest(response, { message: 'Iax Already Exists' })
