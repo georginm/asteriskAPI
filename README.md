@@ -67,6 +67,11 @@ Config API connection
 
 Create an .env file at the source of the project and add the following information
 
+If you use a database other than Postgres see the official adonis documentation to configure your database:
+
+https://docs.adonisjs.com/guides/database/introduction
+
+
   API Server
   ----------
 
@@ -84,7 +89,3 @@ Create an .env file at the source of the project and add the following informati
     PG_USER= your_db_user
     PG_PASSWORD= your_db_password
     PG_DB_NAME= your_db_name
-
-    If you use a database other than Postgres see the official adonis documentation to configure your database:
-
-    https://docs.adonisjs.com/guides/database/introduction
