@@ -1,67 +1,75 @@
-import Route from '@ioc:Adonis/Core/Route'
-import AorsController from 'App/Controllers/Http/AorsController'
-import AuthController from 'App/Controllers/Http/AuthsController'
-import EndpointsController from 'App/Controllers/Http/EndpointsController'
-import ExtensionsController from 'App/Controllers/Http/ExtensionsController'
-import IaxsController from 'App/Controllers/Http/IaxsController'
-import QueueMembersController from 'App/Controllers/Http/QueueMembersController'
-import QueuesController from 'App/Controllers/Http/QueuesController'
-
-const endpointController = new EndpointsController()
-const authController = new AuthController()
-const aorController = new AorsController()
-const extensionController = new ExtensionsController()
-const queueController = new QueuesController()
-const queueMembersController = new QueueMembersController()
-const iaxController = new IaxsController()
+import Route from '@ioc:Adonis/Core/Route';
 
 Route.get('/', async () => {
-  return { hello: 'world' }
-})
+  return { hello: 'world' };
+});
 
-// Route.group(() => {})
+Route.group(() => {
+  // Endpoint Routes
+  Route.resource('/endpoints', 'EndpointsController')
+    .except(['create', 'show', 'edit'])
+    .as('endpoint');
 
-Route.get('/endpoint', endpointController.index)
-Route.post('/endpoint', endpointController.store)
-Route.put('/endpoint/:id', endpointController.update)
-Route.delete('/endpoint/:id', endpointController.delete)
-Route.get('/endpoint/:id', endpointController.list)
+  // Auth Routes
+  Route.resource('auths', 'AuthsController')
+    .except(['create', 'show', 'edit'])
+    .as('auths');
 
-Route.get('/auth', authController.index)
-Route.post('/auth', authController.store)
-Route.put('/auth/:id', authController.update)
-Route.delete('/auth/:id', authController.delete)
-Route.get('/auth/:id', authController.list)
+  // Aor Routes
+  Route.resource('aors', 'AorsController')
+    .except(['create', 'show', 'edit'])
+    .as('aors');
 
-Route.get('/aors', aorController.index)
-Route.post('/aors', aorController.store)
-Route.put('/aors/:id', aorController.update)
-Route.delete('/aors/:id', aorController.delete)
-Route.get('/aors/:id', aorController.list)
+  // Extension Routes
+  Route.resource('extensions', 'ExtensionsController')
+    .except(['create', 'show', 'edit'])
+    .as('extensions');
 
-Route.get('/extensions', extensionController.index)
-Route.post('/extensions', extensionController.store)
-Route.put('/extensions/:id', extensionController.update)
-Route.delete('/extensions/:id', extensionController.delete)
-Route.get('/extensions/:id', extensionController.list)
+  //Iax Routes
+  Route.resource('iaxs', 'IaxController')
+    .except(['create', 'show', 'edit'])
+    .as('iaxs');
 
-Route.get('/queues/deleted', queueController.listDeleted)
-Route.get('/queues', queueController.index)
-Route.post('/queues', queueController.store)
-Route.post('/queues/:name', queueController.activate)
-Route.put('/queues/:name', queueController.update)
-Route.delete('/queues/:name', queueController.softdelete)
-Route.delete('/queues/delete/:name', queueController.delete)
-Route.get('/queues/list/:name', queueController.list)
+  // Queue Routes
+  Route.resource('queues', 'QueuesController')
+    .except(['create', 'show', 'edit'])
+    .as('queues');
 
-Route.get('/queuemembers', queueMembersController.index)
-Route.get('/queuemembers/list/:protocol/:endpoint', queueMembersController.list)
-Route.post('/queuemembers', queueMembersController.store)
-Route.put('/queuemembers/:protocol/:endpoint', queueMembersController.update)
-Route.delete('/queuemembers/:protocol/:endpoint', queueMembersController.delete)
+  Route.get('/queues/deleted', 'QueuesController.listDeleted').as(
+    'queues.listDeleted'
+  );
 
-Route.get('/iax', iaxController.index)
-Route.post('/iax', iaxController.store)
-Route.put('/iax/:id', iaxController.update)
-Route.delete('/iax/:id', iaxController.delete)
-Route.get('/iax/:id', iaxController.list)
+  Route.post('/queues/:name', 'QueuesController.activate').as(
+    'queues.activate'
+  );
+
+  Route.delete('/queues/:name', 'QueuesController.softdelete').as(
+    'queues.softdelete'
+  );
+
+  // Queue Members
+  Route.get('/queuemembers', 'QueueMembersController.index').as(
+    'queuemembers.index'
+  );
+
+  Route.get(
+    '/queuemembers/list/:protocol/:endpoint',
+    'QueueMembersController.list'
+  ).as('queuemembers.list');
+
+  Route.post('/queuemembers', 'QueueMembersController.store').as(
+    'queuemembers.store'
+  );
+
+  Route.put(
+    '/queuemembers/:protocol/:endpoint',
+    'QueueMembersController.update'
+  ).as('queuemembers.update');
+
+  Route.delete(
+    '/queuemembers/:protocol/:endpoint',
+    'QueueMembersController.destroy'
+  ).as('queuemembers.destroy');
+
+  Route.get('*', 'teste');
+}).prefix('/api');
