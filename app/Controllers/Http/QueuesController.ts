@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
+import { badRequest, created, ok } from 'App/Helpers/http-helper'
 import Queue from 'App/Models/Queue'
 import { DateTime } from 'luxon'
 
@@ -8,7 +8,7 @@ export default class QueuesController {
     const data = await Queue.query().whereNull('deleted_at')
 
     if (!data) {
-      return notFound(response, 'There are not Queues')
+      return badRequest(response, 'There are not Queues')
     }
 
     return ok(response, data)
@@ -34,7 +34,7 @@ export default class QueuesController {
     const data = await Queue.find(name)
 
     if (!data) {
-      return notFound(response, 'Queue Not Exists')
+      return badRequest(response, 'Queue Not Exists')
     }
     // If the body has name, the current queue is disabled and another
     // one is generated with the given name
@@ -63,7 +63,7 @@ export default class QueuesController {
     const data = await Queue.find(name)
 
     if (!data) {
-      return notFound(response, 'Queue Not Exists')
+      return badRequest(response, 'Queue Not Exists')
     }
 
     await data.merge({ deletedAt: DateTime.now() }).save()
@@ -76,7 +76,7 @@ export default class QueuesController {
     const data = await Queue.find(name)
 
     if (!data) {
-      return notFound(response, 'Queue Not Exists')
+      return badRequest(response, 'Queue Not Exists')
     }
 
     await data.delete()
@@ -88,7 +88,7 @@ export default class QueuesController {
     const { name } = request.params()
     const data = await Queue.find(name)
     if (!data) {
-      return notFound(response, 'There are not Queues')
+      return badRequest(response, 'There are not Queues')
     }
 
     return ok(response, data)
@@ -98,7 +98,7 @@ export default class QueuesController {
     const data = await Queue.query().whereNotNull('deleted_at')
 
     if (!data.length) {
-      return notFound(response, 'There are not Queues')
+      return badRequest(response, 'There are not Queues')
     }
 
     return ok(response, data)
@@ -109,7 +109,7 @@ export default class QueuesController {
     const data = await Queue.findBy('name', name)
 
     if (!data) {
-      return notFound(response, 'There are not Queues')
+      return badRequest(response, 'There are not Queues')
     }
 
     // @ts-ignore: Object is possibly 'null'.

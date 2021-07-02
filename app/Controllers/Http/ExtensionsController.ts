@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
+import { badRequest, created, ok } from 'App/Helpers/http-helper'
 import Extension from 'App/Models/Extension'
 
 export default class ExtensionsController {
@@ -23,7 +23,7 @@ export default class ExtensionsController {
     const data = await Extension.find(id)
 
     if (!data) {
-      return notFound(response, 'Extension Not Exists')
+      return badRequest(response, 'Extension Not Exists')
     }
 
     await data.delete()
@@ -39,7 +39,7 @@ export default class ExtensionsController {
     const data = await Extension.find(id)
 
     if (!data) {
-      return notFound(response, 'Extension Not Exists')
+      return badRequest(response, 'Extension Not Exists')
     }
 
     await data.delete()
@@ -51,7 +51,7 @@ export default class ExtensionsController {
     const { id } = request.params()
     const data = await Extension.find(id)
     if (!data) {
-      return notFound(response, 'Extension Not Exists')
+      return badRequest(response, 'Extension Not Exists')
     }
 
     return ok(response, data)

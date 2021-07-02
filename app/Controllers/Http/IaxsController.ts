@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
+import { badRequest, created, ok } from 'App/Helpers/http-helper'
 import Iax from 'App/Models/Iax'
 import Endpoint from 'App/Models/Endpoint'
 
@@ -29,7 +29,7 @@ export default class IaxsController {
     const data = await Iax.find(id)
 
     if (!data) {
-      return notFound(response, 'Iax Not Exists')
+      return badRequest(response, 'Iax Not Exists')
     }
 
     data.merge(request.body())
@@ -45,7 +45,7 @@ export default class IaxsController {
     const data = await Iax.find(id)
 
     if (!data) {
-      return notFound(response, 'Iax Not Exists')
+      return badRequest(response, 'Iax Not Exists')
     }
 
     await data.delete()
@@ -62,7 +62,7 @@ export default class IaxsController {
     const { id } = request.params()
     const data = await Iax.find(id)
     if (!data) {
-      return notFound(response, 'Iax Not Exists')
+      return badRequest(response, 'Iax Not Exists')
     }
 
     return ok(response, data)

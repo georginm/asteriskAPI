@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
+import { badRequest, created, ok } from 'App/Helpers/http-helper'
 import Aor from 'App/Models/Aor'
 import Endpoint from 'App/Models/Endpoint'
 
@@ -28,7 +28,7 @@ export default class AorsController {
     const data = await Aor.find(id)
 
     if (!data) {
-      return notFound(response, 'Aor Not Exists')
+      return badRequest(response, 'Aor Not Exists')
     }
 
     data.merge(request.body())
@@ -44,7 +44,7 @@ export default class AorsController {
     const data = await Aor.find(id)
 
     if (!data) {
-      return notFound(response, 'Aor Not Exists')
+      return badRequest(response, 'Aor Not Exists')
     }
 
     await data.delete()
@@ -61,7 +61,7 @@ export default class AorsController {
     const { id } = request.params()
     const data = await Aor.find(id)
     if (!data) {
-      return notFound(response, 'Aor Not Exists')
+      return badRequest(response, 'Aor Not Exists')
     }
 
     return ok(response, data)

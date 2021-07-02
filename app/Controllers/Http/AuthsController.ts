@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
+import { badRequest, created, ok } from 'App/Helpers/http-helper'
 import Auth from 'App/Models/Auth'
 import Endpoint from 'App/Models/Endpoint'
 
@@ -29,7 +29,7 @@ export default class AuthController {
     const data = await Auth.find(id)
 
     if (!data) {
-      return notFound(response, 'Auth Not Exists')
+      return badRequest(response, 'Auth Not Exists')
     }
 
     data.merge(request.body())
@@ -45,7 +45,7 @@ export default class AuthController {
     const data = await Auth.find(id)
 
     if (!data) {
-      return notFound(response, 'Auth Not Exists')
+      return badRequest(response, 'Auth Not Exists')
     }
 
     await data.delete()
@@ -62,7 +62,7 @@ export default class AuthController {
     const { id } = request.params()
     const data = await Auth.find(id)
     if (!data) {
-      return notFound(response, 'Auth Not Exists')
+      return badRequest(response, 'Auth Not Exists')
     }
 
     return ok(response, data)
