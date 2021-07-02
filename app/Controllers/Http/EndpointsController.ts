@@ -10,7 +10,10 @@ export default class EndpointsController {
     return ok(response, data)
   }
 
-  public async store({ request, response }: HttpContextContract) {
+  public async store({
+    request,
+    response,
+  }: HttpContextContract) {
     const { id } = request.body()
 
     const aor = await Aor.find(id)
@@ -36,7 +39,10 @@ export default class EndpointsController {
     return created(response, data)
   }
 
-  public async update({ request, response }: HttpContextContract) {
+  public async update({
+    request,
+    response,
+  }: HttpContextContract) {
     const { id } = request.params()
 
     const data = await Endpoint.find(id)
@@ -52,7 +58,10 @@ export default class EndpointsController {
     return ok(response, data)
   }
 
-  public async delete({ request, response }: HttpContextContract) {
+  public async destroy({
+    request,
+    response,
+  }: HttpContextContract) {
     const { id } = request.params()
 
     const data = await Endpoint.find(id)
