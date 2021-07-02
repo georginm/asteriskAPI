@@ -1,7 +1,4 @@
 import Route from '@ioc:Adonis/Core/Route';
-// import NotFoundsController from 'App/Controllers/Http/NotFoundsController';
-
-// const notFoundsController = new NotFoundsController();
 
 Route.get('/', async () => {
   return { hello: 'world' };
@@ -73,7 +70,4 @@ Route.group(() => {
     '/queuemembers/:protocol/:endpoint',
     'QueueMembersController.destroy'
   ).as('queuemembers.destroy');
-
-  // // Rota coringa
-  // Route.get('*', notFoundsController.handle);
 }).prefix('/api');
