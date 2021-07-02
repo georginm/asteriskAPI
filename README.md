@@ -71,6 +71,10 @@ If you use a database other than Postgres see the official adonis documentation 
 
 https://docs.adonisjs.com/guides/database/introduction
 
+Validating environment variables
+
+https://docs.adonisjs.com/guides/environment-variables#sidenav-open
+
 
   API Server
   ----------
