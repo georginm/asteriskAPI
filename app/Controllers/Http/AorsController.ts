@@ -51,7 +51,7 @@ export default class AorsController {
 
     const endpoint = await Endpoint.find(id)
     if (endpoint) {
-      await endpoint.delete
+      await endpoint.delete()
     }
 
     return ok(response, { message: 'Aor Has Been Deleted' })

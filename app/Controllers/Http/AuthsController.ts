@@ -52,7 +52,7 @@ export default class AuthController {
 
     const endpoint = await Endpoint.find(id)
     if (endpoint) {
-      await endpoint.delete
+      await endpoint.delete()
     }
 
     return ok(response, { message: 'Auth Has Been Deleted' })
