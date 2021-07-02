@@ -93,3 +93,22 @@ https://docs.adonisjs.com/guides/environment-variables#sidenav-open
     PG_USER= your_db_user
     PG_PASSWORD= your_db_password
     PG_DB_NAME= your_db_name
+
+
+  For the purposes of asterisk in our case it is necessary to add some information to some tables in our database.
+
+  First we must create a sequence for the uniqueid field of the queue_members table. We use the following query:  
+
+    CREATE SEQUENCE queue_members_seq  owned by queue_members.uniqueid;
+
+    SELECT setval('queue_members_seq', coalesce(max(uniqueid), 0) + 1, false) FROM queue_members;
+
+    ALTER TABLE queue_members alter column uniqueid SET DEFAULT nextval('queue_members_seq');
+  
+  We also need to add a deleted_at field to queues table and a mac_address field to ps_endpoints table:
+  
+    ALTER TABLE queues ADD COLUMN deleted_at varchar(31) DEFAULT null;
+
+    ALTER TABLE ps_endpoints ADD COLUMN mac_address varchar(18) unique;
+
+
