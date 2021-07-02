@@ -1,5 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { badRequest, created, ok } from 'App/Helpers/http-helper';
+import {
+  badRequest,
+  created,
+  success,
+} from 'App/Helpers/http-helper';
 import Queue from 'App/Models/Queue';
 import { DateTime } from 'luxon';
 
@@ -11,7 +15,7 @@ export default class QueuesController {
       return badRequest(response, 'There are not Queues');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -43,7 +47,7 @@ export default class QueuesController {
     if (!nameBody) {
       await data.merge(request.body());
       await data.save();
-      return ok(response, data);
+      return success(response, data);
     }
 
     const newNameExists = await Queue.find(nameBody);
@@ -52,7 +56,7 @@ export default class QueuesController {
       await data.merge({ deletedAt: DateTime.now() }).save();
       const newData = await Queue.create(request.body());
 
-      return ok(response, newData);
+      return success(response, newData);
     }
 
     return badRequest(response, 'Queue Already Exists');
@@ -71,7 +75,7 @@ export default class QueuesController {
 
     await data.merge({ deletedAt: DateTime.now() }).save();
 
-    return ok(response, { message: 'Queue Has Been Deleted' });
+    return success(response, { message: 'Queue Has Been Deleted' });
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -84,7 +88,7 @@ export default class QueuesController {
 
     await data.delete();
 
-    return ok(response, { message: 'Queue Has Been Deleted' });
+    return success(response, { message: 'Queue Has Been Deleted' });
   }
 
   public async list({ request, response }: HttpContextContract) {
@@ -94,7 +98,7 @@ export default class QueuesController {
       return badRequest(response, 'There are not Queues');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async listDeleted({ response }: HttpContextContract) {
@@ -104,7 +108,7 @@ export default class QueuesController {
       return badRequest(response, 'There are not Queues');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async activate({ request, response }: HttpContextContract) {
@@ -119,6 +123,6 @@ export default class QueuesController {
     await data.merge({ deletedAt: null }).save();
 
     // @ts-ignore: Object is possibly 'null'.
-    return ok(response, data);
+    return success(response, data);
   }
 }

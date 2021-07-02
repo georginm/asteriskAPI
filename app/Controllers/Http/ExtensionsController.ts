@@ -1,11 +1,15 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { badRequest, created, ok } from 'App/Helpers/http-helper';
+import {
+  badRequest,
+  created,
+  success,
+} from 'App/Helpers/http-helper';
 import Extension from 'App/Models/Extension';
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
     const data = await Extension.all();
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -33,7 +37,7 @@ export default class ExtensionsController {
       ...request.body(),
     });
 
-    return ok(response, teste);
+    return success(response, teste);
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -47,7 +51,9 @@ export default class ExtensionsController {
 
     await data.delete();
 
-    return ok(response, { message: 'Extension Has Been Deleted' });
+    return success(response, {
+      message: 'Extension Has Been Deleted',
+    });
   }
 
   public async list({ request, response }: HttpContextContract) {
@@ -57,6 +63,6 @@ export default class ExtensionsController {
       return badRequest(response, 'Extension Not Exists');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 }

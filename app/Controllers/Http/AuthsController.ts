@@ -1,12 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { badRequest, created, ok } from 'App/Helpers/http-helper';
+import {
+  badRequest,
+  created,
+  success,
+} from 'App/Helpers/http-helper';
 import Auth from 'App/Models/Auth';
 import Endpoint from 'App/Models/Endpoint';
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
     const data = await Auth.all();
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -36,7 +40,7 @@ export default class AuthController {
 
     await data.save();
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -55,7 +59,7 @@ export default class AuthController {
       await endpoint.delete();
     }
 
-    return ok(response, { message: 'Auth Has Been Deleted' });
+    return success(response, { message: 'Auth Has Been Deleted' });
   }
 
   public async list({ request, response }: HttpContextContract) {
@@ -65,6 +69,6 @@ export default class AuthController {
       return badRequest(response, 'Auth Not Exists');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 }

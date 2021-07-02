@@ -1,12 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { badRequest, created, ok } from 'App/Helpers/http-helper';
+import {
+  badRequest,
+  created,
+  success,
+} from 'App/Helpers/http-helper';
 import Iax from 'App/Models/Iax';
 import Endpoint from 'App/Models/Endpoint';
 
 export default class IaxsController {
   public async index({ response }: HttpContextContract) {
     const data = await Iax.all();
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -36,7 +40,7 @@ export default class IaxsController {
 
     await data.save();
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -55,7 +59,7 @@ export default class IaxsController {
       await endpoint.delete;
     }
 
-    return ok(response, { message: 'Iax Has Been Deleted' });
+    return success(response, { message: 'Iax Has Been Deleted' });
   }
 
   public async list({ request, response }: HttpContextContract) {
@@ -65,6 +69,6 @@ export default class IaxsController {
       return badRequest(response, 'Iax Not Exists');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 }

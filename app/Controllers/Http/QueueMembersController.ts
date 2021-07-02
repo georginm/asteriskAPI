@@ -1,5 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { badRequest, created, ok } from 'App/Helpers/http-helper';
+import {
+  badRequest,
+  created,
+  success,
+} from 'App/Helpers/http-helper';
+
 import QueueMember from 'App/Models/QueueMember';
 import Queue from 'App/Models/Queue';
 import { alreadyExists, insert } from 'App/Services/DatabaseMethods';
@@ -7,7 +12,7 @@ import { alreadyExists, insert } from 'App/Services/DatabaseMethods';
 export default class QueueMembersController {
   public async index({ response }: HttpContextContract) {
     const data = await QueueMember.query().orderBy('interface');
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -44,7 +49,7 @@ export default class QueueMembersController {
 
     await data.save();
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -63,7 +68,9 @@ export default class QueueMembersController {
     // console.log(data.$attributes)
     await QueueMember.query().where(data.$attributes).delete();
 
-    return ok(response, { message: 'QueueMember Has Been Deleted' });
+    return success(response, {
+      message: 'QueueMember Has Been Deleted',
+    });
   }
 
   public async list({ request, response }: HttpContextContract) {
@@ -77,6 +84,6 @@ export default class QueueMembersController {
       return badRequest(response, 'QueueMember Not Exists');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 }

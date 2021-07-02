@@ -1,12 +1,16 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import { badRequest, created, ok } from 'App/Helpers/http-helper';
+import {
+  badRequest,
+  created,
+  success,
+} from 'App/Helpers/http-helper';
 import Aor from 'App/Models/Aor';
 import Endpoint from 'App/Models/Endpoint';
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
     const data = await Aor.all();
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -35,7 +39,7 @@ export default class AorsController {
 
     await data.save();
 
-    return ok(response, data);
+    return success(response, data);
   }
 
   public async delete({ request, response }: HttpContextContract) {
@@ -54,7 +58,7 @@ export default class AorsController {
       await endpoint.delete();
     }
 
-    return ok(response, { message: 'Aor Has Been Deleted' });
+    return success(response, { message: 'Aor Has Been Deleted' });
   }
 
   public async list({ request, response }: HttpContextContract) {
@@ -64,6 +68,6 @@ export default class AorsController {
       return badRequest(response, 'Aor Not Exists');
     }
 
-    return ok(response, data);
+    return success(response, data);
   }
 }

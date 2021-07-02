@@ -1,6 +1,6 @@
 import { ResponseContract } from '@ioc:Adonis/Core/Response';
 
-export const ok = (
+export const success = (
   response: ResponseContract,
   data: object
 ): void => {
