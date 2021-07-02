@@ -1,6 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, created, notFound, ok } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
+import Aor from 'App/Models/Aor'
+import Auth from 'App/Models/Auth'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -10,6 +12,18 @@ export default class EndpointsController {
 
   public async store({ request, response }: HttpContextContract) {
     const { id } = request.body()
+
+    const aor = await Aor.find(id)
+
+    if (!aor) {
+      return notFound(response, 'Aor Not Exists')
+    }
+
+    const auth = await Auth.find(id)
+
+    if (!auth) {
+      return notFound(response, 'Auth Not Exists')
+    }
 
     const dataExists = await Endpoint.find(id)
 
