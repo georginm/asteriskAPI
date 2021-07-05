@@ -10,11 +10,22 @@ export const insert = async (
 
 export const alreadyExists = async (
   table: string,
-  where: any,
+  where: object,
   select: string = '*'
 ): Promise<object> => {
   const exists = await Database.from(table)
     .select(select)
     .where(where)
   return exists.pop()
+}
+
+export const selectAll = async (
+  table: string,
+  where: object,
+  select: string = '*'
+): Promise<object[]> => {
+  const selectAll = await Database.from(table)
+    .select(select)
+    .where(where)
+  return selectAll
 }
