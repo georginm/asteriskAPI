@@ -15,7 +15,7 @@ export default class QueueMembersController {
     const inter = request.only(['interface'])
     const queue = request.only(['queue_name'])
 
-    const queueAlreadyExists = await Queue.find(queue)
+    const queueAlreadyExists = await Queue.find(queue.queue_name)
 
     if (!queueAlreadyExists) {
       return badRequest(response, 'Queue Not Found')
