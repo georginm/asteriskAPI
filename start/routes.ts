@@ -26,6 +26,8 @@ Route.group(() => {
     .except(['create', 'show', 'edit'])
     .as('aors')
 
+  Route.get('/aors/list/', 'AorsController.list').as('aors.list')
+
   // Extension Routes
   Route.resource('extensions', 'ExtensionsController')
     .except(['create', 'show', 'edit'])

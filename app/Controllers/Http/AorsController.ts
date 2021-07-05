@@ -1,73 +1,70 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import {
-  badRequest,
-  created,
-  success,
-} from 'App/Helpers/http-helper';
-import Aor from 'App/Models/Aor';
-import Endpoint from 'App/Models/Endpoint';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { badRequest, created, success } from 'App/Helpers/http-helper'
+import Aor from 'App/Models/Aor'
+import Endpoint from 'App/Models/Endpoint'
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Aor.all();
-    return success(response, data);
+    const data = await Aor.all()
+    return success(response, data)
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body();
-    const dataExists = await Aor.find(id);
+    const { id } = request.body()
+    const dataExists = await Aor.find(id)
 
     if (dataExists) {
-      return badRequest(response, 'Aor Already Exists');
+      return badRequest(response, 'Aor Already Exists')
     }
 
-    const data = await Aor.create(request.body());
+    const data = await Aor.create(request.body())
 
-    return created(response, data);
+    return created(response, data)
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Aor.find(id);
+    const data = await Aor.find(id)
 
     if (!data) {
-      return badRequest(response, 'Aor Not Exists');
+      return badRequest(response, 'Aor Not Exists')
     }
 
-    data.merge(request.body());
+    data.merge(request.body())
 
-    await data.save();
+    await data.save()
 
-    return success(response, data);
+    return success(response, data)
   }
 
   public async delete({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Aor.find(id);
+    const data = await Aor.find(id)
 
     if (!data) {
-      return badRequest(response, 'Aor Not Exists');
+      return badRequest(response, 'Aor Not Exists')
     }
 
-    await data.delete();
+    await data.delete()
 
-    const endpoint = await Endpoint.find(id);
+    const endpoint = await Endpoint.find(id)
     if (endpoint) {
-      await endpoint.delete();
+      await endpoint.delete()
     }
 
-    return success(response, { message: 'Aor Has Been Deleted' });
+    return success(response, { message: 'Aor Has Been Deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { id } = request.params();
-    const data = await Aor.find(id);
+    const where = request.qs()
+    console.log(where)
+    const data = await Aor.query().where(where)
     if (!data) {
-      return badRequest(response, 'Aor Not Exists');
+      return badRequest(response, 'Aor Not Exists')
     }
 
-    return success(response, data);
+    return success(response, data)
   }
 }
