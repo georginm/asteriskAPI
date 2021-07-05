@@ -10,12 +10,18 @@ export default class AuthController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body()
+    const { username, id } = request.body()
 
-    const dataExists = await Auth.find(id)
+    const idAlreadyExists = await Auth.find(id)
 
-    if (dataExists) {
-      return badRequest(response, 'Auth Already Exists')
+    if (idAlreadyExists) {
+      return badRequest(response, 'Auth Id Already Exists')
+    }
+
+    const userNameExists = await Auth.findBy('username', username)
+
+    if (userNameExists) {
+      return badRequest(response, 'Auth Username Already Exists')
     }
 
     const data = await Auth.create(request.body())
@@ -25,6 +31,17 @@ export default class AuthController {
 
   public async update({ request, response }: HttpContextContract) {
     const { id } = request.params()
+    const { username } = request.body()
+
+    if (username) {
+      const userNameAlreadyExists = await Auth.findBy(
+        'username',
+        username
+      )
+      if (userNameAlreadyExists) {
+        return badRequest(response, 'Username Already Exists')
+      }
+    }
 
     const data = await Auth.find(id)
 
