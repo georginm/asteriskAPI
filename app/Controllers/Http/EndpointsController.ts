@@ -1,84 +1,80 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import {
-  badRequest,
-  created,
-  success,
-} from 'App/Helpers/http-helper';
-import Endpoint from 'App/Models/Endpoint';
-import Aor from 'App/Models/Aor';
-import Auth from 'App/Models/Auth';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { badRequest, created, success } from 'App/Helpers/http-helper'
+import Endpoint from 'App/Models/Endpoint'
+import Aor from 'App/Models/Aor'
+import Auth from 'App/Models/Auth'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Endpoint.all();
-    return success(response, data);
+    const data = await Endpoint.all()
+    return success(response, data)
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body();
+    const { id } = request.body()
 
-    const aor = await Aor.find(id);
+    const aor = await Aor.find(id)
 
     if (!aor) {
-      return badRequest(response, 'Aor Not Exists');
+      return badRequest(response, 'Aor Not Exists')
     }
 
-    const auth = await Auth.find(id);
+    const auth = await Auth.find(id)
 
     if (!auth) {
-      return badRequest(response, 'Auth Not Exists');
+      return badRequest(response, 'Auth Not Exists')
     }
 
-    const dataExists = await Endpoint.find(id);
+    const dataExists = await Endpoint.find(id)
 
     if (dataExists) {
-      return badRequest(response, 'Endpoint Already Exists');
+      return badRequest(response, 'Endpoint Already Exists')
     }
 
-    const data = await Endpoint.create(request.body());
+    const data = await Endpoint.create(request.body())
 
-    return created(response, data);
+    return created(response, data)
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Endpoint.find(id);
+    const data = await Endpoint.find(id)
 
     if (!data) {
-      return badRequest(response, 'Endpoint Not Exists');
+      return badRequest(response, 'Endpoint Not Exists')
     }
 
-    data.merge(request.body());
+    data.merge(request.body())
 
-    await data.save();
+    await data.save()
 
-    return success(response, data);
+    return success(response, data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Endpoint.find(id);
+    const data = await Endpoint.find(id)
 
     if (!data) {
-      return badRequest(response, 'Endpoint Not Exists');
+      return badRequest(response, 'Endpoint Not Exists')
     }
 
-    await data.delete();
+    await data.delete()
 
     return success(response, {
       message: 'Endpoint Has Been Deleted',
-    });
+    })
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { id } = request.params();
-    const data = await Endpoint.find(id);
+    const { id } = request.params()
+    const data = await Endpoint.find(id)
     if (!data) {
-      return badRequest(response, 'Endpoint Not Exists');
+      return badRequest(response, 'Endpoint Not Exists')
     }
 
-    return success(response, data);
+    return success(response, data)
   }
 }
