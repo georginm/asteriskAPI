@@ -52,28 +52,23 @@ Route.group(() => {
   )
 
   // Queue Members
-  Route.get('/queuemembers', 'QueueMembersController.index').as(
-    'queuemembers.index'
-  )
+  Route.group(() => {
+    Route.get('/', 'QueueMembersController.index').as(
+      'queuemembers.index'
+    )
 
-  Route.get(
-    '/queuemembers/list/:protocol/:endpoint',
-    'QueueMembersController.list'
-  ).as('queuemembers.list')
+    Route.get('list/', 'QueueMembersController.list').as(
+      'queuemembers.list'
+    )
 
-  Route.post('/queuemembers', 'QueueMembersController.store').as(
-    'queuemembers.store'
-  )
+    Route.post('', 'QueueMembersController.store').as(
+      'queuemembers.store'
+    )
 
-  Route.put(
-    '/queuemembers/:protocol/:endpoint',
-    'QueueMembersController.update'
-  ).as('queuemembers.update')
-
-  Route.delete(
-    '/queuemembers/:protocol/:endpoint',
-    'QueueMembersController.destroy'
-  ).as('queuemembers.destroy')
+    Route.delete('/:uniqueid', 'QueueMembersController.destroy').as(
+      'queuemembers.destroy'
+    )
+  }).prefix('/queuemembers')
 
   // Colocar status 404
   Route.get('*', () => {
