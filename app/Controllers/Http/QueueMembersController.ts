@@ -4,6 +4,7 @@ import { badRequest, created, success } from 'App/Helpers/http-helper'
 import QueueMember from 'App/Models/QueueMember'
 import Queue from 'App/Models/Queue'
 import { alreadyExists, insert } from 'App/Services/DatabaseMethods'
+import Endpoint from 'App/Models/Endpoint'
 
 export default class QueueMembersController {
   public async index({ response }: HttpContextContract) {
@@ -14,6 +15,14 @@ export default class QueueMembersController {
   public async store({ request, response }: HttpContextContract) {
     const inter = request.only(['interface'])
     const queue = request.only(['queue_name'])
+
+    const endpointAlreadyExists = await Endpoint.find(
+      inter.interface.split('/')[1]
+    )
+
+    if (!endpointAlreadyExists) {
+      return badRequest(response, 'Interface Not Found')
+    }
 
     const queueAlreadyExists = await Queue.find(queue.queue_name)
 
@@ -32,36 +41,15 @@ export default class QueueMembersController {
     return created(response, data)
   }
 
-  public async update({ request, response }: HttpContextContract) {
-    const { inter } = request.params()
-
-    const data = await QueueMember.find(inter)
-
-    if (!data) {
-      return badRequest(response, 'QueueMember Not Exists')
-    }
-
-    data.merge(request.body())
-
-    await data.save()
-
-    return success(response, data)
-  }
-
   public async destroy({ request, response }: HttpContextContract) {
-    const { protocol, endpoint } = request.params()
+    const { uniqueid } = request.params()
 
-    const data = await QueueMember.findBy(
-      'interface',
-      `${protocol + '/' + endpoint}`
-    )
+    const data = await QueueMember.findBy('uniqueid', uniqueid)
 
-    // const dataExists = await alreadyExists('queue_members', inter)
     if (!data) {
       return badRequest(response, 'QueueMember Not Exists')
     }
 
-    // console.log(data.$attributes)
     await QueueMember.query().where(data.$attributes).delete()
 
     return success(response, {
@@ -70,13 +58,19 @@ export default class QueueMembersController {
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { protocol, endpoint } = request.params()
+    const { endpoint, ...select } = request.qs()
+    var data
+    console.log(endpoint)
+    if (endpoint) {
+      data = await QueueMember.query().where({
+        interface: endpoint,
+        ...select,
+      })
+    } else {
+      data = await QueueMember.query().where(select)
+    }
 
-    const data = await QueueMember.findBy(
-      'interface',
-      `${protocol + '/' + endpoint}`
-    )
-    if (!data) {
+    if (!data.lenght) {
       return badRequest(response, 'QueueMember Not Exists')
     }
 
