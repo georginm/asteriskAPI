@@ -47,6 +47,8 @@ Route.group(() => {
     'queues.listDeleted'
   )
 
+  Route.get('/queues/list', 'QueuesController.list').as('queues.list')
+
   Route.post('/queues/:name', 'QueuesController.activate').as(
     'queues.activate'
   )
