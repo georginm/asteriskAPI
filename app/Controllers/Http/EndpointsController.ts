@@ -3,6 +3,7 @@ import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
 import Aor from 'App/Models/Aor'
 import Auth from 'App/Models/Auth'
+import { selectAll } from 'App/Services/DatabaseMethods'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -69,10 +70,12 @@ export default class EndpointsController {
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { id } = request.params()
-    const data = await Endpoint.find(id)
-    if (!data) {
-      return badRequest(response, 'Endpoint Not Exists')
+    const where = request.qs()
+
+    const data = await Endpoint.query().where(where).orderBy('id')
+
+    if (!data.length) {
+      return badRequest(response, 'Endpoints Not Exists')
     }
 
     return success(response, data)
