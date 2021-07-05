@@ -38,7 +38,7 @@ export default class AorsController {
     return success(response, data)
   }
 
-  public async delete({ request, response }: HttpContextContract) {
+  public async destroy({ request, response }: HttpContextContract) {
     const { id } = request.params()
 
     const data = await Aor.find(id)
