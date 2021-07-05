@@ -10,6 +10,10 @@ Route.group(() => {
     .except(['create', 'show', 'edit'])
     .as('endpoint')
 
+  Route.get('/endpoints/list/', 'EndpointsController.list').as(
+    'endpoint.list'
+  )
+
   // Auth Routes
   Route.resource('auths', 'AuthsController')
     .except(['create', 'show', 'edit'])
