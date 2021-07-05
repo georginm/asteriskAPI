@@ -60,7 +60,7 @@ export default class QueueMembersController {
   public async list({ request, response }: HttpContextContract) {
     const { endpoint, ...select } = request.qs()
     var data
-    console.log(endpoint)
+
     if (endpoint) {
       data = await QueueMember.query().where({
         interface: endpoint,
@@ -70,7 +70,7 @@ export default class QueueMembersController {
       data = await QueueMember.query().where(select)
     }
 
-    if (!data.lenght) {
+    if (!data) {
       return badRequest(response, 'QueueMember Not Exists')
     }
 
