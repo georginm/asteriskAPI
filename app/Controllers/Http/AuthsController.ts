@@ -76,8 +76,8 @@ export default class AuthController {
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { id } = request.params()
-    const data = await Auth.find(id)
+    const where = request.qs()
+    const data = await Auth.query().where(where)
     if (!data) {
       return badRequest(response, 'Auth Not Exists')
     }
