@@ -2,8 +2,6 @@ import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class QueueMember extends BaseModel {
   public static table = 'queue_members'
-  @column({ isPrimary: true })
-  public id: number
 
   @column({ columnName: 'queue_name' })
   public queueName: string
