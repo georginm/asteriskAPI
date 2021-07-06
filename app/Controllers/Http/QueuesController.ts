@@ -29,7 +29,7 @@ export default class QueuesController {
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { name } = request.params()
+    var { name } = request.params()
 
     const data = await Queue.find(name)
 
@@ -38,15 +38,15 @@ export default class QueuesController {
     }
     // If the body has name, the current queue is disabled and another
     // one is generated with the given name
-    const nameBody = request.body().name
+    var { name } = request.body()
 
-    if (!nameBody) {
+    if (!name) {
       await data.merge(request.body())
       await data.save()
       return success(response, data)
     }
 
-    const newNameExists = await Queue.find(nameBody)
+    const newNameExists = await Queue.find(name)
 
     if (!newNameExists) {
       await data.merge({ deletedAt: DateTime.now() }).save()
