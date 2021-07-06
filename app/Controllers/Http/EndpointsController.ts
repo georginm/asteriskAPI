@@ -13,6 +13,21 @@ export default class EndpointsController {
   public async store({ request, response }: HttpContextContract) {
     const { id } = request.body()
 
+    const requiredFields = [
+      'id',
+      'transport',
+      'context',
+      'aors',
+      'auths',
+      'mac',
+    ]
+
+    for (const field of requiredFields) {
+      if (!request.body()[field]) {
+        return badRequest(response, `${field} not provided`)
+      }
+    }
+
     const aor = await Aor.find(id)
 
     if (!aor) {
@@ -23,11 +38,6 @@ export default class EndpointsController {
 
     if (!auth) {
       return badRequest(response, 'Auth Not Exists')
-    }
-
-    if (!id) {
-      console.log('Endpoint Controlller near 29 line')
-      return badRequest(response, 'Id not provided')
     }
 
     const dataExists = await Endpoint.find(id)
