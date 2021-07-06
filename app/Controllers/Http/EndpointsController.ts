@@ -25,6 +25,11 @@ export default class EndpointsController {
       return badRequest(response, 'Auth Not Exists')
     }
 
+    if (!id) {
+      console.log('Endpoint Controlller near 29 line')
+      return badRequest(response, 'Id not provided')
+    }
+
     const dataExists = await Endpoint.find(id)
 
     if (dataExists) {
