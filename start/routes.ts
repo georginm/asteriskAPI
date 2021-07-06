@@ -1,3 +1,4 @@
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async () => {
@@ -10,9 +11,7 @@ Route.group(() => {
     .except(['create', 'show', 'edit'])
     .as('endpoint')
 
-  Route.get('/endpoints/list/', 'EndpointsController.list').as(
-    'endpoint.list'
-  )
+  Route.get('/endpoints/list/', 'EndpointsController.list').as('endpoint.list')
 
   // Auth Routes
   Route.resource('auths', 'AuthsController')
@@ -39,37 +38,35 @@ Route.group(() => {
     .as('iaxs')
 
   // Queue Routes
-  Route.resource('queues', 'QueuesController')
-    .except(['create', 'show', 'edit'])
-    .as('queues')
+  Route.group(() => {
+    Route.resource('', 'QueuesController')
+      .only(['index', 'destroy'])
+      .as('queues')
 
-  Route.get('/queues/deleted', 'QueuesController.listDeleted').as(
-    'queues.listDeleted'
-  )
+    Route.put('/:name', 'QueuesController.update').as('queue.update')
 
-  Route.get('/queues/list', 'QueuesController.list').as('queues.list')
+    Route.delete('/delete/:name', 'QueuesController.destroy').as('queue.delete')
 
-  Route.post('/queues/:name', 'QueuesController.activate').as(
-    'queues.activate'
-  )
+    Route.get('/deleted', 'QueuesController.listDeleted').as(
+      'queues.listDeleted'
+    )
 
-  Route.delete('/queues/:name', 'QueuesController.softdelete').as(
-    'queues.softdelete'
-  )
+    Route.get('/list', 'QueuesController.list').as('queues.list')
+
+    Route.post('/:name', 'QueuesController.activate').as('queues.activate')
+
+    Route.delete('/:name', 'QueuesController.softdelete').as(
+      'queues.softdelete'
+    )
+  }).prefix('/queues')
 
   // Queue Members
   Route.group(() => {
-    Route.get('/', 'QueueMembersController.index').as(
-      'queuemembers.index'
-    )
+    Route.get('/', 'QueueMembersController.index').as('queuemembers.index')
 
-    Route.get('list/', 'QueueMembersController.list').as(
-      'queuemembers.list'
-    )
+    Route.get('list/', 'QueueMembersController.list').as('queuemembers.list')
 
-    Route.post('', 'QueueMembersController.store').as(
-      'queuemembers.store'
-    )
+    Route.post('', 'QueueMembersController.store').as('queuemembers.store')
 
     Route.delete('/:uniqueid', 'QueueMembersController.destroy').as(
       'queuemembers.destroy'
@@ -77,7 +74,11 @@ Route.group(() => {
   }).prefix('/queuemembers')
 
   // Colocar status 404
-  Route.get('*', () => {
-    return { message: 'Not Found' }
+  Route.get('*', ({ response }: HttpContextContract) => {
+    return response.status(404).send({ message: 'Route Not Found' })
+  })
+
+  Route.post('*', ({ response }: HttpContextContract) => {
+    return response.status(404).send({ message: 'Route Not Found' })
   })
 }).prefix('/api')
