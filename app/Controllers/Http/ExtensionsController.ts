@@ -1,68 +1,64 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import {
-  badRequest,
-  created,
-  success,
-} from 'App/Helpers/http-helper';
-import Extension from 'App/Models/Extension';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { badRequest, created, success } from 'App/Helpers/http-helper'
+import Extension from 'App/Models/Extension'
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Extension.all();
-    return success(response, data);
+    const data = await Extension.all()
+    return success(response, data)
   }
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const data = await Extension.create(request.body());
-      return created(response, data);
+      const data = await Extension.create(request.body())
+      return created(response, data)
     } catch (error) {
-      return badRequest(response, error.message);
+      return badRequest(response, error.message)
     }
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Extension.find(id);
+    const data = await Extension.find(id)
 
     if (!data) {
-      return badRequest(response, 'Extension Not Exists');
+      return badRequest(response, 'Extension Not Exists')
     }
 
-    await data.delete();
+    await data.delete()
 
     const teste = await Extension.create({
       ...data.$attributes,
       ...request.body(),
-    });
+    })
 
-    return success(response, teste);
+    return success(response, teste)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Extension.find(id);
+    const data = await Extension.find(id)
 
     if (!data) {
-      return badRequest(response, 'Extension Not Exists');
+      return badRequest(response, 'Extension Not Exists')
     }
 
-    await data.delete();
+    await data.delete()
 
     return success(response, {
       message: 'Extension Has Been Deleted',
-    });
+    })
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { id } = request.params();
-    const data = await Extension.find(id);
+    const { id } = request.params()
+    const data = await Extension.find(id)
     if (!data) {
-      return badRequest(response, 'Extension Not Exists');
+      return badRequest(response, 'Extension Not Exists')
     }
 
-    return success(response, data);
+    return success(response, data)
   }
 }
