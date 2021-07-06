@@ -116,7 +116,7 @@ export default class QueuesController {
       return badRequest(response, 'There are not Queues')
     }
 
-    if (data.deletedAt) {
+    if (!data.deletedAt) {
       return badRequest(response, 'Queue is already activated')
     }
     await data.merge({ deletedAt: null }).save()
