@@ -1,11 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
-
 Route.group(() => {
+  Route.get('/', async () => {
+    return { hello: 'world' }
+  })
   // Endpoint Routes
   Route.resource('/endpoints', 'EndpointsController')
     .except(['create', 'show', 'edit'])
