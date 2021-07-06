@@ -58,10 +58,7 @@ export default class QueuesController {
     return badRequest(response, 'Queue Already Exists')
   }
 
-  public async softdelete({
-    request,
-    response,
-  }: HttpContextContract) {
+  public async softdelete({ request, response }: HttpContextContract) {
     const { name } = request.params()
     const data = await Queue.find(name)
 
@@ -69,9 +66,13 @@ export default class QueuesController {
       return badRequest(response, 'Queue Not Exists')
     }
 
+    if (data.deletedAt) {
+      return badRequest(response, 'Queue is already disabled')
+    }
+
     await data.merge({ deletedAt: DateTime.now() }).save()
 
-    return success(response, { message: 'Queue Has Been Deleted' })
+    return success(response, { message: 'Queue Has Been Disabled' })
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -114,7 +115,6 @@ export default class QueuesController {
     if (!data) {
       return badRequest(response, 'There are not Queues')
     }
-
     await data.merge({ deletedAt: null }).save()
 
     return success(response, data)
