@@ -18,8 +18,8 @@ export default class EndpointsController {
       'transport',
       'context',
       'aors',
-      'auths',
-      'mac',
+      'auth',
+      'mac_address',
     ]
 
     for (const field of requiredFields) {
