@@ -4,11 +4,21 @@ import Aor from 'App/Models/Aor'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class AorsController {
+  /**
+   *
+   * @param HttpContextContract
+   * @returns reponse
+   */
   public async index({ response }: HttpContextContract) {
     const data = await Aor.all()
     return success(response, data)
   }
 
+  /**
+   *
+   * @param HttpContextContract
+   * @returns reponse
+   */
   public async store({ request, response }: HttpContextContract) {
     const { id } = request.body()
     const dataExists = await Aor.find(id)
@@ -22,6 +32,11 @@ export default class AorsController {
     return created(response, data)
   }
 
+  /**
+   *
+   * @param HttpContextContract
+   * @returns response
+   */
   public async update({ request, response }: HttpContextContract) {
     const { id } = request.params()
 
@@ -38,6 +53,11 @@ export default class AorsController {
     return success(response, data)
   }
 
+  /**
+   *
+   * @param HttpContextContract
+   * @returns response
+   */
   public async destroy({ request, response }: HttpContextContract) {
     const { id } = request.params()
 
@@ -57,9 +77,13 @@ export default class AorsController {
     return success(response, { message: 'Aor Has Been Deleted' })
   }
 
+  /**
+   *
+   * @param HttpContextContract
+   * @returns
+   */
   public async list({ request, response }: HttpContextContract) {
     const where = request.qs()
-    console.log(where)
     const data = await Aor.query().where(where)
     if (!data) {
       return badRequest(response, 'Aor Not Exists')
