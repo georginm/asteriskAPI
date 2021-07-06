@@ -47,6 +47,9 @@ const databaseConfig: DatabaseConfig = {
       },
       healthCheck: false,
       debug: false,
+      seeders: {
+        paths: ['./app/database/seeders'],
+      },
     },
   },
 }
