@@ -1,74 +1,70 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext';
-import {
-  badRequest,
-  created,
-  success,
-} from 'App/Helpers/http-helper';
-import Iax from 'App/Models/Iax';
-import Endpoint from 'App/Models/Endpoint';
+import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { badRequest, created, success } from 'App/Helpers/http-helper'
+import Iax from 'App/Models/Iax'
+import Endpoint from 'App/Models/Endpoint'
 
 export default class IaxsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Iax.all();
-    return success(response, data);
+    const data = await Iax.all()
+    return success(response, data)
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { name } = request.body();
+    const { name } = request.body()
 
-    const dataExists = await Iax.findBy('name', name);
+    const dataExists = await Iax.findBy('name', name)
 
     if (dataExists) {
-      return badRequest(response, 'Iax Already Exists');
+      return badRequest(response, 'Iax Already Exists')
     }
 
-    const data = await Iax.create(request.body());
+    const data = await Iax.create(request.body())
 
-    return created(response, data);
+    return created(response, data)
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Iax.find(id);
+    const data = await Iax.find(id)
 
     if (!data) {
-      return badRequest(response, 'Iax Not Exists');
+      return badRequest(response, 'Iax Not Exists')
     }
 
-    data.merge(request.body());
+    data.merge(request.body())
 
-    await data.save();
+    await data.save()
 
-    return success(response, data);
+    return success(response, data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { id } = request.params();
+    const { id } = request.params()
 
-    const data = await Iax.find(id);
+    const data = await Iax.find(id)
 
     if (!data) {
-      return badRequest(response, 'Iax Not Exists');
+      return badRequest(response, 'Iax Not Exists')
     }
 
-    await data.delete();
+    await data.delete()
 
-    const endpoint = await Endpoint.find(id);
+    const endpoint = await Endpoint.find(id)
     if (endpoint) {
-      await endpoint.delete;
+      await endpoint.delete
     }
 
-    return success(response, { message: 'Iax Has Been Deleted' });
+    return success(response, { message: 'Iax Has Been Deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const { id } = request.params();
-    const data = await Iax.find(id);
+    const { id } = request.params()
+    const data = await Iax.find(id)
     if (!data) {
-      return badRequest(response, 'Iax Not Exists');
+      return badRequest(response, 'Iax Not Exists')
     }
 
-    return success(response, data);
+    return success(response, data)
   }
 }
