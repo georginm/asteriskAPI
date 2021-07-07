@@ -75,26 +75,6 @@ Validating environment variables
 
 https://docs.adonisjs.com/guides/environment-variables#sidenav-open
 
-
-  API Server
-  ----------
-
-    PORT=
-    HOST=
-    NODE_ENV=development
-    APP_KEY=ecbPKAuB0-4Bix0RsUOcdTiA2yxKN_Wk
-
-  Database informations
-  ---------------------
-
-    DB_CONNECTION=pg
-    PG_HOST= your_db_host
-    PG_PORT= your_db_port
-    PG_USER= your_db_user
-    PG_PASSWORD= your_db_password
-    PG_DB_NAME= your_db_name
-
-
   For the purposes of asterisk in our case it is necessary to add some information to some tables in our database.
 
   First we must create a sequence for the uniqueid field of the queue_members table. We use the following query:  
