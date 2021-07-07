@@ -96,5 +96,19 @@ test.group('Aor Test', () => {
 
       assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/aors')
     })
+
+    test('Should return 400 if id provided not exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .put('/aors/&hgy%645s$')
+        .send({
+          max_contacts: 6,
+          contact: 'any_changes',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.exists(body)
+    })
   })
 })
