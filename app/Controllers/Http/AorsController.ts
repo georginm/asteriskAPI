@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Aor from 'App/Models/Aor'
-import Endpoint from 'App/Models/Endpoint'
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
