@@ -151,5 +151,18 @@ test.group('Auth Tests', () => {
     group.after(async () => {
       await supertest(BASE_URL).delete('/auths/any_id')
     })
+
+    test('Should return 400 if username provided already exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .put('/auths/any_id')
+        .send({
+          username: 'any_username',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message, 'username provided already exists')
+    })
   })
 })
