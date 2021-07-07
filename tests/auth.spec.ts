@@ -87,5 +87,21 @@ test.group('Auth Tests', () => {
 
       assert.equal(body.message, 'password was not provided')
     })
+
+    test('Should return 400 if auth id already exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/auths')
+        .send({
+          id: 'id',
+          auth_type: 'userpass',
+          username: 'username',
+          password: 'password',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message, 'auth id already exists')
+    })
   })
 })
