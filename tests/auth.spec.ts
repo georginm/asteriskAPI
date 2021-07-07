@@ -177,5 +177,31 @@ test.group('Auth Tests', () => {
 
       assert.equal(body.message, 'auth not exists')
     })
+
+    test('Should return 404 if auth id was not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .put('/auths')
+        .send({
+          username: 'username',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404)
+
+      assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/auths')
+    })
+
+    test('Should return 200 if auth has been updated', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .put('/auths/any_id')
+        .send({
+          username: 'valid_username',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      assert.exists(body)
+    })
   })
 })
