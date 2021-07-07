@@ -224,5 +224,15 @@ test.group('Auth Tests', () => {
 
       assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot DELETE:/api/auths')
     })
+
+    test('Should return 400 if id provided not exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .delete('/auths/invalid_id')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.exists(body)
+    })
   })
 })
