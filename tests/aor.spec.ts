@@ -1,4 +1,4 @@
-import test, { group } from 'japa'
+import test from 'japa'
 import supertest from 'supertest'
 
 const BASE_URL = `http://${String(process.env.HOST)}:${String(
