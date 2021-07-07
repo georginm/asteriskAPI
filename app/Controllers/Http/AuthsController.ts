@@ -34,10 +34,7 @@ export default class AuthController {
     const { username } = request.body()
 
     if (username) {
-      const userNameAlreadyExists = await Auth.findBy(
-        'username',
-        username
-      )
+      const userNameAlreadyExists = await Auth.findBy('username', username)
       if (userNameAlreadyExists) {
         return badRequest(response, 'Username Already Exists')
       }
