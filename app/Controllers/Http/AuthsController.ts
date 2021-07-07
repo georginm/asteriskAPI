@@ -51,7 +51,7 @@ export default class AuthController {
     const data = await Auth.find(id)
 
     if (!data) {
-      return badRequest(response, 'Auth Not Exists')
+      return badRequest(response, 'auth not exists')
     }
 
     data.merge(request.body())
