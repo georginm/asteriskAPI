@@ -15,4 +15,20 @@ test.group('Aor Test', () => {
       asserts.exists(body)
     })
   })
+
+  test.group('Aor controller - Store', () => {
+    test('Should return 400 if id is not provided', async (asserts) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/aors')
+        .send({
+          contact: 'any_contact',
+          max_contacts: 1,
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      asserts.equal(body.message, 'Aor id not provided')
+    })
+  })
 })
