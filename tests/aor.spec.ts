@@ -154,5 +154,15 @@ test.group('Aor Test', () => {
 
       assert.exists(body)
     })
+
+    test('Should return 200 if aor has been deleted', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .delete('/aors/9999999999')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.exists(body.message, 'Aor Has Been Deleted')
+    })
   })
 })
