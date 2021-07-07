@@ -111,7 +111,7 @@ test.group('Aor Test', () => {
       assert.equal(body.message, 'Aor Not Exists')
     })
 
-    test('Should return 200 if aor is updated', async (assert) => {
+    test('Should return 200 if aor has been updated', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .put('/aors/9999999999')
         .send({
