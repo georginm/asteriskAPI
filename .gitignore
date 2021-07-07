@@ -5,6 +5,7 @@ coverage
 .DS_STORE
 .env
 tmp
+.nyc_output
 
 app/database/asterisk-db-manage/cdr.ini
 app/database/asterisk-db-manage/config.ini
