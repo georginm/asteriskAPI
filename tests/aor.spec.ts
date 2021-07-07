@@ -7,21 +7,31 @@ const BASE_URL = `http://${String(process.env.HOST)}:${String(
 
 test.group('Aor Test', () => {
   test.group('Aor Controller - Index', () => {
-    test('Sould return 200 if list aors', async (asserts) => {
+    test('Sould return 200 if list aors', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .get('/aors')
         .set('Accept', 'aplication/json')
         .expect(200)
-      asserts.exists(body)
+      assert.exists(body)
     })
   })
 
   test.group('Aor controller - Store', (group) => {
-    group.after(async () => {
-      await supertest(BASE_URL).delete('/aors/66666')
+    group.before(async () => {
+      await supertest(BASE_URL).post('/aors').send({
+        id: '9999999999',
+        max_contacts: 3,
+        contact: 'any_contact',
+      })
+      await supertest(BASE_URL).delete('/aors/6666666666')
     })
 
-    test('Should return 400 if id is not provided', async (asserts) => {
+    group.after(async () => {
+      await supertest(BASE_URL).delete('/aors/6666666666')
+      await supertest(BASE_URL).delete('/aors/9999999999')
+    })
+
+    test('Should return 400 if id is not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/aors')
         .send({
@@ -32,14 +42,14 @@ test.group('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      asserts.equal(body.message, 'Aor id not provided')
+      assert.equal(body.message, 'Aor id not provided')
     })
 
-    test('Should return 201 if aor is created', async (asserts) => {
+    test('Should return 201 if aor is created', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/aors')
         .send({
-          id: '66666',
+          id: '6666666666',
           contact: 'any_contact',
           max_contacts: 1,
         })
@@ -47,20 +57,44 @@ test.group('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(201)
 
-      asserts.exists(body)
+      assert.exists(body)
     })
 
-    test('Should return 400 if id aor already exists', async (asserts) => {
+    test('Should return 400 if id aor already exists', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/aors')
         .send({
-          id: '66666',
+          id: '9999999999',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
 
-      asserts.equal(body.message, 'Aor Already Exists')
+      assert.equal(body.message, 'Aor Already Exists')
+    })
+  })
+
+  test.group('Aor Controller - Update', (group) => {
+    group.before(async () => {
+      await supertest(BASE_URL).post('/aors').send({ id: '9999999999' })
+    })
+
+    group.after(async () => {
+      await supertest(BASE_URL).delete('/aors/9999999999')
+    })
+
+    test('Should return 404 if id not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .put('/aors')
+        .send({
+          max_contacts: 6,
+          contact: 'any_changes',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404)
+
+      assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/aors')
     })
   })
 })
