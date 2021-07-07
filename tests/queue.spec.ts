@@ -182,10 +182,12 @@ test.group('Endpoint Controller - Store', () => {
 })
 
 test.group('Endpoint Controller - List', () => {
-  test('Should return 200 if valid parameters are provided', async () => {
+  test('Should return 200 if valid parameters are provided', async (assert) => {
     const { body } = await supertest(BASE_URL).get(
       '/endpoints/list/?context=from-internal'
     )
+
+    assert.exists(body)
   })
 
   test('Should return 400 if invalid parameters are provided', async (assert) => {
@@ -198,8 +200,32 @@ test.group('Endpoint Controller - List', () => {
 
 test.group('Endpoint Controller - Index', () => {
   test('Should return 200 if list endpoints', async (assert) => {
-    const body = await supertest(BASE_URL)
+    const { body } = await supertest(BASE_URL)
       .get('/endpoints')
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.exists(body)
+  })
+})
+
+test.group('Endpoint Controller - Update', () => {
+  test('Should return 400 if id endpoint not exists', async (assert) => {
+    const { body } = await supertest(BASE_URL)
+      .put('/endpoints/asdae!2@354*&6%')
+      .expect(400)
+    assert.equal(body.message, 'Endpoint Not Exists')
+  })
+
+  test('Should return 404 if id endpoint is not provided', async (assert) => {
+    const { body } = await supertest(BASE_URL).put('/endpoints').expect(404)
+    assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/endpoints')
+  })
+
+  test('Should return 200 if endpoint is updated', async (assert) => {
+    const { body } = await supertest(BASE_URL)
+      .put('/endpoints/200')
+      .send({ context: 'any-context' })
       .set('Accept', 'aplication/json')
       .expect(200)
 
@@ -209,25 +235,24 @@ test.group('Endpoint Controller - Index', () => {
 
 test.group('Endpoint Controller - Delete', () => {
   test('Should return 200 if delete endpoints', async (assert) => {
-    const message = await supertest(BASE_URL)
+    const { body } = await supertest(BASE_URL)
       .delete('/endpoints/200')
       .expect(200)
-    assert.equal(message.body.message, 'Endpoint Has Been Deleted')
+    assert.equal(body.message, 'Endpoint Has Been Deleted')
   })
 
   test('Should return 404 if id endpoint is not provided', async (assert) => {
-    const message = await supertest(BASE_URL).delete('/endpoints').expect(404)
+    const { body } = await supertest(BASE_URL).delete('/endpoints').expect(404)
     assert.equal(
-      message.body.message,
+      body.message,
       'E_ROUTE_NOT_FOUND: Cannot DELETE:/api/endpoints'
     )
   })
 
   test('Should return 400 if id endpoint not exists', async (assert) => {
-    const message = await supertest(BASE_URL)
+    const { body } = await supertest(BASE_URL)
       .delete('/endpoints/asdae!2@354*&6%')
       .expect(400)
-    assert.equal(message.body.message, 'Endpoint Not Exists')
+    assert.equal(body.message, 'Endpoint Not Exists')
   })
 })
-
