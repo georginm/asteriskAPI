@@ -53,18 +53,13 @@ export default class AorsController {
 
     await data.delete()
 
-    const endpoint = await Endpoint.find(id)
-    if (endpoint) {
-      await endpoint.delete()
-    }
-
     return success(response, { message: 'aor has been deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
     const where = request.qs()
     const data = await Aor.query().where(where)
-    if (!data) {
+    if (!data.length) {
       return badRequest(response, 'aor not exists')
     }
 

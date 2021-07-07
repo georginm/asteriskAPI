@@ -5,7 +5,7 @@ const BASE_URL = `http://${String(process.env.HOST)}:${String(
   process.env.PORT
 )}/api`
 
-test.skip('Aor Test', () => {
+test.group('Aor Test', () => {
   test.group('Aor Controller - Index', () => {
     test('Sould return 200 if list aors', async (assert) => {
       const { body } = await supertest(BASE_URL)
@@ -42,7 +42,7 @@ test.skip('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message, 'Aor id not provided')
+      assert.equal(body.message, 'aor id not provided')
     })
 
     test('Should return 201 if aor has been created', async (assert) => {
@@ -147,7 +147,7 @@ test.skip('Aor Test', () => {
 
     test('Should return 400 if id provided not exists', async (assert) => {
       const { body } = await supertest(BASE_URL)
-        .delete('/aors/&hgy%645s$')
+        .delete('/aors/invalid_id')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
@@ -163,6 +163,34 @@ test.skip('Aor Test', () => {
         .expect(200)
 
       assert.equal(body.message, 'aor has been deleted')
+    })
+  })
+
+  test.group('Aor Controller - List', (group) => {
+    group.before(async () => {
+      await supertest(BASE_URL).post('/aors').send({
+        id: 'any_id',
+      })
+    })
+
+    group.after(async () => {
+      await supertest(BASE_URL).delete('/aors/any_id')
+    })
+
+    test('Should return 400 is query params provided are invalid', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .get('/aors/list/?id=invalid_id')
+        .set('Accept', 'aplication/json')
+        .expect(400)
+      assert.exists(body)
+    })
+
+    test('Should return 200 is list aors', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .get('/aors/list/?id=any_id')
+        .set('Accept', 'aplication/json')
+        .expect(200)
+      assert.exists(body)
     })
   })
 })
