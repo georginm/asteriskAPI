@@ -134,5 +134,15 @@ test.group('Aor Test', () => {
     group.after(async () => {
       await supertest(BASE_URL).delete('/aors/9999999999')
     })
+
+    test('Should return 404 if id not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .delete('/aors')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404)
+
+      assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot DELETE:/api/aors')
+    })
   })
 })
