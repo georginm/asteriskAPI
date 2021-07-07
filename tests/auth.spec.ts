@@ -245,4 +245,35 @@ test.group('Auth Tests', () => {
       assert.equal(body.message, 'auth has been deleted')
     })
   })
+
+  test.group('Auth Controller - List', (group) => {
+    group.before(async () => {
+      await supertest(BASE_URL).post('/auths').send({
+        id: 'any_id',
+        auth_type: 'userpass',
+        username: 'any_username',
+        password: 'password',
+      })
+    })
+
+    group.after(async () => {
+      await supertest(BASE_URL).delete('/auths/any_id')
+    })
+
+    test('Should return 400 is query params provided are invalid', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .get('/auths/list/?id=invalid_id')
+        .set('Accept', 'aplication/json')
+        .expect(400)
+      assert.exists(body)
+    })
+
+    test('Should return 200 is list auths', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .get('/auths/list/?id=any_id')
+        .set('Accept', 'aplication/json')
+        .expect(200)
+      assert.exists(body)
+    })
+  })
 })
