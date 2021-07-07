@@ -125,4 +125,14 @@ test.group('Aor Test', () => {
       assert.exists(body)
     })
   })
+
+  test.group('Aor Controller - Delete', (group) => {
+    group.before(async () => {
+      await supertest(BASE_URL).post('/aors').send({ id: '9999999999' })
+    })
+
+    group.after(async () => {
+      await supertest(BASE_URL).delete('/aors/9999999999')
+    })
+  })
 })
