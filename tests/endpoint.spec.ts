@@ -7,7 +7,7 @@ const BASE_URL = `http://${String(process.env.HOST)}:${String(
 
 test.skip('Endpoint Tests', () => {
   test.group('Endpoint Controller - Store', () => {
-    test('Should return 400 if id is not provided', async (assert) => {
+    test('Should return 400 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -24,7 +24,7 @@ test.skip('Endpoint Tests', () => {
       assert.exists(body)
     })
 
-    test('Should return 400 if transport is not provided', async (assert) => {
+    test('Should return 400 if transport was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -41,7 +41,7 @@ test.skip('Endpoint Tests', () => {
       assert.exists(body)
     })
 
-    test('Should return 400 if aors is not provided', async (assert) => {
+    test('Should return 400 if aors was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -58,7 +58,7 @@ test.skip('Endpoint Tests', () => {
       assert.exists(body)
     })
 
-    test('Should return 400 if auth is not provided', async (assert) => {
+    test('Should return 400 if auth was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -75,7 +75,7 @@ test.skip('Endpoint Tests', () => {
       assert.exists(body)
     })
 
-    test('Should return 400 if context is not provided', async (assert) => {
+    test('Should return 400 if context was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -92,7 +92,7 @@ test.skip('Endpoint Tests', () => {
       assert.exists(body)
     })
 
-    test('Should return 400 if mac_adress is not provided', async (assert) => {
+    test('Should return 400 if mac_adress was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -145,7 +145,7 @@ test.skip('Endpoint Tests', () => {
       assert.equal(body.message, 'Auth Not Exists')
     })
 
-    test('Should return 201 if endpoint is created', async (assert) => {
+    test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -218,12 +218,12 @@ test.skip('Endpoint Tests', () => {
       assert.equal(body.message, 'Endpoint Not Exists')
     })
 
-    test('Should return 404 if id endpoint is not provided', async (assert) => {
+    test('Should return 404 if id endpoint was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL).put('/endpoints').expect(404)
       assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/endpoints')
     })
 
-    test('Should return 200 if endpoint is updated', async (assert) => {
+    test('Should return 200 if endpoint has been updated', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .put('/endpoints/200')
         .send({ context: 'any-context' })
@@ -242,7 +242,7 @@ test.skip('Endpoint Tests', () => {
       assert.equal(body.message, 'Endpoint Has Been Deleted')
     })
 
-    test('Should return 404 if id endpoint is not provided', async (assert) => {
+    test('Should return 404 if id endpoint was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .delete('/endpoints')
         .expect(404)
