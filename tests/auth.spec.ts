@@ -137,4 +137,19 @@ test.group('Auth Tests', () => {
       assert.exists(body)
     })
   })
+
+  test.group('Auth Controller - Update', (group) => {
+    group.before(async () => {
+      await supertest(BASE_URL).post('/auths').send({
+        id: 'any_id',
+        auth_type: 'userpass',
+        username: 'any_username',
+        password: 'password',
+      })
+    })
+
+    group.after(async () => {
+      await supertest(BASE_URL).delete('/auths/any_id')
+    })
+  })
 })
