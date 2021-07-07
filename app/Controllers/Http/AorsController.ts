@@ -13,12 +13,12 @@ export default class AorsController {
     const { id } = request.body()
 
     if (!id) {
-      return badRequest(response, 'Aor id not provided')
+      return badRequest(response, 'aor id not provided')
     }
     const dataExists = await Aor.find(id)
 
     if (dataExists) {
-      return badRequest(response, 'Aor Already Exists')
+      return badRequest(response, 'aor already exists')
     }
 
     const data = await Aor.create(request.body())
@@ -32,7 +32,7 @@ export default class AorsController {
     const data = await Aor.find(id)
 
     if (!data) {
-      return badRequest(response, 'Aor Not Exists')
+      return badRequest(response, 'aor not exists')
     }
 
     data.merge(request.body())
@@ -48,7 +48,7 @@ export default class AorsController {
     const data = await Aor.find(id)
 
     if (!data) {
-      return badRequest(response, 'Aor Not Exists')
+      return badRequest(response, 'aor not exists')
     }
 
     await data.delete()
@@ -58,14 +58,14 @@ export default class AorsController {
       await endpoint.delete()
     }
 
-    return success(response, { message: 'Aor Has Been Deleted' })
+    return success(response, { message: 'aor has been deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
     const where = request.qs()
     const data = await Aor.query().where(where)
     if (!data) {
-      return badRequest(response, 'Aor Not Exists')
+      return badRequest(response, 'aor not exists')
     }
 
     return success(response, data)

@@ -70,7 +70,7 @@ test.skip('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message, 'Aor Already Exists')
+      assert.equal(body.message, 'aor already exists')
     })
   })
 
@@ -108,7 +108,7 @@ test.skip('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message, 'Aor Not Exists')
+      assert.equal(body.message, 'aor not exists')
     })
 
     test('Should return 200 if aor has been updated', async (assert) => {
@@ -152,7 +152,7 @@ test.skip('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'aor not exists')
     })
 
     test('Should return 200 if aor has been deleted', async (assert) => {
@@ -162,7 +162,7 @@ test.skip('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(200)
 
-      assert.exists(body.message, 'Aor Has Been Deleted')
+      assert.equal(body.message, 'aor has been deleted')
     })
   })
 })
