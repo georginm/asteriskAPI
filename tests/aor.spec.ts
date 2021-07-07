@@ -45,7 +45,7 @@ test.group('Aor Test', () => {
       assert.equal(body.message, 'Aor id not provided')
     })
 
-    test('Should return 201 if aor is created', async (assert) => {
+    test('Should return 201 if aor has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/aors')
         .send({
