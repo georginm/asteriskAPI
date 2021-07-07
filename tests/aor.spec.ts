@@ -110,5 +110,19 @@ test.group('Aor Test', () => {
 
       assert.exists(body)
     })
+
+    test('Should return 200 if aor is updated', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .put('/aors/9999999999')
+        .send({
+          max_contacts: 6,
+          contact: 'any_changes',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      assert.exists(body)
+    })
   })
 })
