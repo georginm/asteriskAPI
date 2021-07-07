@@ -12,6 +12,14 @@ export default class AuthController {
   public async store({ request, response }: HttpContextContract) {
     const { username, id } = request.body()
 
+    const requireFields = ['id', 'username', 'auth_type', 'password']
+
+    for (const field of requireFields) {
+      if (!request.body()[field]) {
+        return badRequest(response, `${field} was not provided`)
+      }
+    }
+
     const idAlreadyExists = await Auth.find(id)
 
     if (idAlreadyExists) {
