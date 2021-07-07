@@ -11,7 +11,7 @@ export default class EndpointsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body()
+    const { id, aors, auth } = request.body()
 
     const requiredFields = [
       'id',
@@ -28,15 +28,15 @@ export default class EndpointsController {
       }
     }
 
-    const aor = await Aor.find(id)
+    const aor = await Aor.find(aors)
 
     if (!aor) {
       return badRequest(response, 'Aor Not Exists')
     }
 
-    const auth = await Auth.find(id)
+    const auths = await Auth.find(auth)
 
-    if (!auth) {
+    if (!auths) {
       return badRequest(response, 'Auth Not Exists')
     }
 
