@@ -103,5 +103,21 @@ test.group('Auth Tests', () => {
 
       assert.equal(body.message, 'auth id already exists')
     })
+
+    test('Should return 400 if auth username already exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/auths')
+        .send({
+          id: 'any_id',
+          auth_type: 'userpass',
+          username: 'username',
+          password: 'password',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message, 'auth username already exists')
+    })
   })
 })
