@@ -17,15 +17,30 @@ test.group('Auth Tests', () => {
   test.group('Auth Controller - Store', (group) => {
     group.before(async () => {
       await supertest(BASE_URL).post('/auths').send({
-        id: 'any_id',
+        id: 'id',
         auth_type: 'userpass',
-        username: 'any_username',
-        password: 'any_password',
+        username: 'username',
+        password: 'password',
       })
     })
 
     group.after(async () => {
       await supertest(BASE_URL).delete('/auths/any_id')
+    })
+
+    test('Should return 400 if id was not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/auths')
+        .send({
+          auth_type: 'userpass',
+          username: 'any_username',
+          password: 'any_password',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.exists(body)
     })
   })
 })
