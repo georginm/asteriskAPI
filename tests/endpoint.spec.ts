@@ -5,7 +5,7 @@ const BASE_URL = `http://${String(process.env.HOST)}:${String(
   process.env.PORT
 )}/api`
 
-test.skip('Endpoint Tests', () => {
+test.group('Endpoint Tests', () => {
   test.group('Endpoint Controller - Store', () => {
     test('Should return 400 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
