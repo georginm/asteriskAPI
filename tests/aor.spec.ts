@@ -31,7 +31,7 @@ test.group('Aor Test', () => {
       await supertest(BASE_URL).delete('/aors/9999999999')
     })
 
-    test('Should return 400 if id is not provided', async (assert) => {
+    test('Should return 400 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/aors')
         .send({
@@ -83,7 +83,7 @@ test.group('Aor Test', () => {
       await supertest(BASE_URL).delete('/aors/9999999999')
     })
 
-    test('Should return 404 if id not provided', async (assert) => {
+    test('Should return 404 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .put('/aors')
         .send({
@@ -135,7 +135,7 @@ test.group('Aor Test', () => {
       await supertest(BASE_URL).delete('/aors/9999999999')
     })
 
-    test('Should return 404 if id not provided', async (assert) => {
+    test('Should return 404 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .delete('/aors')
         .set('Accept', 'application/json')
