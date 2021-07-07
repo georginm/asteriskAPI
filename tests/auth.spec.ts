@@ -57,5 +57,20 @@ test.group('Auth Tests', () => {
 
       assert.exists(body)
     })
+
+    test('Should return 400 if auth_type was not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/auths')
+        .send({
+          id: 'any_id',
+          username: 'any_username',
+          password: 'any_password',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.exists(body)
+    })
   })
 })
