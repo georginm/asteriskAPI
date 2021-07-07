@@ -30,5 +30,18 @@ test.group('Aor Test', () => {
 
       asserts.equal(body.message, 'Aor id not provided')
     })
+
+    test('Should return 400 if id aor already exists', async (asserts) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/aors')
+        .send({
+          id: 200,
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      asserts.equal(body.message, 'Aor Already Exists')
+    })
   })
 })
