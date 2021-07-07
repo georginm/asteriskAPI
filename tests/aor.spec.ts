@@ -108,7 +108,7 @@ test.group('Aor Test', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'Aor Not Exists')
     })
 
     test('Should return 200 if aor is updated', async (assert) => {
