@@ -11,6 +11,10 @@ export default class AorsController {
 
   public async store({ request, response }: HttpContextContract) {
     const { id } = request.body()
+
+    if (!id) {
+      return badRequest(response, 'Aor id not provided')
+    }
     const dataExists = await Aor.find(id)
 
     if (dataExists) {
