@@ -67,7 +67,7 @@ export default class AuthController {
     const data = await Auth.find(id)
 
     if (!data) {
-      return badRequest(response, 'Auth Not Exists')
+      return badRequest(response, 'auth not exists')
     }
 
     await data.delete()
@@ -77,7 +77,7 @@ export default class AuthController {
       await endpoint.delete()
     }
 
-    return success(response, { message: 'Auth Has Been Deleted' })
+    return success(response, { message: 'auth has been deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {

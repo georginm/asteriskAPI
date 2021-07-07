@@ -232,7 +232,17 @@ test.group('Auth Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'auth not exists')
+    })
+
+    test('Should return 200 if aor has been deleted', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .delete('/auths/id')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+      assert.equal(body.message, 'auth has been deleted')
     })
   })
 })
