@@ -26,6 +26,7 @@ test.group('Auth Tests', () => {
 
     group.after(async () => {
       await supertest(BASE_URL).delete('/auths/any_id')
+      await supertest(BASE_URL).delete('/auths/id')
     })
 
     test('Should return 400 if id was not provided', async (assert) => {
@@ -118,6 +119,22 @@ test.group('Auth Tests', () => {
         .expect(400)
 
       assert.equal(body.message, 'auth username already exists')
+    })
+
+    test('Should return 201 if auth has been created', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/auths')
+        .send({
+          id: 'any_id',
+          auth_type: 'userpass',
+          username: 'any_username',
+          password: 'password',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(201)
+
+      assert.exists(body)
     })
   })
 })
