@@ -5,7 +5,7 @@ const BASE_URL = `http://${String(process.env.HOST)}:${String(
   process.env.PORT
 )}/api`
 
-test.group('Aor Test', () => {
+test.skip('Aor Test', () => {
   test.group('Aor Controller - Index', () => {
     test('Sould return 200 if list aors', async (assert) => {
       const { body } = await supertest(BASE_URL)
