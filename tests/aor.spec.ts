@@ -144,5 +144,15 @@ test.group('Aor Test', () => {
 
       assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot DELETE:/api/aors')
     })
+
+    test('Should return 400 if id provided not exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .delete('/aors/&hgy%645s$')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.exists(body)
+    })
   })
 })
