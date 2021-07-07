@@ -160,7 +160,7 @@ test.group('Aor Test', () => {
         .delete('/aors/9999999999')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(400)
+        .expect(200)
 
       assert.exists(body.message, 'Aor Has Been Deleted')
     })
