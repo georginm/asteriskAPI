@@ -40,7 +40,7 @@ test.group('Auth Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'id was not provided')
     })
 
     test('Should return 400 if username was not provided', async (assert) => {
@@ -55,7 +55,7 @@ test.group('Auth Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'username was not provided')
     })
 
     test('Should return 400 if auth_type was not provided', async (assert) => {
@@ -70,7 +70,7 @@ test.group('Auth Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'auth_type was not provided')
     })
 
     test('Should return 400 if password was not provided', async (assert) => {
@@ -85,7 +85,7 @@ test.group('Auth Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message, 'password was not provided')
     })
   })
 })
