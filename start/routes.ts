@@ -1,10 +1,6 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
-  Route.get('/', async () => {
-    return { hello: 'world' }
-  })
   // Endpoint Routes
   Route.resource('/endpoints', 'EndpointsController')
     .except(['create', 'show', 'edit'])
@@ -71,13 +67,4 @@ Route.group(() => {
       'queuemembers.destroy'
     )
   }).prefix('/queuemembers')
-
-  // Colocar status 404
-  Route.get('*', ({ response }: HttpContextContract) => {
-    return response.status(404).send({ message: 'Route Not Found' })
-  })
-
-  Route.post('*', ({ response }: HttpContextContract) => {
-    return response.status(404).send({ message: 'Route Not Found' })
-  })
 }).prefix('/api')
