@@ -1,10 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import validation from 'App/localization/validation'
 
-export default class EndpointValidator {
+export default class CreateEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
-  public createSchema = schema.create({
+  public schema = schema.create({
     id: schema.string({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
@@ -90,4 +91,6 @@ export default class EndpointValidator {
 
     dtmfMode: schema.enum.optional(['rfc4733', 'inband', 'info'] as const),
   })
+
+  public messages = validation
 }
