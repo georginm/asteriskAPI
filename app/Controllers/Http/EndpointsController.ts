@@ -1,8 +1,42 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
-import Aor from 'App/Models/Aor'
-import Auth from 'App/Models/Auth'
+// import { errorHandle } from 'App/utils/errorHandle'
+import CreateEndpoint from 'App/Validators/CreateEndpointValidator'
+
+// const fields = {
+//   id: 'nome',
+//   transport: 'transporte',
+//   dissallow: 'desabilitar',
+//   allow: 'habilitar',
+//   aors: 'aors',
+//   auth: 'autenticação',
+//   macAddress: 'endereço mac',
+//   deny: 'proibir ip',
+//   permit: 'permitir ip',
+//   contactDeny: 'proibir contato',
+//   contactPermit: 'permitir contato',
+//   callGroup: 'grupo de chamada',
+//   pickupGroup: 'grupo de coleta',
+//   namedCallGroup: 'nome do grupo de chamada',
+//   namedPickupGroup: 'nome do grupo de coleta',
+//   callerId: 'id de chamada',
+//   outboundAuth: 'autenticação de saída',
+//   outboundProxy: 'proxy de saída',
+//   rewriteContact: 'reescrever contato',
+//   rtpSymmetric: 'rtp symmetrico',
+//   forceRPort: 'forçar porta R',
+//   directMedia: 'mídia direta',
+//   disableDirectMediaOnNat: 'desabilitar mídia direta em nat',
+//   iceSupport: 'suporte de gelo',
+//   allowOverlap: 'permitir sobreposição',
+//   rtpTimeOut: 'tempo esgotado rtp',
+//   rtpTimeOutHold: 'tempo de espera rtp',
+//   rtpKeepAlive: 'manter rtp ativo',
+//   timersSessExpires: 'tempo de expiração de sessão',
+//   deviceStateBusyAt: 'estado do dispositivo ocupado em',
+//   dtmfMode: 'modo dtmf',
+// }
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -11,52 +45,15 @@ export default class EndpointsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id, aors, auth } = request.body()
+    try {
+      const validator = await request.validate(CreateEndpoint)
+      const data = await Endpoint.create(validator)
 
-    const requiredFields = [
-      'id',
-      'transport',
-      'context',
-      'aors',
-      'auth',
-      'mac_address',
-    ]
-
-    // console.log('Endpoint Controller Store - Required field was not provided?')
-
-    for (const field of requiredFields) {
-      if (!request.body()[field]) {
-        return badRequest(response, `${field} not provided`)
-      }
+      return created(response, data)
+    } catch (error) {
+      return badRequest(response, error.messages.errors)
+      // return badRequest(response, errorHandle(error.messages.errors, fields))
     }
-
-    // console.log('Endpoint Controller Store - AOR not exists?')
-
-    const aor = await Aor.find(aors)
-
-    if (!aor) {
-      return badRequest(response, 'Aor Not Exists')
-    }
-
-    // console.log('Endpoint Controller Store - Auth not exists?')
-
-    const auths = await Auth.find(auth)
-
-    if (!auths) {
-      return badRequest(response, 'Auth Not Exists')
-    }
-
-    // console.log('Endpoint Controller Store - Endpoint already exists?')
-
-    const dataExists = await Endpoint.find(id)
-
-    if (dataExists) {
-      return badRequest(response, 'Endpoint Already Exists')
-    }
-
-    const data = await Endpoint.create(request.body())
-
-    return created(response, data)
   }
 
   public async update({ request, response }: HttpContextContract) {
