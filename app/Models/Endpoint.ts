@@ -4,46 +4,46 @@ export default class Endpoint extends BaseModel {
   public static table = 'ps_endpoints'
 
   @column({ isPrimary: true })
-  public id: string
+  public id: string // max lenght 40
 
   @column()
-  public transport: string
+  public transport: string // max lenght 40
 
   @column()
-  public context: string
+  public context: string // max lenght 40
 
   @column()
-  public disallow: string
+  public disallow: string // max lenght 200
+
+  @column()
+  public allow: string // max lenght 200
 
   @column({ columnName: 'rewrite_contact' })
-  public rewriteContact: string
+  public rewriteContact: string // yes/no
 
   @column({ columnName: 'rtp_symmetric' })
-  public rtpSymmetric: string
+  public rtpSymmetric: string // yes/no
 
   @column({ columnName: 'force_rport' })
-  public forceRPort: string
-
-  @column()
-  public allow: string
+  public forceRPort: string // yes/no
 
   @column({ columnName: 'direct_media' })
-  public directMedia: string
+  public directMedia: string // yes/no
 
   @column()
-  public aors: string
+  public aors: string // max lenght 200
 
   @column()
-  public auth: string
+  public auth: string // max lenght 40
 
   @column({ columnName: 'mac_address' })
-  public macAddress: string
+  public macAddress: string // max lenght 18
 
   @column({ columnName: 't38_udptl' })
-  public t38UdpTl: string
+  public t38UdpTl: string // yes/no
 
   @column({ columnName: 't38_udptl_nat' })
-  public t38UdpTlNat: string
+  public t38UdpTlNat: string // yes/no
 
   @column({ columnName: 'rtp_timeout' })
   public rtpTimeOut: number
@@ -92,6 +92,9 @@ export default class Endpoint extends BaseModel {
 
   @column({ columnName: 'named_call_group' })
   public namedCallGroup: string
+
+  @column({ columnName: 'named_pickup_group' })
+  public namedPickupGroup: string
 
   @column({ columnName: 'callerid' })
   public callerId: string
