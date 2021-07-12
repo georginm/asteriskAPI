@@ -4,7 +4,7 @@ import Extension from 'App/Models/Extension'
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Extension.all()
+    const data = await Extension.query().orderBy('context').orderBy('priority')
     return success(response, data)
   }
 
@@ -28,12 +28,12 @@ export default class ExtensionsController {
 
     await data.delete()
 
-    const teste = await Extension.create({
+    const newData = await Extension.create({
       ...data.$attributes,
       ...request.body(),
     })
 
-    return success(response, teste)
+    return success(response, newData)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
