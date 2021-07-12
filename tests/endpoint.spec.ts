@@ -6,28 +6,30 @@ const BASE_URL = `http://${String(process.env.HOST)}:${String(
 )}/api`
 
 const before = async () => {
-  await supertest(BASE_URL).post('/aors').send({ id: 'any_aor' })
+  await supertest(BASE_URL).post('/aors').send({ id: 'aors_' })
   await supertest(BASE_URL).post('/auths').send({
-    id: 'any_auth',
+    id: 'auth_',
     auth_type: 'userpass',
     username: 'any_username',
     password: 'any_password',
   })
 
   await supertest(BASE_URL).post('/endpoints').send({
-    id: 'id_exists',
-    transport: 'transport-udp',
-    aors: 'any_aor',
-    auth: 'any_auth',
+    id: 'id_ex',
+    transport: 'udp',
+    aors: 'aors_',
+    auth: 'auth_',
     context: 'from-internal',
-    mac_address: 'any_mac_test',
+    mac_address: 'desessetecaracter',
+    disallow: 'all',
+    allow: 'alaw',
   })
 }
 
 const after = async () => {
-  await supertest(BASE_URL).delete('/aors/any_aor')
-  await supertest(BASE_URL).delete('/auths/any_auth')
-  await supertest(BASE_URL).delete('/endpoints/id_exists')
+  await supertest(BASE_URL).delete('/aors/aors_')
+  await supertest(BASE_URL).delete('/auths/auth_')
+  await supertest(BASE_URL).delete('/endpoints/id_ex')
 }
 
 test.group('Endpoint Tests', () => {
@@ -37,22 +39,33 @@ test.group('Endpoint Tests', () => {
   test.group('Endpoint Controller - Store', (group) => {
     group.before(async () => {
       await before()
+      await supertest(BASE_URL).post('/aors').send({ id: 'aors2' })
+      await supertest(BASE_URL).post('/auths').send({
+        id: 'auth2',
+        auth_type: 'userpass',
+        username: 'any_username2',
+        password: 'any_password2',
+      })
     })
 
     group.after(async () => {
       await after()
-      await supertest(BASE_URL).delete('/endpoints/any_id')
+      await supertest(BASE_URL).delete('/aors/aors2')
+      await supertest(BASE_URL).delete('/auths/auth2')
+      await supertest(BASE_URL).delete('/endpoints/cinco')
     })
 
     test('Should return 400 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          transport: 'any_transport',
-          aors: 'any_aor',
-          auths: 'any_auths',
+          transport: 'udp',
+          aors: 'aors_',
+          auths: 'auth_',
           context: 'any_context',
           mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -65,11 +78,13 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
-          aors: 'any_aor',
-          auths: 'any_auths',
+          id: 'cinco',
+          aors: 'aors_',
+          auths: 'auth_',
           context: 'any_context',
           mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -82,11 +97,13 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
+          id: 'cinco',
           transport: 'any_transport',
-          auths: 'any_auths',
+          auths: 'auth_',
           context: 'any_context',
           mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -99,11 +116,13 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
+          id: 'cinco',
           transport: 'any_transport',
-          aors: 'any_aor',
+          aors: 'aors_',
           context: 'any_context',
           mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -116,11 +135,13 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
+          id: 'cinco',
           transport: 'any_transport',
-          aors: 'any_aor',
-          auth: 'any_auth',
+          aors: 'aors_',
+          auth: 'auth_',
           mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -133,11 +154,13 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
+          id: 'cinco',
           transport: 'any_transport',
-          aors: 'any_aor',
-          auth: 'any_auth',
+          aors: 'aors_',
+          auth: 'auth_',
           context: 'any_context',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -150,48 +173,54 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
-          transport: 'transport-udp',
-          aors: 'not_exists',
-          auth: 'any_aor',
+          id: 'cinco',
+          transport: 'udp',
+          aors: 'not_e',
+          auth: 'aors_',
           context: 'from-internal',
-          mac_address: 'any_macs',
+          mac_address: 'desessetecaracte',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message, 'Aor Not Exists')
+      assert.equal(body.message[0].message, 'O registro de aors não existe.')
     })
 
     test('Should return 400 if provided auth does not exists', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
-          transport: 'transport-udp',
-          aors: 'any_aor',
-          auth: 'not_exists',
+          id: 'cinco',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'not_e',
           context: 'from-internal',
           mac_address: 'any_mac_test',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message, 'Auth Not Exists')
+      assert.equal(body.message[0].message, 'O registro de auth não existe.')
     })
 
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'any_id',
-          transport: 'transport-udp',
-          aors: 'any_aor',
-          auth: 'any_auth',
+          id: 'test',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
           context: 'from-internal',
-          mac_address: 'any_macs',
+          mac_address: 'desessetecaractes',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -204,18 +233,20 @@ test.group('Endpoint Tests', () => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'id_exists',
-          transport: 'transport-udp',
-          aors: 'any_aor',
-          auth: 'any_auth',
+          id: 'id_ex',
+          transport: 'udp',
+          aors: 'aors_',
+          auth: 'auth_',
           context: 'from-internal',
-          mac_address: 'any_macs',
+          mac_address: 'desessetecaracter',
+          disallow: 'all',
+          allow: 'alaw',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message, 'Endpoint Already Exists')
+      assert.equal(body.message[0].message, 'O campo id deve ser único.')
     })
   })
 
@@ -284,7 +315,7 @@ test.group('Endpoint Tests', () => {
 
     test('Should return 200 if endpoint has been updated', async (assert) => {
       const { body } = await supertest(BASE_URL)
-        .put('/endpoints/id_exists')
+        .put('/endpoints/id_ex')
         .send({ context: 'any-context' })
         .set('Accept', 'aplication/json')
         .expect(200)
@@ -307,7 +338,7 @@ test.group('Endpoint Tests', () => {
 
     test('Should return 200 if delete endpoints', async (assert) => {
       const { body } = await supertest(BASE_URL)
-        .delete('/endpoints/id_exists')
+        .delete('/endpoints/id_ex')
         .expect(200)
       assert.equal(body.message, 'Endpoint Has Been Deleted')
     })
