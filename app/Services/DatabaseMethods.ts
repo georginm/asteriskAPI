@@ -13,9 +13,7 @@ export const alreadyExists = async (
   where: object,
   select: string = '*'
 ): Promise<object> => {
-  const exists = await Database.from(table)
-    .select(select)
-    .where(where)
+  const exists = await Database.from(table).select(select).where(where)
   return exists.pop()
 }
 
@@ -24,8 +22,6 @@ export const selectAll = async (
   where: object,
   select: string = '*'
 ): Promise<object[]> => {
-  const selectAll = await Database.from(table)
-    .select(select)
-    .where(where)
+  const selectAll = await Database.from(table).select(select).where(where)
   return selectAll
 }
