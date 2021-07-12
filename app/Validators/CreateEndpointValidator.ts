@@ -13,7 +13,8 @@ export default class CreateEndpointValidator {
     ]),
 
     transport: schema.enum.optional(['udp', 'tcp', 'tls', 'ws', 'wss']),
-    dissallow: schema.string({ trim: true }),
+    context: schema.string({ trim: true }, [rules.maxLength(40)]),
+    disallow: schema.string({ trim: true }),
     allow: schema.string({ trim: true }),
 
     aors: schema.string({ trim: true }, [
@@ -30,7 +31,7 @@ export default class CreateEndpointValidator {
       rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
-    macAddress: schema.string({ trim: true }, [
+    mac_address: schema.string({ trim: true }, [
       rules.maxLength(17),
       rules.minLength(17),
       rules.unique({ table: 'ps_endpoints', column: 'mac_address' }),
@@ -46,50 +47,52 @@ export default class CreateEndpointValidator {
       rules.maxLength(95),
     ]),
 
-    contactDeny: schema.string.optional({ trim: true }, [
+    contact_deny: schema.string.optional({ trim: true }, [
       rules.minLength(7),
       rules.maxLength(95),
     ]),
 
-    contactPermit: schema.string.optional({ trim: true }, [
+    contact_permit: schema.string.optional({ trim: true }, [
       rules.minLength(7),
       rules.maxLength(95),
     ]),
 
-    callGroup: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
-    pickupGroup: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
-    namedCallGroup: schema.string.optional({ trim: true }, [
+    call_group: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    pickup_group: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    named_call_group: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
     ]),
-    namedPickupGroup: schema.string.optional({ trim: true }, [
-      rules.maxLength(40),
-    ]),
-
-    callerId: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
-
-    outboundAuth: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
-
-    outboundProxy: schema.string.optional({ trim: true }, [
+    named_pickup_group: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
     ]),
 
-    rewriteContact: schema.enum.optional(['yes', 'no'] as const),
-    rtpSymmetric: schema.enum.optional(['yes', 'no'] as const),
-    forceRPort: schema.enum.optional(['yes', 'no'] as const),
-    directMedia: schema.enum.optional(['yes', 'no'] as const),
-    t38UdpTl: schema.enum.optional(['yes', 'no'] as const),
-    t38UdpTlNat: schema.enum.optional(['yes', 'no'] as const),
-    disableDirectMediaOnNat: schema.enum.optional(['yes', 'no'] as const),
-    iceSupport: schema.enum.optional(['yes', 'no'] as const),
-    allowOverlap: schema.enum.optional(['yes', 'no'] as const),
+    callerid: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
 
-    rtpTimeOut: schema.number.optional(),
-    rtpTimeOutHold: schema.number.optional(),
-    rtpKeepAlive: schema.number.optional(),
-    timersSessExpires: schema.number.optional(),
+    outbound_auth: schema.string.optional({ trim: true }, [
+      rules.maxLength(40),
+    ]),
+
+    outbound_proxy: schema.string.optional({ trim: true }, [
+      rules.maxLength(40),
+    ]),
+
+    rewrite_contact: schema.enum.optional(['yes', 'no'] as const),
+    rtp_symmetric: schema.enum.optional(['yes', 'no'] as const),
+    force_rport: schema.enum.optional(['yes', 'no'] as const),
+    direct_media: schema.enum.optional(['yes', 'no'] as const),
+    t38_udptl: schema.enum.optional(['yes', 'no'] as const),
+    t38_udptl_nat: schema.enum.optional(['yes', 'no'] as const),
+    disable_direct_media_on_nat: schema.enum.optional(['yes', 'no'] as const),
+    ice_support: schema.enum.optional(['yes', 'no'] as const),
+    allow_overlap: schema.enum.optional(['yes', 'no'] as const),
+
+    rtp_timeout: schema.number.optional(),
+    rtp_timeout_hold: schema.number.optional(),
+    rtp_keepalive: schema.number.optional(),
+    timers_sess_expires: schema.number.optional(),
     deviceStateBusyAt: schema.number.optional(),
 
-    dtmfMode: schema.enum.optional(['rfc4733', 'inband', 'info'] as const),
+    dtmf_mode: schema.enum.optional(['rfc4733', 'inband', 'info'] as const),
   })
 
   public messages = validation
