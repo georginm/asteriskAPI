@@ -22,11 +22,15 @@ export default class EndpointsController {
       'mac_address',
     ]
 
+    // console.log('Endpoint Controller Store - Required field was not provided?')
+
     for (const field of requiredFields) {
       if (!request.body()[field]) {
         return badRequest(response, `${field} not provided`)
       }
     }
+
+    // console.log('Endpoint Controller Store - AOR not exists?')
 
     const aor = await Aor.find(aors)
 
@@ -34,11 +38,15 @@ export default class EndpointsController {
       return badRequest(response, 'Aor Not Exists')
     }
 
+    // console.log('Endpoint Controller Store - Auth not exists?')
+
     const auths = await Auth.find(auth)
 
     if (!auths) {
       return badRequest(response, 'Auth Not Exists')
     }
+
+    // console.log('Endpoint Controller Store - Endpoint already exists?')
 
     const dataExists = await Endpoint.find(id)
 
@@ -54,7 +62,11 @@ export default class EndpointsController {
   public async update({ request, response }: HttpContextContract) {
     const { id } = request.params()
 
-    const data = await Endpoint.find(id)
+    // console.log(`Update Controller - ID Exists? id: ${id}`)
+
+    const data = await Endpoint.findBy('id', id)
+
+    // console.log(`Data: ${data}`)
 
     if (!data) {
       return badRequest(response, 'Endpoint Not Exists')
