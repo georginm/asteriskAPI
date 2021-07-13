@@ -470,6 +470,29 @@ test.group('Endpoint Tests', () => {
       )
     })
 
+    test('Should return 400 if auth is below the minimum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'au',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo auth deve ser de no mínimo 3 caracteres.'
+      )
+    })
+
     // ###############################################################
 
     test('Should return 400 if mac_address was not provided', async (assert) => {
