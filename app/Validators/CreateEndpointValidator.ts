@@ -17,13 +17,15 @@ export default class CreateEndpointValidator {
     disallow: schema.string({ trim: true }, [
       rules.maxLength(20),
       rules.regex(
-        /^(([\w]{3,10}\s?([\w]{3,10})?))(,([\w]{3,10}\s?([\w]{3,10})?)){0,12}/
+        // aceita all como tbm aceita alaw,ulaw,gsm,etc
+        // também aceita codecs de nomes separados por espaço
+        /^(([\w]{3,6}\s?([\w]{3,6})?))(,([\w]{3,6}\s?([\w]{3,6})?)){0,12}/
       ),
     ]),
     allow: schema.string({ trim: true }, [
       rules.maxLength(20),
       rules.regex(
-        /^(([\w]{3,10}\s?([\w]{3,10})?))(,([\w]{3,10}\s?([\w]{3,10})?)){0,12}/
+        /^(([\w]{3,6}\s?([\w]{3,6})?))(,([\w]{3,6}\s?([\w]{3,6})?)){0,12}/
       ),
     ]),
 
