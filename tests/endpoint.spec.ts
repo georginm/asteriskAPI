@@ -307,8 +307,7 @@ test.group('Endpoint Tests', () => {
           auths: 'auth2',
           context: 'teste',
           mac_address: 'any_mac',
-          allow:
-            'allsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssss,',
+          allow: 'allssssssssssssssssssss,',
           disallow: 'alaw',
         })
         .set('Accept', 'application/json')
@@ -317,7 +316,7 @@ test.group('Endpoint Tests', () => {
 
       assert.equal(
         body.message[0].message,
-        'O campo allow deve ser de no máximo 200 caracteres.'
+        'O campo allow deve ser de no máximo 20 caracteres.'
       )
     })
     // ###############################################################
