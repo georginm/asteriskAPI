@@ -53,6 +53,7 @@ export default class CreateEndpointValidator {
     deny: schema.string.optional({ trim: true }, [
       rules.minLength(7),
       rules.maxLength(95),
+      rules.ipList(),
     ]),
 
     permit: schema.string.optional({ trim: true }, [
