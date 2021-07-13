@@ -19,13 +19,13 @@ export default class CreateEndpointValidator {
       rules.regex(
         // aceita all como tbm aceita alaw,ulaw,gsm,etc
         // também aceita codecs de nomes separados por espaço
-        /^(([\w]{3,6}\s?([\w]{3,6})?))(,([\w]{3,6}\s?([\w]{3,6})?)){0,12}/
+        /^(([\w]{3,6}\s?([\w]{3,7})?))(,([\w]{3,6}\s?([\w]{3,7})?)){0,12}/
       ),
     ]),
     allow: schema.string({ trim: true }, [
       rules.maxLength(20),
       rules.regex(
-        /^(([\w]{3,6}\s?([\w]{3,6})?))(,([\w]{3,6}\s?([\w]{3,6})?)){0,12}/
+        /^(([\w]{3,6}\s?([\w]{3,7})?))(,([\w]{3,6}\s?([\w]{3,7})?)){0,12}/
       ),
     ]),
 
