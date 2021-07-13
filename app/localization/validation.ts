@@ -11,14 +11,10 @@ export default {
   'range':
     'O campo {{ field }} deve ser entre {{ options.start }} e {{ options.stop }}.',
   'unique': 'O campo {{ field }} deve ser único.',
-  'uniquePerRelated': 'O campo {{ field }} deve ser único no relacionamento.',
-  'permissionType': 'O campo {{ field }} deve ser do tipo adequado.',
-  'parentHasPermission': 'O grupo de permissão pai não tem estas permissões.',
-  'parentHasPermissionGroup':
-    'O líder imediato não tem estes grupos de permissões.',
   'maxLength':
     'O campo {{ field }} deve ser de no máximo {{ options.maxLength }} caracteres.',
   'minLength':
     'O campo {{ field }} deve ser de no mínimo {{ options.minLength }} caracteres.',
   'array': 'Array {{ field }} mal formatado',
+  'ipList': 'Um dos parâmetros informados no campo {{ field }} é invalido',
 }
