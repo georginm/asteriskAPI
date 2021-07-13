@@ -427,9 +427,9 @@ test.group('Endpoint Tests', () => {
 
       assert.equal(body.message[0].message, 'O campo aors deve ser único.')
     })
-
     // ###############################################################
 
+    // ########################### AUTH ##############################
     test('Should return 400 if auth was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
@@ -448,6 +448,31 @@ test.group('Endpoint Tests', () => {
 
       assert.exists(body)
     })
+
+    test('Should return 400 if auth exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2test',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo auth deve ser de no máximo 5 caracteres.'
+      )
+    })
+
+    // ###############################################################
 
     test('Should return 400 if mac_address was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
