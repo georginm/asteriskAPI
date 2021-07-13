@@ -20,7 +20,7 @@ const before = async () => {
     aors: 'aors_',
     auth: 'auth_',
     context: 'from-internal',
-    mac_address: 'desessetecaracter',
+    mac_address: '01:23:45:67:89:AC',
     disallow: 'all',
     allow: 'alaw',
   })
@@ -65,7 +65,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors_',
           auths: 'auth_',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -85,7 +85,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auths: 'auth2',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -108,7 +108,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auths: 'auth2',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -131,7 +131,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors_',
           auth: 'auth_',
           context: 'from-internal',
-          mac_address: 'desessetecaracter',
+          mac_address: '01:23:45:67:89:AA',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -153,7 +153,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors_',
           auths: 'auth_',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -173,7 +173,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors_',
           auths: 'auth_',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -197,7 +197,7 @@ test.group('Endpoint Tests', () => {
           transport: 'any_transport',
           aors: 'aors_',
           auth: 'auth_',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -217,7 +217,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auths: 'auth2',
           context: 'testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -242,7 +242,7 @@ test.group('Endpoint Tests', () => {
           context: 'any_context',
           aors: 'aors_',
           auth: 'auth_',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           allow: 'alaw',
         })
         .set('Accept', 'application/json')
@@ -261,7 +261,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auths: 'auth2',
           context: 'teste',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'allsssssssssssssssssss,',
           allow: 'alaw',
         })
@@ -286,7 +286,7 @@ test.group('Endpoint Tests', () => {
           context: 'any_context',
           aors: 'aors_',
           auth: 'auth_',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'alaw',
         })
         .set('Accept', 'application/json')
@@ -305,7 +305,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auths: 'auth2',
           context: 'teste',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           allow: 'allssssssssssssssssssss,',
           disallow: 'alaw',
         })
@@ -329,7 +329,7 @@ test.group('Endpoint Tests', () => {
           transport: 'any_transport',
           auths: 'auth_',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -349,7 +349,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2asda',
           auths: 'auth2',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -372,7 +372,7 @@ test.group('Endpoint Tests', () => {
           aors: 'ao',
           auths: 'auth2',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -395,7 +395,7 @@ test.group('Endpoint Tests', () => {
           aors: 'not_e',
           auth: 'aors_',
           context: 'from-internal',
-          mac_address: 'desessetecaracte',
+          mac_address: '01:23:45:67:89:ab',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -415,7 +415,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors_',
           auth: 'aors_',
           context: 'from-internal',
-          mac_address: 'desessetecaracte',
+          mac_address: '01:23:45:67:89:ab',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -436,7 +436,7 @@ test.group('Endpoint Tests', () => {
           transport: 'any_transport',
           aors: 'aors_',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -456,7 +456,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auth: 'auth2test',
           context: 'any_context',
-          mac_address: 'any_mac',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -478,8 +478,8 @@ test.group('Endpoint Tests', () => {
           transport: 'udp',
           aors: 'aors2',
           auth: 'au',
-          context: 'any_context',
-          mac_address: 'any_mac',
+          context: '01:23:45:67:89:ab',
+          mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -523,7 +523,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auth: 'not_e',
           context: 'from-internal',
-          mac_address: 'any_mac_test',
+          mac_address: '01:23:45:67:89:AE_test',
           disallow: 'all',
           allow: 'alaw',
         })
@@ -543,7 +543,7 @@ test.group('Endpoint Tests', () => {
           aors: 'aors2',
           auth: 'auth2',
           context: 'from-internal',
-          mac_address: 'desessetecaractes',
+          mac_address: '01:23:45:67:89:B4',
           disallow: 'all',
           allow: 'alaw',
         })
