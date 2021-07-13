@@ -308,7 +308,7 @@ test.group('Endpoint Tests', () => {
           auth: 'auth2',
           context: 'teste',
           mac_address: '01:23:45:67:89:AE',
-          disallow: 'lsss',
+          disallow: 'alaw,tes',
           allow: 'alaw',
         })
         .set('Accept', 'application/json')
