@@ -17,4 +17,5 @@ export default {
     'O campo {{ field }} deve ser de no mínimo {{ options.minLength }} caracteres.',
   'array': 'Array {{ field }} mal formatado',
   'ipList': 'Um dos parâmetros informados no campo {{ field }} é invalido',
+  'codecExists': 'O campo {{ field }} deve contar um codec válido',
 }
