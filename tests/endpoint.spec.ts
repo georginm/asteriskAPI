@@ -274,6 +274,29 @@ test.group('Endpoint Tests', () => {
         'O campo disallow deve ser de no máximo 20 caracteres.'
       )
     })
+
+    test('Should return 400 if an invalid disallow was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'any',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'teste',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'lsss asdasd asd asd',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo disallow não corresponde com o padrão aceito.'
+      )
+    })
     // ###############################################################
 
     // ########################## ALLOW ##############################
