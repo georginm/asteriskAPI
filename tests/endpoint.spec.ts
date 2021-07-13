@@ -262,7 +262,7 @@ test.group('Endpoint Tests', () => {
           auths: 'auth2',
           context: 'teste',
           mac_address: '01:23:45:67:89:AE',
-          disallow: 'allsssssssssssssssssss,',
+          disallow: 'allsss,ssssss,sssss,sssss',
           allow: 'alaw',
         })
         .set('Accept', 'application/json')
@@ -306,7 +306,7 @@ test.group('Endpoint Tests', () => {
           auths: 'auth2',
           context: 'teste',
           mac_address: '01:23:45:67:89:AE',
-          allow: 'allssssssssssssssssssss,',
+          allow: 'allsss,ssssssssss,sssssss,',
           disallow: 'alaw',
         })
         .set('Accept', 'application/json')
