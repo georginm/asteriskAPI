@@ -15,7 +15,7 @@ export default class CreateEndpointValidator {
     transport: schema.enum(['udp', 'tcp', 'tls', 'ws', 'wss']),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
     disallow: schema.string({ trim: true }, [rules.maxLength(200)]),
-    allow: schema.string({ trim: true }, [rules.maxLength(200)]),
+    allow: schema.string({ trim: true }, [rules.maxLength(20)]),
 
     aors: schema.string({ trim: true }, [
       rules.maxLength(5),
