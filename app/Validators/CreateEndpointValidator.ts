@@ -12,7 +12,7 @@ export default class CreateEndpointValidator {
       rules.unique({ table: 'ps_endpoints', column: 'id' }),
     ]),
 
-    transport: schema.enum.optional(['udp', 'tcp', 'tls', 'ws', 'wss']),
+    transport: schema.enum(['udp', 'tcp', 'tls', 'ws', 'wss']),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
     disallow: schema.string({ trim: true }),
     allow: schema.string({ trim: true }),
