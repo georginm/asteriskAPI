@@ -250,28 +250,29 @@ test.group('Endpoint Tests', () => {
       assert.equal(body.message[0].message, 'O campo disallow é obrigatório.')
     })
 
-    // test('Should return 400 if context exceeds the maximum length', async (assert) => {
-    //   const { body } = await supertest(BASE_URL)
-    //     .post('/endpoints')
-    //     .send({
-    //       id: 'any',
-    //       transport: 'udp',
-    //       aors: 'aors2',
-    //       auths: 'auth2',
-    //       context: 'testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-    //       mac_address: 'any_mac',
-    //       disallow: 'all',
-    //       allow: 'alaw',
-    //     })
-    //     .set('Accept', 'application/json')
-    //     .expect('Content-Type', /json/)
-    //     .expect(400)
+    test('Should return 400 if disallow exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'any',
+          transport: 'udp',
+          aors: 'aors2',
+          auths: 'auth2',
+          context: 'teste',
+          mac_address: 'any_mac',
+          disallow:
+            'allsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssssallsssssssssssssssssssssssssssssssssssssssssssssssss,',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
 
-    //   assert.equal(
-    //     body.message[0].message,
-    //     'O campo context deve ser de no máximo 40 caracteres.'
-    //   )
-    // })
+      assert.equal(
+        body.message[0].message,
+        'O campo disallow deve ser de no máximo 200 caracteres.'
+      )
+    })
 
     // ########################## AORS ###############################
     test('Should return 400 if aors was not provided', async (assert) => {
