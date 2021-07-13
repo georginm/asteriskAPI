@@ -36,6 +36,7 @@ test.group('Endpoint Tests', () => {
   // #################################################################
   // ###################### TEST GROUP - STORE ######################
   // #################################################################
+
   test.group('Endpoint Controller - Store', (group) => {
     group.before(async () => {
       await before()
@@ -52,9 +53,10 @@ test.group('Endpoint Tests', () => {
       await after()
       await supertest(BASE_URL).delete('/aors/aors2')
       await supertest(BASE_URL).delete('/auths/auth2')
-      await supertest(BASE_URL).delete('/endpoints/cinco')
+      await supertest(BASE_URL).delete('/endpoints/test')
     })
 
+    // ####################### ID ##########################
     test('Should return 400 if id was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
@@ -71,14 +73,83 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message[0].message, 'O campo id é obrigatório.')
     })
+
+    test('Should return 400 if id exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_exeeds',
+          transport: 'udp',
+          aors: 'aors2',
+          auths: 'auth2',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo id deve ser de no máximo 5 caracteres.'
+      )
+    })
+
+    test('Should return 400 if id is below the minimum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id',
+          transport: 'udp',
+          aors: 'aors2',
+          auths: 'auth2',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo id deve ser de no mínimo 3 caracteres.'
+      )
+    })
+
+    test('Should return 400 if endpoint id already exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_ex',
+          transport: 'udp',
+          aors: 'aors_',
+          auth: 'auth_',
+          context: 'from-internal',
+          mac_address: 'desessetecaracter',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message[0].message, 'O campo id deve ser único.')
+    })
+    // ###############################################################
+
+    // ######################### Transport ###########################
 
     test('Should return 400 if transport was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
-          id: 'cinco',
+          id: 'uniq',
           aors: 'aors_',
           auths: 'auth_',
           context: 'any_context',
@@ -90,9 +161,33 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message[0].message, 'O campo transport é obrigatório.')
     })
 
+    test('Should return 400 if transport provided not exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'uniq',
+          transport: 'wcq',
+          aors: 'aors_',
+          auths: 'auth_',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        "O campo transport deve ser 'udp,tcp,tls,ws,wss'."
+      )
+    })
+
+    // ########################## AORS ###############################
     test('Should return 400 if aors was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
@@ -111,6 +206,94 @@ test.group('Endpoint Tests', () => {
 
       assert.exists(body)
     })
+
+    test('Should return 400 if aors exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2asda',
+          auths: 'auth2',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo aors deve ser de no máximo 5 caracteres.'
+      )
+    })
+
+    test('Should return 400 if aors is below the minimum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'ao',
+          auths: 'auth2',
+          context: 'any_context',
+          mac_address: 'any_mac',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo aors deve ser de no mínimo 3 caracteres.'
+      )
+    })
+
+    test('Should return 400 if provided aor does not exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'cinco',
+          transport: 'udp',
+          aors: 'not_e',
+          auth: 'aors_',
+          context: 'from-internal',
+          mac_address: 'desessetecaracte',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message[0].message, 'O registro de aors não existe.')
+    })
+
+    test('Should return 400 if provided aor already exists', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'cinco',
+          transport: 'udp',
+          aors: 'aors_',
+          auth: 'aors_',
+          context: 'from-internal',
+          mac_address: 'desessetecaracte',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message[0].message, 'O campo aors deve ser único.')
+    })
+
+    // ###############################################################
 
     test('Should return 400 if auth was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
@@ -169,26 +352,6 @@ test.group('Endpoint Tests', () => {
       assert.exists(body)
     })
 
-    test('Should return 400 if provided aor does not exists', async (assert) => {
-      const { body } = await supertest(BASE_URL)
-        .post('/endpoints')
-        .send({
-          id: 'cinco',
-          transport: 'udp',
-          aors: 'not_e',
-          auth: 'aors_',
-          context: 'from-internal',
-          mac_address: 'desessetecaracte',
-          disallow: 'all',
-          allow: 'alaw',
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
-
-      assert.equal(body.message[0].message, 'O registro de aors não existe.')
-    })
-
     test('Should return 400 if provided auth does not exists', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
@@ -226,27 +389,8 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(201)
 
+      // assert.equal(body.message[0].message, 'O registro de auth não existe.')
       assert.exists(body)
-    })
-
-    test('Should return 400 if endpoint id already exists', async (assert) => {
-      const { body } = await supertest(BASE_URL)
-        .post('/endpoints')
-        .send({
-          id: 'id_ex',
-          transport: 'udp',
-          aors: 'aors_',
-          auth: 'auth_',
-          context: 'from-internal',
-          mac_address: 'desessetecaracter',
-          disallow: 'all',
-          allow: 'alaw',
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
-
-      assert.equal(body.message[0].message, 'O campo id deve ser único.')
     })
   })
 
