@@ -186,6 +186,7 @@ test.group('Endpoint Tests', () => {
         "O campo transport deve ser 'udp,tcp,tls,ws,wss'."
       )
     })
+    // ###############################################################
 
     // ######################### CONTEXT #############################
     test('Should return 400 if context was not provided', async (assert) => {
@@ -229,6 +230,7 @@ test.group('Endpoint Tests', () => {
         'O campo context deve ser de no máximo 40 caracteres.'
       )
     })
+    // ###############################################################
 
     // ######################## DISALLOW #############################
     test('Should return 400 if disallow was not provided', async (assert) => {
@@ -273,6 +275,7 @@ test.group('Endpoint Tests', () => {
         'O campo disallow deve ser de no máximo 200 caracteres.'
       )
     })
+    // ###############################################################
 
     // ########################## ALLOW ##############################
     test('Should return 400 if allow was not provided', async (assert) => {
@@ -317,6 +320,7 @@ test.group('Endpoint Tests', () => {
         'O campo allow deve ser de no máximo 200 caracteres.'
       )
     })
+    // ###############################################################
 
     // ########################## AORS ###############################
     test('Should return 400 if aors was not provided', async (assert) => {
