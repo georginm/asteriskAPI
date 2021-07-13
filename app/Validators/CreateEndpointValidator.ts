@@ -35,6 +35,7 @@ export default class CreateEndpointValidator {
       rules.maxLength(17),
       rules.minLength(17),
       rules.unique({ table: 'ps_endpoints', column: 'mac_address' }),
+      rules.regex(/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/),
     ]),
 
     deny: schema.string.optional({ trim: true }, [
