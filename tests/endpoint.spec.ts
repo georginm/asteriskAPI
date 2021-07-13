@@ -194,9 +194,9 @@ test.group('Endpoint Tests', () => {
         .post('/endpoints')
         .send({
           id: 'cinco',
-          transport: 'any_transport',
-          aors: 'aors_',
-          auth: 'auth_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
@@ -205,7 +205,7 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message[0].message, 'O campo context é obrigatório.')
     })
 
     test('Should return 400 if context exceeds the maximum length', async (assert) => {
@@ -341,6 +341,29 @@ test.group('Endpoint Tests', () => {
         'O campo allow deve ser de no máximo 20 caracteres.'
       )
     })
+
+    test('Should return 400 if an invalid allow was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'any',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'teste',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'asd',
+          allow: 'alaw asds asdas',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo allow não corresponde com o padrão aceito.'
+      )
+    })
     // ###############################################################
 
     // ########################## AORS ###############################
@@ -349,7 +372,7 @@ test.group('Endpoint Tests', () => {
         .post('/endpoints')
         .send({
           id: 'cinco',
-          transport: 'any_transport',
+          transport: 'udp',
           auths: 'auth_',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
@@ -360,7 +383,7 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message[0].message, 'O campo aors é obrigatório.')
     })
 
     test('Should return 400 if aors exceeds the maximum length', async (assert) => {
@@ -456,8 +479,8 @@ test.group('Endpoint Tests', () => {
         .post('/endpoints')
         .send({
           id: 'cinco',
-          transport: 'any_transport',
-          aors: 'aors_',
+          transport: 'udp',
+          aors: 'aors2',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -467,7 +490,7 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(body.message[0].message, 'O campo auth é obrigatório.')
     })
 
     test('Should return 400 if auth exceeds the maximum length', async (assert) => {
@@ -523,9 +546,9 @@ test.group('Endpoint Tests', () => {
         .post('/endpoints')
         .send({
           id: 'cinco',
-          transport: 'any_transport',
-          aors: 'aors_',
-          auth: 'auth_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
           context: 'any_context',
           disallow: 'all',
           allow: 'alaw',
@@ -534,7 +557,10 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.exists(body)
+      assert.equal(
+        body.message[0].message,
+        'O campo mac_address é obrigatório.'
+      )
     })
 
     test('Should return 400 if provided auth does not exists', async (assert) => {
