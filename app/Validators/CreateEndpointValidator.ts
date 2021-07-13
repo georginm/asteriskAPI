@@ -14,12 +14,14 @@ export default class CreateEndpointValidator {
 
     transport: schema.enum(['udp', 'tcp', 'tls', 'ws', 'wss']),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
+
     disallow: schema.string({ trim: true }, [
       rules.maxLength(20),
       rules.regex(
         /^(([\w]{3,6})(\s[\w]{3,7})?)(,([\w]{3,6})(\s[\w]{3,7})?){0,12}$/
       ),
     ]),
+
     allow: schema.string({ trim: true }, [
       rules.maxLength(20),
       rules.regex(
