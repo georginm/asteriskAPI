@@ -675,7 +675,7 @@ test.group('Endpoint Tests', () => {
 
       assert.equal(
         body.message[0].message,
-        'o ip fornecido no campo deny é inválido'
+        'Um dos parâmetros informados no campo deny é invalido'
       )
     })
 
@@ -699,7 +699,7 @@ test.group('Endpoint Tests', () => {
 
       assert.equal(
         body.message[0].message,
-        'o ip fornecido no campo deny é inválido'
+        'Um dos parâmetros informados no campo deny é invalido'
       )
     })
     // ###############################################################
