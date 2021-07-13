@@ -20,6 +20,7 @@ export default class CreateEndpointValidator {
       rules.regex(
         /^(([\w]{3,6})(\s[\w]{3,7})?)(,([\w]{3,6})(\s[\w]{3,7})?){0,12}$/
       ),
+      rules.codecExists(),
     ]),
 
     allow: schema.string({ trim: true }, [
@@ -27,6 +28,7 @@ export default class CreateEndpointValidator {
       rules.regex(
         /^(([\w]{3,6}\s?([\w]{3,7})?))(,([\w]{3,6}\s?([\w]{3,7})?)){0,12}$/
       ),
+      rules.codecExists(),
     ]),
 
     aors: schema.string({ trim: true }, [

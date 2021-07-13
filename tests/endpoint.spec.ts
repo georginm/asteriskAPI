@@ -352,7 +352,7 @@ test.group('Endpoint Tests', () => {
           auth: 'auth2',
           context: 'teste',
           mac_address: '01:23:45:67:89:AE',
-          disallow: 'asd',
+          disallow: 'alaw',
           allow: 'alaw asds asdas',
         })
         .set('Accept', 'application/json')
