@@ -230,6 +230,49 @@ test.group('Endpoint Tests', () => {
       )
     })
 
+    // ######################## DISALLOW #############################
+    test('Should return 400 if disallow was not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'cinco',
+          transport: 'udp',
+          context: 'any_context',
+          aors: 'aors_',
+          auth: 'auth_',
+          mac_address: 'any_mac',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message[0].message, 'O campo disallow é obrigatório.')
+    })
+
+    // test('Should return 400 if context exceeds the maximum length', async (assert) => {
+    //   const { body } = await supertest(BASE_URL)
+    //     .post('/endpoints')
+    //     .send({
+    //       id: 'any',
+    //       transport: 'udp',
+    //       aors: 'aors2',
+    //       auths: 'auth2',
+    //       context: 'testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    //       mac_address: 'any_mac',
+    //       disallow: 'all',
+    //       allow: 'alaw',
+    //     })
+    //     .set('Accept', 'application/json')
+    //     .expect('Content-Type', /json/)
+    //     .expect(400)
+
+    //   assert.equal(
+    //     body.message[0].message,
+    //     'O campo context deve ser de no máximo 40 caracteres.'
+    //   )
+    // })
+
     // ########################## AORS ###############################
     test('Should return 400 if aors was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
