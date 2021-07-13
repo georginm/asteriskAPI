@@ -274,6 +274,26 @@ test.group('Endpoint Tests', () => {
       )
     })
 
+    // ########################## ALLOW ##############################
+    test('Should return 400 if allow was not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'cinco',
+          transport: 'udp',
+          context: 'any_context',
+          aors: 'aors_',
+          auth: 'auth_',
+          mac_address: 'any_mac',
+          disallow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(body.message[0].message, 'O campo disallow é obrigatório.')
+    })
+
     // ########################## AORS ###############################
     test('Should return 400 if aors was not provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
