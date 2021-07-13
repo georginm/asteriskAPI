@@ -654,6 +654,55 @@ test.group('Endpoint Tests', () => {
     })
     // ###############################################################
 
+    // ############################## DENY ###########################
+    test('Should return 400 if an invalid ip was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'test',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'from-internal',
+          mac_address: '01:23:45:67:89:B4',
+          disallow: 'all',
+          allow: 'alaw',
+          deny: '154.145.142.9999',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'o ip fornecido no campo deny é inválido'
+      )
+    })
+
+    test('Should return 400 if an invalid mask was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'test',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'from-internal',
+          mac_address: '01:23:45:67:89:B4',
+          disallow: 'all',
+          allow: 'alaw',
+          deny: '154.145.142.999/266.254.215.25',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'o ip fornecido no campo deny é inválido'
+      )
+    })
+    // ###############################################################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
