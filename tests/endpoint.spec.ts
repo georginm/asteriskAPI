@@ -606,6 +606,29 @@ test.group('Endpoint Tests', () => {
         'O campo mac_address deve ser de no máximo 17 caracteres.'
       )
     })
+
+    test('Should return 400 if an invalid mac_address was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01,23:45:67:89:ae',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo mac_address não corresponde com o padrão aceito.'
+      )
+    })
     // ###############################################################
 
     test('Should return 201 if endpoint has been created', async (assert) => {
