@@ -291,7 +291,7 @@ test.group('Endpoint Tests', () => {
         .expect('Content-Type', /json/)
         .expect(400)
 
-      assert.equal(body.message[0].message, 'O campo disallow é obrigatório.')
+      assert.equal(body.message[0].message, 'O campo allow é obrigatório.')
     })
 
     // ########################## AORS ###############################
