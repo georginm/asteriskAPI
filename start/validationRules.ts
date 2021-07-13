@@ -42,16 +42,24 @@ validator.rule(
     const codecs = ['alaw', 'ulaw', 'all', 'gsm']
 
     const fields = value.split(',')
-
     var counter = 0
 
     for (const field of fields) {
-      if (codecs.includes(field)) {
+      // Se um dos campos informado do array n for valido
+      // o counter é incrementado.
+      // Realizando essa verificação, se pelo menos um codec inválido
+      // for passado o validator proíbe.
+
+      // Se a verificação fosse feita da forma inversa if(codec.includes...)
+      // Se houvesse pelo menos um codec válido, e o restante inválido
+      // o validator iria deixar passar.
+      if (!codecs.includes(field)) {
         counter++
       }
     }
 
-    if (!counter) {
+    // Se o counter for > 0, um erro é reportado.
+    if (counter) {
       errorReporter.report(
         pointer,
         'codecExists',
