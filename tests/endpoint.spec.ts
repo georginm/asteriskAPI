@@ -28,7 +28,7 @@ const before = async () => {
 
 const after = async () => {
   await supertest(BASE_URL).delete('/aors/aors_')
-  await supertest(BASE_URL).delete('/auths/auth_')
+  await supertest(BASE_URL).delete('/auths/auths_')
   await supertest(BASE_URL).delete('/endpoints/id_ex')
 }
 
@@ -52,7 +52,7 @@ test.group('Endpoint Tests', () => {
     group.after(async () => {
       await after()
       await supertest(BASE_URL).delete('/aors/aors2')
-      await supertest(BASE_URL).delete('/auths/auth2')
+      await supertest(BASE_URL).delete('/auths/auths2')
       await supertest(BASE_URL).delete('/endpoints/test')
     })
 
@@ -63,7 +63,7 @@ test.group('Endpoint Tests', () => {
         .send({
           transport: 'udp',
           aors: 'aors_',
-          auths: 'auth_',
+          auth: 'auth_',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -83,7 +83,7 @@ test.group('Endpoint Tests', () => {
           id: 'id_exeeds',
           transport: 'udp',
           aors: 'aors2',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -106,7 +106,7 @@ test.group('Endpoint Tests', () => {
           id: 'id',
           transport: 'udp',
           aors: 'aors2',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -151,7 +151,7 @@ test.group('Endpoint Tests', () => {
         .send({
           id: 'uniq',
           aors: 'aors_',
-          auths: 'auth_',
+          auth: 'auth_',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -171,7 +171,7 @@ test.group('Endpoint Tests', () => {
           id: 'uniq',
           transport: 'wcq',
           aors: 'aors_',
-          auths: 'auth_',
+          auth: 'auth_',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -215,7 +215,7 @@ test.group('Endpoint Tests', () => {
           id: 'any',
           transport: 'udp',
           aors: 'aors2',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -259,7 +259,7 @@ test.group('Endpoint Tests', () => {
           id: 'any',
           transport: 'udp',
           aors: 'aors2',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'teste',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'allsss,ssssss,sssss,sssss',
@@ -326,7 +326,7 @@ test.group('Endpoint Tests', () => {
           id: 'any',
           transport: 'udp',
           aors: 'aors2',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'teste',
           mac_address: '01:23:45:67:89:AE',
           allow: 'allsss,ssssssssss,sssssss,',
@@ -373,7 +373,7 @@ test.group('Endpoint Tests', () => {
         .send({
           id: 'cinco',
           transport: 'udp',
-          auths: 'auth_',
+          auth: 'auth_',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -393,7 +393,7 @@ test.group('Endpoint Tests', () => {
           id: 'id_',
           transport: 'udp',
           aors: 'aors2asda',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -416,7 +416,7 @@ test.group('Endpoint Tests', () => {
           id: 'id_',
           transport: 'udp',
           aors: 'ao',
-          auths: 'auth2',
+          auth: 'auth2',
           context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
@@ -702,7 +702,57 @@ test.group('Endpoint Tests', () => {
         'Um dos parâmetros informados no campo deny é invalido'
       )
     })
+
+    test('Should return 400 if deny exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          deny: '255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255,255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo deny deve ser de no máximo 95 caracteres.'
+      )
+    })
+
+    test('Should return 400 if deny is below the minimum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'any',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          deny: '1.1.1.',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo deny deve ser de no mínimo 7 caracteres.'
+      )
+    })
     // ###############################################################
+
+    // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
