@@ -524,7 +524,7 @@ test.group('Endpoint Tests', () => {
           transport: 'udp',
           aors: 'aors2',
           auth: 'au',
-          context: '01:23:45:67:89:ab',
+          context: 'any_context',
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
@@ -536,30 +536,6 @@ test.group('Endpoint Tests', () => {
       assert.equal(
         body.message[0].message,
         'O campo auth deve ser de no mínimo 3 caracteres.'
-      )
-    })
-
-    // ###############################################################
-
-    test('Should return 400 if mac_address was not provided', async (assert) => {
-      const { body } = await supertest(BASE_URL)
-        .post('/endpoints')
-        .send({
-          id: 'cinco',
-          transport: 'udp',
-          aors: 'aors2',
-          auth: 'auth2',
-          context: 'any_context',
-          disallow: 'all',
-          allow: 'alaw',
-        })
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(400)
-
-      assert.equal(
-        body.message[0].message,
-        'O campo mac_address é obrigatório.'
       )
     })
 
@@ -582,6 +558,55 @@ test.group('Endpoint Tests', () => {
 
       assert.equal(body.message[0].message, 'O registro de auth não existe.')
     })
+
+    // ###############################################################
+
+    // ##################### MAC ADDRESS #############################
+    test('Should return 400 if mac_address was not provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'cinco',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo mac_address é obrigatório.'
+      )
+    })
+
+    test('Should return 400 if address length does not match the specified pattern', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AEE',
+          disallow: 'all',
+          allow: 'alaw',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo mac_address deve ser de no máximo 17 caracteres.'
+      )
+    })
+    // ###############################################################
 
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
