@@ -103,4 +103,54 @@ test.group('Endpoint Controller - Update', () => {
     assert.equal(body.context, 'any-context')
   })
   // ###############################################################
+
+  // ######################## DISALLOW #############################
+  test('Should return 400 if disallow exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        disallow: 'allsss,ssssss,sssss,sssss',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo disallow deve ser de no máximo 20 caracteres.'
+    )
+  })
+
+  test('Should return 400 if an invalid disallow was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        disallow: 'lsss asdasd asd asd',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo disallow não corresponde com o padrão aceito.'
+    )
+  })
+
+  test('Should return 400 if an invalid codec was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        disallow: 'alaw,tes',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo disallow deve conter um codec válido.'
+    )
+  })
+  // ###############################################################
 })
