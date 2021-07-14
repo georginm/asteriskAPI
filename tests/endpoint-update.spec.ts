@@ -64,6 +64,16 @@ test.group('Endpoint Controller - Update', () => {
       "O campo transport deve ser 'udp,tcp,tls,ws,wss'."
     )
   })
+
+  test('Should return 200 if trasport has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ transport: 'tcp' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.transport, 'tcp')
+  })
   // #################################################################
 
   // ######################### CONTEXT #############################
