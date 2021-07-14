@@ -1514,6 +1514,32 @@ test.group('Endpoint Tests', () => {
     })
     // ###############################################################
 
+    // ######################### ICE SUPPORT #########################
+    test('Should return 400 if an invalid ice_support was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          ice_support: 'maybe',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        "O campo ice_support deve ser 'yes,no'."
+      )
+    })
+    // ###############################################################
+
     // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
