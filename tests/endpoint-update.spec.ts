@@ -82,10 +82,8 @@ test.group('Endpoint Controller - Update', () => {
       'O campo context deve ser de no máximo 40 caracteres.'
     )
   })
-  // ###############################################################
 
-  // ################## ENDPOINT HAS BEEN UPDATED ####################
-  test('Should return 200 if endpoint has been updated', async (assert) => {
+  test('Should return 200 if context has been updated', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({ context: 'any-context' })
@@ -94,4 +92,5 @@ test.group('Endpoint Controller - Update', () => {
 
     assert.equal(body.context, 'any-context')
   })
+  // ###############################################################
 })
