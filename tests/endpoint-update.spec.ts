@@ -365,4 +365,61 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.auth, 'exist')
   })
   // ###############################################################
+
+  // ##################### MAC ADDRESS #############################
+  test('Should return 400 if address length does not match the specified pattern', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        mac_address: '01:23:45:67:89:AEE',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo mac_address deve ser de no máximo 17 caracteres.'
+    )
+  })
+
+  test('Should return 400 if an invalid mac_address was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        mac_address: '01,23:45:67:89:ae',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo mac_address não corresponde com o padrão aceito.'
+    )
+  })
+
+  test('Should return 400 if mac_address already exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        mac_address: '01:23:45:67:89:AC',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body.message[0].message, 'O campo mac_address deve ser único.')
+  })
+
+  test('Should return 200 if auth has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ mac_address: '01:23:45:67:89:AF' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.mac_address, '01:23:45:67:89:AF')
+  })
+  // ###############################################################
 })
