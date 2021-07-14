@@ -1,20 +1,16 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-const BASE_URL = `http://${String(process.env.HOST)}:${String(
-  process.env.PORT
-)}/api`
-
 const before = async () => {
-  await supertest(BASE_URL).post('/aors').send({ id: 'aors_' })
-  await supertest(BASE_URL).post('/auths').send({
+  await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors_' })
+  await supertest(process.env.BASE_URL).post('/auths').send({
     id: 'auth_',
     auth_type: 'userpass',
     username: 'any_username',
     password: 'any_password',
   })
 
-  await supertest(BASE_URL).post('/endpoints').send({
+  await supertest(process.env.BASE_URL).post('/endpoints').send({
     id: 'id_ex',
     transport: 'udp',
     aors: 'aors_',
@@ -27,9 +23,9 @@ const before = async () => {
 }
 
 const after = async () => {
-  await supertest(BASE_URL).delete('/aors/aors_')
-  await supertest(BASE_URL).delete('/auths/auths_')
-  await supertest(BASE_URL).delete('/endpoints/id_ex')
+  await supertest(process.env.BASE_URL).delete('/aors/aors_')
+  await supertest(process.env.BASE_URL).delete('/auths/auths_')
+  await supertest(process.env.BASE_URL).delete('/endpoints/id_ex')
 }
 
 // #################################################################
@@ -39,8 +35,8 @@ const after = async () => {
 test.group('Endpoint Controller - Store', (group) => {
   group.before(async () => {
     await before()
-    await supertest(BASE_URL).post('/aors').send({ id: 'aors2' })
-    await supertest(BASE_URL).post('/auths').send({
+    await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors2' })
+    await supertest(process.env.BASE_URL).post('/auths').send({
       id: 'auth2',
       auth_type: 'userpass',
       username: 'any_username2',
@@ -50,14 +46,14 @@ test.group('Endpoint Controller - Store', (group) => {
 
   group.after(async () => {
     await after()
-    await supertest(BASE_URL).delete('/aors/aors2')
-    await supertest(BASE_URL).delete('/auths/auths2')
-    await supertest(BASE_URL).delete('/endpoints/test')
+    await supertest(process.env.BASE_URL).delete('/aors/aors2')
+    await supertest(process.env.BASE_URL).delete('/auths/auths2')
+    await supertest(process.env.BASE_URL).delete('/endpoints/test')
   })
 
   // ####################### ID ##########################
   test('Should return 400 if id was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         transport: 'udp',
@@ -76,7 +72,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if id exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_exeeds',
@@ -99,7 +95,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if id is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id',
@@ -122,7 +118,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if endpoint id already exists', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_ex',
@@ -145,7 +141,7 @@ test.group('Endpoint Controller - Store', (group) => {
   // ######################### Transport ###########################
 
   test('Should return 400 if transport was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'uniq',
@@ -164,7 +160,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if transport provided not exists', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'uniq',
@@ -189,7 +185,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################### CONTEXT #############################
   test('Should return 400 if context was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -208,7 +204,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if context exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -233,7 +229,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## DISALLOW #############################
   test('Should return 400 if disallow was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -252,7 +248,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if disallow exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -275,7 +271,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid disallow was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -298,7 +294,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid codec was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -323,7 +319,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ########################## ALLOW ##############################
   test('Should return 400 if allow was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -342,7 +338,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if allow exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -365,7 +361,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid allow was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -388,7 +384,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid codec was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -413,7 +409,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ########################## AORS ###############################
   test('Should return 400 if aors was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -432,7 +428,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if aors exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -455,7 +451,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if aors is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -478,7 +474,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if provided aor does not exists', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -498,7 +494,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if provided aor already exists', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -520,7 +516,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ########################### AUTH ##############################
   test('Should return 400 if auth was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -539,7 +535,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if auth exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -562,7 +558,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if auth is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -585,7 +581,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if provided auth does not exists', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -608,7 +604,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ##################### MAC ADDRESS #############################
   test('Should return 400 if mac_address was not provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'cinco',
@@ -627,7 +623,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if address length does not match the specified pattern', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -650,7 +646,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid mac_address was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -673,7 +669,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if mac_address already exists', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -695,7 +691,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ############################## DENY ###########################
   test('Should return 400 if an invalid ip was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -719,7 +715,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid mask was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -743,7 +739,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if deny exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -767,7 +763,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if deny is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -793,7 +789,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## CONTACT DENY #########################
   test('Should return 400 if an invalid ip was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -817,7 +813,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid mask was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -841,7 +837,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if contact_deny exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -866,7 +862,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if contact_deny is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -892,7 +888,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ########################### PERMIT ############################
   test('Should return 400 if an invalid ip was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -916,7 +912,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid mask was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -940,7 +936,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if permit exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -965,7 +961,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if permit is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -991,7 +987,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### CONTACT PERMIT ########################
   test('Should return 400 if an invalid ip was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -1015,7 +1011,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if an invalid mask was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -1039,7 +1035,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if contact_permit exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1064,7 +1060,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if contact_permit is below the minimum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'any',
@@ -1090,7 +1086,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## CALL GROUP ###########################
   test('Should return 400 if invalid callgroup was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -1114,7 +1110,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if call_group exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1141,7 +1137,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### PICKUP GROUP ##########################
   test('Should return 400 if invalid pickup_group was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
@@ -1165,7 +1161,7 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   test('Should return 400 if pickup_group exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1192,7 +1188,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ###################### NAMED CALL GROUP #######################
   test('Should return 400 if named_call_group exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1219,7 +1215,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ###################### NAMED CALL GROUP #######################
   test('Should return 400 if named_pickup_group exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1246,7 +1242,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################### CALLER ID ###########################
   test('Should return 400 if callerid exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1273,7 +1269,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### OUTBOUND AUTH ########################
   test('Should return 400 if outbound_auth exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1300,7 +1296,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### OUTBOUND PROXY ########################
   test('Should return 400 if outbound_proxy exceeds the maximum length', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1327,7 +1323,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### REWRITE CONTACT #######################
   test('Should return 400 if an invalid rtp_symmetric was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1353,7 +1349,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## RTP SYMMETRIC ########################
   test('Should return 400 if an invalid rtp_symmetric was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1379,7 +1375,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## FORCE R PORT #########################
   test('Should return 400 if an invalid force_rport was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1405,7 +1401,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## DIRECT MEDIA #########################
   test('Should return 400 if an invalid direct_media was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1431,7 +1427,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################### T38 UDP TL ##########################
   test('Should return 400 if an invalid t38_udptl was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1457,7 +1453,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### T38 UDP TL NAT ########################
   test('Should return 400 if an invalid t38_udptl_nat was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1483,7 +1479,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ################# DISABLE DIRECT MEDIA ON NAT #################
   test('Should return 400 if an invalid disable_direct_media_on_nat was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1509,7 +1505,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################### ICE SUPPORT #########################
   test('Should return 400 if an invalid ice_support was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1535,7 +1531,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## ALLOW OVERLAP ########################
   test('Should return 400 if an invalid allow_overlap was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1561,7 +1557,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## DTMF MODE ########################
   test('Should return 400 if an invalid dtmf_mode was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1587,7 +1583,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ######################## RTP TIMEOUT ########################
   test('Should return 400 if an invalid rtp_timeout was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1613,7 +1609,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ###################### RTP TIMEOUT HOLD #######################
   test('Should return 400 if an invalid rtp_timeout_hold was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1639,7 +1635,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ###################### RTP TIMEOUT HOLD #######################
   test('Should return 400 if an invalid rtp_timeout_hold was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1665,7 +1661,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ####################### RTP KEEPALIVE #########################
   test('Should return 400 if an invalid rtp_keepalive was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1691,7 +1687,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // #################### TIMERS SESS EXPIRES ######################
   test('Should return 400 if an invalid timers_sess_expires was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1717,7 +1713,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // #################### DEVICE STATE BUSY AT #####################
   test('Should return 400 if an invalid device_state_busy_at was provided', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'id_',
@@ -1743,7 +1739,7 @@ test.group('Endpoint Controller - Store', (group) => {
 
   // ################# ENDPOINT HAS BEEN CREATED ###################
   test('Should return 201 if endpoint has been created', async (assert) => {
-    const { body } = await supertest(BASE_URL)
+    const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
         id: 'test',
