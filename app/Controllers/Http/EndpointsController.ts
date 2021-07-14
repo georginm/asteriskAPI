@@ -18,7 +18,7 @@ export default class EndpointsController {
 
       return created(response, data)
     } catch (error) {
-      return badRequest(response, error.messages.error)
+      return badRequest(response, error.messages.errors)
     }
   }
 
