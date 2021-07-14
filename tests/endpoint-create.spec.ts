@@ -1,12 +1,6 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-const after = async () => {
-  await supertest(process.env.BASE_URL).delete('/aors/aors_')
-  await supertest(process.env.BASE_URL).delete('/auths/auths_')
-  await supertest(process.env.BASE_URL).delete('/endpoints/id_ex')
-}
-
 // #################################################################
 // ###################### TEST GROUP - STORE ######################
 // #################################################################
