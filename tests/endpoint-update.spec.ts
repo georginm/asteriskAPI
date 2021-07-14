@@ -48,6 +48,25 @@ test.group('Endpoint Controller - Update', () => {
     )
   })
 
+  // ######################### Transport #############################
+  test('Should return 400 if transport provided not exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        transport: 'wcq',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo transport deve ser 'udp,tcp,tls,ws,wss'."
+    )
+  })
+  // #################################################################
+
+  // ################## ENDPOINT HAS BEEN UPDATED ####################
   test('Should return 200 if endpoint has been updated', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
