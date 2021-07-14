@@ -1197,6 +1197,141 @@ test.group('Endpoint Tests', () => {
     })
     // ###############################################################
 
+    // ###################### NAMED CALL GROUP #######################
+    test('Should return 400 if named_call_group exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          contact_permit: '255.64.2.199/145.8.218.54',
+          named_call_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo named_call_group deve ser de no máximo 40 caracteres.'
+      )
+    })
+    // ###############################################################
+
+    // ###################### NAMED CALL GROUP #######################
+    test('Should return 400 if named_pickup_group exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          contact_permit: '255.64.2.199/145.8.218.54',
+          named_pickup_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo named_pickup_group deve ser de no máximo 40 caracteres.'
+      )
+    })
+    // ###############################################################
+
+    // ######################### CALLER ID ###########################
+    test('Should return 400 if callerid exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          contact_permit: '255.64.2.199/145.8.218.54',
+          callerid: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo callerid deve ser de no máximo 40 caracteres.'
+      )
+    })
+    // ###############################################################
+
+    // ####################### OUTBOUND AUTH ########################
+    test('Should return 400 if outbound_auth exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          contact_permit: '255.64.2.199/145.8.218.54',
+          outbound_auth: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo outbound_auth deve ser de no máximo 40 caracteres.'
+      )
+    })
+    // ###############################################################
+
+    // ####################### OUTBOUND PROXY ########################
+    test('Should return 400 if outbound_proxy exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          contact_permit: '255.64.2.199/145.8.218.54',
+          outbound_proxy: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo outbound_proxy deve ser de no máximo 40 caracteres.'
+      )
+    })
+    // ###############################################################
+
     // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
