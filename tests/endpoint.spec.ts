@@ -1095,6 +1095,55 @@ test.group('Endpoint Tests', () => {
     })
     // ###############################################################
 
+    // ######################## CALL GROUP ###########################
+    test('Should return 400 if invalid callgroup was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'test',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'from-internal',
+          mac_address: '01:23:45:67:89:B4',
+          disallow: 'all',
+          allow: 'alaw',
+          call_group: 'as',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo call_group deve conter um grupo válido.'
+      )
+    })
+
+    test('Should return 400 if call_group exceeds the maximum length', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          contact_permit: '255.64.2.199/145.8.218.54',
+          call_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        'O campo call_group deve ser de no máximo 40 caracteres.'
+      )
+    })
     // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
