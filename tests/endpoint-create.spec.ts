@@ -1,27 +1,6 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-const before = async () => {
-  await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors_' })
-  await supertest(process.env.BASE_URL).post('/auths').send({
-    id: 'auth_',
-    auth_type: 'userpass',
-    username: 'any_username',
-    password: 'any_password',
-  })
-
-  await supertest(process.env.BASE_URL).post('/endpoints').send({
-    id: 'id_ex',
-    transport: 'udp',
-    aors: 'aors_',
-    auth: 'auth_',
-    context: 'from-internal',
-    mac_address: '01:23:45:67:89:AC',
-    disallow: 'all',
-    allow: 'alaw',
-  })
-}
-
 const after = async () => {
   await supertest(process.env.BASE_URL).delete('/aors/aors_')
   await supertest(process.env.BASE_URL).delete('/auths/auths_')
@@ -34,7 +13,6 @@ const after = async () => {
 
 test.group('Endpoint Controller - Store', (group) => {
   group.before(async () => {
-    await before()
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors2' })
     await supertest(process.env.BASE_URL).post('/auths').send({
       id: 'auth2',
@@ -45,7 +23,6 @@ test.group('Endpoint Controller - Store', (group) => {
   })
 
   group.after(async () => {
-    await after()
     await supertest(process.env.BASE_URL).delete('/aors/aors2')
     await supertest(process.env.BASE_URL).delete('/auths/auths2')
     await supertest(process.env.BASE_URL).delete('/endpoints/test')
