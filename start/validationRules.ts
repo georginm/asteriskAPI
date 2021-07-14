@@ -79,7 +79,7 @@ validator.rule(
     }
     var groups: string[] = []
 
-    for (var i = 0; i < 65; i++) {
+    for (var i = 0; i < 64; i++) {
       groups[i] = `${i}`
     }
 
@@ -92,11 +92,10 @@ validator.rule(
       }
     }
 
-    // Se o counter for > 0, um erro é reportado.
     if (counter) {
       errorReporter.report(
         pointer,
-        'codecExists',
+        'callGroupExists',
         'invalid callgroup was provided',
         arrayExpressionPointer
       )
