@@ -6,11 +6,13 @@ export default class UpdateEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [
-      rules.maxLength(5),
-      rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'id' }),
-    ]),
+    params: schema.object().members({
+      id: schema.string({ trim: true }, [
+        rules.maxLength(5),
+        rules.minLength(3),
+        rules.exists({ table: 'ps_endpoints', column: 'id' }),
+      ]),
+    }),
 
     transport: schema.enum.optional(['udp', 'tcp', 'tls', 'ws', 'wss']),
     context: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
