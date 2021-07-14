@@ -113,13 +113,19 @@ export default class CreateEndpointValidator {
     ice_support: schema.enum.optional(['yes', 'no'] as const),
     allow_overlap: schema.enum.optional(['yes', 'no'] as const),
 
+    dtmf_mode: schema.enum.optional([
+      'rfc4733',
+      'inband',
+      'info',
+      'auto',
+      'auto_info',
+    ] as const),
+
     rtp_timeout: schema.number.optional(),
     rtp_timeout_hold: schema.number.optional(),
     rtp_keepalive: schema.number.optional(),
     timers_sess_expires: schema.number.optional(),
-    deviceStateBusyAt: schema.number.optional(),
-
-    dtmf_mode: schema.enum.optional(['rfc4733', 'inband', 'info'] as const),
+    device_state_busy_at: schema.number.optional(),
   })
 
   public messages = validation
