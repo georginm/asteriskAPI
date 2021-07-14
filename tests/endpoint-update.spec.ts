@@ -153,4 +153,54 @@ test.group('Endpoint Controller - Update', () => {
     )
   })
   // ###############################################################
+
+  // ######################## ALLOW #############################
+  test('Should return 400 if allow exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        allow: 'allsss,ssssss,sssss,sssss',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo allow deve ser de no máximo 20 caracteres.'
+    )
+  })
+
+  test('Should return 400 if an invalid allow was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        allow: 'lsss asdasd asd asd',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo allow não corresponde com o padrão aceito.'
+    )
+  })
+
+  test('Should return 400 if an invalid codec was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        allow: 'alaw,tes',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo allow deve conter um codec válido.'
+    )
+  })
+  // ###############################################################
 })
