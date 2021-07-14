@@ -76,8 +76,16 @@ export default class CreateEndpointValidator {
       rules.ipList(),
     ]),
 
-    call_group: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
-    pickup_group: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    call_group: schema.string.optional({ trim: true }, [
+      rules.maxLength(40),
+      rules.callGroupExists(),
+    ]),
+
+    pickup_group: schema.string.optional({ trim: true }, [
+      rules.maxLength(40),
+      rules.callGroupExists(),
+    ]),
+
     named_call_group: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
     ]),

@@ -4,5 +4,6 @@ declare module '@ioc:Adonis/Core/Validator' {
   export interface Rules {
     ipList(): Rule
     codecExists(): Rule
+    callGroupExists(): Rule
   }
 }
