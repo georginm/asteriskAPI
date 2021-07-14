@@ -1436,6 +1436,32 @@ test.group('Endpoint Tests', () => {
     })
     // ###############################################################
 
+    // ######################### T38 UDP TL ##########################
+    test('Should return 400 if an invalid t38_udptl was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          t38_udptl: 'maybe',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        "O campo t38_udptl deve ser 'yes,no'."
+      )
+    })
+    // ###############################################################
+
     // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
