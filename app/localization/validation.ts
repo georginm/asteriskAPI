@@ -18,5 +18,5 @@ export default {
   'array': 'Array {{ field }} mal formatado',
   'ipList': 'Um dos parâmetros informados no campo {{ field }} é invalido',
   'codecExists': 'O campo {{ field }} deve conter um codec válido.',
-  'callGroupExists': 'O campo {{ field }} deve contar um grupo válido',
+  'callGroupExists': 'O campo {{ field }} deve conter um grupo válido.',
 }
