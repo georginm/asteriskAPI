@@ -37,7 +37,7 @@ test.group('Endpoint Tests', () => {
   // ###################### TEST GROUP - STORE ######################
   // #################################################################
 
-  test.group('Endpoint Controller - Store', (group) => {
+  test.skip('Endpoint Controller - Store', (group) => {
     group.before(async () => {
       await before()
       await supertest(BASE_URL).post('/aors').send({ id: 'aors2' })
