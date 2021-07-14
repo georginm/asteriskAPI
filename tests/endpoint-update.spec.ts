@@ -66,6 +66,24 @@ test.group('Endpoint Controller - Update', () => {
   })
   // #################################################################
 
+  // ######################### CONTEXT #############################
+  test('Should return 400 if context exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        context: 'testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo context deve ser de no máximo 40 caracteres.'
+    )
+  })
+  // ###############################################################
+
   // ################## ENDPOINT HAS BEEN UPDATED ####################
   test('Should return 200 if endpoint has been updated', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
