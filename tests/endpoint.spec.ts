@@ -1333,7 +1333,7 @@ test.group('Endpoint Tests', () => {
     // ###############################################################
 
     // ####################### REWRITE CONTACT #######################
-    test('Should return 400 if an invalid rewrite_contact was provided', async (assert) => {
+    test('Should return 400 if an invalid rtp_symmetric was provided', async (assert) => {
       const { body } = await supertest(BASE_URL)
         .post('/endpoints')
         .send({
@@ -1345,7 +1345,7 @@ test.group('Endpoint Tests', () => {
           mac_address: '01:23:45:67:89:AE',
           disallow: 'all',
           allow: 'alaw',
-          rewrite_contact: 'maybe',
+          rtp_symmetric: 'maybe',
         })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -1353,9 +1353,36 @@ test.group('Endpoint Tests', () => {
 
       assert.equal(
         body.message[0].message,
-        "O campo rewrite_contact deve ser 'yes,no'."
+        "O campo rtp_symmetric deve ser 'yes,no'."
       )
     })
+    // ###############################################################
+
+    // ######################## RTP SYMMETRIC ########################
+    test('Should return 400 if an invalid rtp_symmetric was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          rtp_symmetric: 'maybe',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        "O campo rtp_symmetric deve ser 'yes,no'."
+      )
+    })
+    // ###############################################################
 
     // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
