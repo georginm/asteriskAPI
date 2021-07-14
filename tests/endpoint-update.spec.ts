@@ -4,7 +4,7 @@ import supertest from 'supertest'
 // #################################################################
 // ###################### TEST GROUP - UPDATE ######################
 // #################################################################
-test.group('Endpoint Controller - Update', () => {
+test.group('Endpoint Controller - Update', (group) => {
   // ############################## ID ###############################
   test('Should return 400 if id endpoint not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
@@ -216,11 +216,71 @@ test.group('Endpoint Controller - Update', () => {
   test('Should return 200 if allow has been updated', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
-      .send({ allow: 'gsm' })
+      .send({ allow: 'ulaw' })
       .set('Accept', 'aplication/json')
       .expect(200)
 
-    assert.equal(body.allow, 'gsm')
+    assert.equal(body.allow, 'ulaw')
+  })
+  // ###############################################################
+
+  // ########################## AORS ###############################
+  test('Should return 400 if aors exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        aors: 'aors2asda',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo aors deve ser de no máximo 5 caracteres.'
+    )
+  })
+
+  test('Should return 400 if aors is below the minimum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        aors: 'ao',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo aors deve ser de no mínimo 3 caracteres.'
+    )
+  })
+
+  test('Should return 400 if provided aor does not exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        aors: 'not_e',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body.message[0].message, 'O registro de aors não existe.')
+  })
+
+  test('Should return 400 if provided aor already exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        aors: 'aors_',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body.message[0].message, 'O campo aors deve ser único.')
   })
   // ###############################################################
 })
