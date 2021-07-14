@@ -152,6 +152,16 @@ test.group('Endpoint Controller - Update', () => {
       'O campo disallow deve conter um codec válido.'
     )
   })
+
+  test('Should return 200 if disallow has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ disallow: 'gsm' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.disallow, 'gsm')
+  })
   // ###############################################################
 
   // ######################## ALLOW #############################
