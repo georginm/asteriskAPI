@@ -5,6 +5,16 @@ import supertest from 'supertest'
 // ###################### TEST GROUP - UPDATE ######################
 // #################################################################
 test.group('Endpoint Controller - Update', (group) => {
+  group.before(async () => {
+    await supertest(process.env.BASE_URL)
+      .post('/endpoints')
+      .send({ id: 'exist' })
+  })
+
+  group.after(async () => {
+    await supertest(process.env.BASE_URL).delete('/endpoints/exist')
+  })
+
   // ############################## ID ###############################
   test('Should return 400 if id endpoint not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
