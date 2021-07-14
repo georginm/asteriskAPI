@@ -35,6 +35,19 @@ test.group('Endpoint Controller - Update', () => {
     )
   })
 
+  test('Should return 400 if id is below the minimum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo params.id deve ser de no mínimo 3 caracteres.'
+    )
+  })
+
   test('Should return 200 if endpoint has been updated', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
