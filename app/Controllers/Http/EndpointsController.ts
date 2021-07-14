@@ -3,6 +3,7 @@ import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
 // import { errorHandle } from 'App/utils/errorHandle'
 import CreateEndpoint from 'App/Validators/CreateEndpointValidator'
+import UpdateEndpoint from 'App/Validators/UpdateEndpointValidator'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -17,29 +18,27 @@ export default class EndpointsController {
 
       return created(response, data)
     } catch (error) {
-      return badRequest(response, error.messages.errors)
-      // return badRequest(response, errorHandle(error.messages.errors, fields))
+      return badRequest(response, error.messages.error)
     }
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params()
+    try {
+      const { params } = await request.validate(UpdateEndpoint)
+      const data = await Endpoint.find(params.id)
 
-    // console.log(`Update Controller - ID Exists? id: ${id}`)
+      if (!data) {
+        return badRequest(response, 'Internal Server Error')
+      }
 
-    const data = await Endpoint.findBy('id', id)
+      data.merge(request.body())
 
-    // console.log(`Data: ${data}`)
+      await data.save()
 
-    if (!data) {
-      return badRequest(response, 'Endpoint Not Exists')
+      return success(response, data)
+    } catch (error) {
+      return badRequest(response, error.messages.errors)
     }
-
-    data.merge(request.body())
-
-    await data.save()
-
-    return success(response, data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
