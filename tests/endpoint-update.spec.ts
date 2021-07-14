@@ -6,13 +6,18 @@ import supertest from 'supertest'
 // #################################################################
 test.group('Endpoint Controller - Update', (group) => {
   group.before(async () => {
-    await supertest(process.env.BASE_URL)
-      .post('/endpoints')
-      .send({ id: 'exist' })
+    await supertest(process.env.BASE_URL).post('/aors').send({ id: 'exist' })
+    await supertest(process.env.BASE_URL).post('/auths').send({
+      id: 'exist',
+      auth_type: 'userpass',
+      username: 'any_user',
+      password: 'any_password2',
+    })
   })
 
   group.after(async () => {
-    await supertest(process.env.BASE_URL).delete('/endpoints/exist')
+    await supertest(process.env.BASE_URL).delete('/aors/exist')
+    await supertest(process.env.BASE_URL).delete('/auths/exist')
   })
 
   // ############################## ID ###############################
@@ -291,6 +296,73 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect(400)
 
     assert.equal(body.message[0].message, 'O campo aors deve ser único.')
+  })
+
+  test('Should return 200 if aors has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ aors: 'exist' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.aors, 'exist')
+  })
+  // ###############################################################
+
+  // ########################### AUTH ##############################
+  test('Should return 400 if auth exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        auth: 'auth2test',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo auth deve ser de no máximo 5 caracteres.'
+    )
+  })
+
+  test('Should return 400 if auth is below the minimum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        auth: 'au',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo auth deve ser de no mínimo 3 caracteres.'
+    )
+  })
+
+  test('Should return 400 if provided auth does not exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        auth: 'not_e',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body.message[0].message, 'O registro de auth não existe.')
+  })
+
+  test('Should return 200 if auth has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ auth: 'exist' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.auth, 'exist')
   })
   // ###############################################################
 })
