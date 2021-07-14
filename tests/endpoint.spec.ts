@@ -1332,6 +1332,31 @@ test.group('Endpoint Tests', () => {
     })
     // ###############################################################
 
+    // ####################### REWRITE CONTACT #######################
+    test('Should return 400 if an invalid rewrite_contact was provided', async (assert) => {
+      const { body } = await supertest(BASE_URL)
+        .post('/endpoints')
+        .send({
+          id: 'id_',
+          transport: 'udp',
+          aors: 'aors2',
+          auth: 'auth2',
+          context: 'any_context',
+          mac_address: '01:23:45:67:89:AE',
+          disallow: 'all',
+          allow: 'alaw',
+          rewrite_contact: 'maybe',
+        })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+
+      assert.equal(
+        body.message[0].message,
+        "O campo rewrite_contact deve ser 'yes,no'."
+      )
+    })
+
     // ################# ENDPOINT HAS BEEN CREATED ###################
     test('Should return 201 if endpoint has been created', async (assert) => {
       const { body } = await supertest(BASE_URL)
