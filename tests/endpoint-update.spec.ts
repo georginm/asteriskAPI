@@ -79,16 +79,6 @@ test.group('Endpoint Controller - Update', (group) => {
       "O campo transport deve ser 'udp,tcp,tls,ws,wss'."
     )
   })
-
-  test('Should return 200 if trasport has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ transport: 'tcp' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.transport, 'tcp')
-  })
   // #################################################################
 
   // ######################### CONTEXT #############################
@@ -106,16 +96,6 @@ test.group('Endpoint Controller - Update', (group) => {
       body.message[0].message,
       'O campo context deve ser de no máximo 40 caracteres.'
     )
-  })
-
-  test('Should return 200 if context has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ context: 'any-context' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.context, 'any-context')
   })
   // ###############################################################
 
@@ -167,16 +147,6 @@ test.group('Endpoint Controller - Update', (group) => {
       'O campo disallow deve conter um codec válido.'
     )
   })
-
-  test('Should return 200 if disallow has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ disallow: 'gsm' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.disallow, 'gsm')
-  })
   // ###############################################################
 
   // ######################## ALLOW #############################
@@ -226,16 +196,6 @@ test.group('Endpoint Controller - Update', (group) => {
       body.message[0].message,
       'O campo allow deve conter um codec válido.'
     )
-  })
-
-  test('Should return 200 if allow has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ allow: 'ulaw' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.allow, 'ulaw')
   })
   // ###############################################################
 
@@ -297,16 +257,6 @@ test.group('Endpoint Controller - Update', (group) => {
 
     assert.equal(body.message[0].message, 'O campo aors deve ser único.')
   })
-
-  test('Should return 200 if aors has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ aors: 'exist' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.aors, 'exist')
-  })
   // ###############################################################
 
   // ########################### AUTH ##############################
@@ -354,16 +304,6 @@ test.group('Endpoint Controller - Update', (group) => {
 
     assert.equal(body.message[0].message, 'O registro de auth não existe.')
   })
-
-  test('Should return 200 if auth has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ auth: 'exist' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.auth, 'exist')
-  })
   // ###############################################################
 
   // ##################### MAC ADDRESS #############################
@@ -410,16 +350,6 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect(400)
 
     assert.equal(body.message[0].message, 'O campo mac_address deve ser único.')
-  })
-
-  test('Should return 200 if mac_address has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ mac_address: '01:23:45:67:89:AF' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.mac_address, '01:23:45:67:89:AF')
   })
   // ###############################################################
 
@@ -486,16 +416,6 @@ test.group('Endpoint Controller - Update', (group) => {
       body.message[0].message,
       'O campo deny deve ser de no mínimo 7 caracteres.'
     )
-  })
-
-  test('Should return 200 if deny has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ deny: '255.64.2.199/145.8.218.54' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.deny, '255.64.2.199/145.8.218.54')
   })
   // ###############################################################
 
@@ -564,16 +484,6 @@ test.group('Endpoint Controller - Update', (group) => {
       'O campo contact_deny deve ser de no mínimo 7 caracteres.'
     )
   })
-
-  test('Should return 200 if contact_deny has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ contact_deny: '255.64.2.199/145.8.218.54' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.contact_deny, '255.64.2.199/145.8.218.54')
-  })
   // ###############################################################
 
   // ########################### PERMIT ############################
@@ -640,16 +550,6 @@ test.group('Endpoint Controller - Update', (group) => {
       body.message[0].message,
       'O campo permit deve ser de no mínimo 7 caracteres.'
     )
-  })
-
-  test('Should return 200 if permit has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ permit: '255.64.2.199/145.8.218.54' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.permit, '255.64.2.199/145.8.218.54')
   })
   // ###############################################################
 
@@ -718,16 +618,6 @@ test.group('Endpoint Controller - Update', (group) => {
       'O campo contact_permit deve ser de no mínimo 7 caracteres.'
     )
   })
-
-  test('Should return 200 if contact_permit has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ contact_permit: '255.64.2.199/145.8.218.54' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.contact_permit, '255.64.2.199/145.8.218.54')
-  })
   // ###############################################################
 
   // ######################## CALL GROUP ###########################
@@ -761,16 +651,6 @@ test.group('Endpoint Controller - Update', (group) => {
       body.message[0].message,
       'O campo call_group deve ser de no máximo 40 caracteres.'
     )
-  })
-
-  test('Should return 200 if call_group has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ call_group: '25,54' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.call_group, '25,54')
   })
   // ###############################################################
 
@@ -806,16 +686,6 @@ test.group('Endpoint Controller - Update', (group) => {
       'O campo pickup_group deve ser de no máximo 40 caracteres.'
     )
   })
-
-  test('Should return 200 if pickup_group has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ pickup_group: '25,54' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.pickup_group, '25,54')
-  })
   // ###############################################################
 
   // ###################### NAMED CALL GROUP #######################
@@ -834,16 +704,6 @@ test.group('Endpoint Controller - Update', (group) => {
       'O campo named_call_group deve ser de no máximo 40 caracteres.'
     )
   })
-
-  test('Should return 200 if named_call_group has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ named_call_group: 'named_group' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.named_call_group, 'named_group')
-  })
   // ###############################################################
 
   // ###################### NAMED CALL GROUP #######################
@@ -861,16 +721,6 @@ test.group('Endpoint Controller - Update', (group) => {
       body.message[0].message,
       'O campo named_pickup_group deve ser de no máximo 40 caracteres.'
     )
-  })
-
-  test('Should return 200 if named_pickup_group has been updated', async (assert) => {
-    const { body } = await supertest(process.env.BASE_URL)
-      .put('/endpoints/id_ex')
-      .send({ named_pickup_group: 'named_group' })
-      .set('Accept', 'aplication/json')
-      .expect(200)
-
-    assert.equal(body.named_pickup_group, 'named_group')
   })
   // ###############################################################
 })
