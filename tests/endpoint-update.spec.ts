@@ -993,4 +993,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // #################### TIMERS SESS EXPIRES ######################
+  test('Should return 400 if an invalid timers_sess_expires was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        timers_sess_expires: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo timers_sess_expires deve ser numérico.'
+    )
+  })
+  // ###############################################################
 })
