@@ -773,4 +773,48 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.call_group, '25,54')
   })
   // ###############################################################
+
+  // ####################### PICKUP GROUP ##########################
+  test('Should return 400 if invalid pickup_group was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        pickup_group: 'as',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo pickup_group deve conter um grupo válido.'
+    )
+  })
+
+  test('Should return 400 if pickup_group exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        pickup_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo pickup_group deve ser de no máximo 40 caracteres.'
+    )
+  })
+
+  test('Should return 200 if pickup_group has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ pickup_group: '25,54' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.pickup_group, '25,54')
+  })
+  // ###############################################################
 })
