@@ -831,4 +831,40 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ####################### T38 UDP TL NAT ########################
+  test('Should return 400 if an invalid t38_udptl_nat was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        t38_udptl_nat: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo t38_udptl_nat deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
+
+  // ################# DISABLE DIRECT MEDIA ON NAT #################
+  test('Should return 400 if an invalid disable_direct_media_on_nat was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        disable_direct_media_on_nat: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo disable_direct_media_on_nat deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
 })
