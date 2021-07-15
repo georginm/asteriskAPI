@@ -834,5 +834,43 @@ test.group('Endpoint Controller - Update', (group) => {
       'O campo named_call_group deve ser de no máximo 40 caracteres.'
     )
   })
+
+  test('Should return 200 if named_call_group has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ named_call_group: 'named_group' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.named_call_group, 'named_group')
+  })
+  // ###############################################################
+
+  // ###################### NAMED CALL GROUP #######################
+  test('Should return 400 if named_pickup_group exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        named_pickup_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo named_pickup_group deve ser de no máximo 40 caracteres.'
+    )
+  })
+
+  test('Should return 200 if named_pickup_group has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ named_pickup_group: 'named_group' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.named_pickup_group, 'named_group')
+  })
   // ###############################################################
 })
