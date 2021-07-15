@@ -729,4 +729,48 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.contact_permit, '255.64.2.199/145.8.218.54')
   })
   // ###############################################################
+
+  // ######################## CALL GROUP ###########################
+  test('Should return 400 if invalid callgroup was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        call_group: 'as',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo call_group deve conter um grupo válido.'
+    )
+  })
+
+  test('Should return 400 if call_group exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        call_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo call_group deve ser de no máximo 40 caracteres.'
+    )
+  })
+
+  test('Should return 200 if call_group has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ call_group: '25,54' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.call_group, '25,54')
+  })
+  // ###############################################################
 })
