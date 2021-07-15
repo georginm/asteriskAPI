@@ -1029,4 +1029,81 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  //################# ENDPOINT HAS BEEN UPDATED ####################
+  test('Should return 200 if endpoint has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        transport: 'udp',
+        aors: 'exist',
+        auth: 'exist',
+        context: 'any_context',
+        mac_address: '01:23:45:67:89:AE',
+        disallow: 'all',
+        allow: 'alaw',
+        deny: '100.251.136.36',
+        permit: '100.251.136.36',
+        contact_deny: '100.251.136.36',
+        contact_permit: '100.251.136.36',
+        call_group: '45',
+        pickup_group: '45',
+        named_call_group: 'any_name',
+        named_pickup_group: 'any_name',
+        callerid: '999999999',
+        outbound_auth: 'my_trunk',
+        outbound_proxy: 'proxy_trunk',
+        rewrite_contact: 'yes',
+        force_rport: 'yes',
+        rtp_symmetric: 'yes',
+        direct_media: 'yes',
+        t38_udptl: 'yes',
+        t38_udptl_nat: 'yes',
+        disable_direct_media_on_nat: 'yes',
+        ice_support: 'yes',
+        allow_overlap: 'yes',
+        dtmf_mode: 'auto',
+        rtp_timeout: 15,
+        rtp_timeout_hold: 15,
+        rtp_keepalive: 15,
+        timers_sess_expires: 15,
+        device_state_busy_at: 15,
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    assert.equal(body.transport, 'udp')
+    assert.equal(body.aors, 'exist')
+    assert.equal(body.auth, 'exist')
+    assert.equal(body.context, 'any_context')
+    assert.equal(body.mac_address, '01:23:45:67:89:AE')
+    assert.equal(body.disallow, 'all')
+    assert.equal(body.allow, 'alaw')
+    assert.equal(body.deny, '100.251.136.36')
+    assert.equal(body.permit, '100.251.136.36')
+    assert.equal(body.contact_deny, '100.251.136.36')
+    assert.equal(body.contact_permit, '100.251.136.36')
+    assert.equal(body.call_group, '45')
+    assert.equal(body.pickup_group, '45')
+    assert.equal(body.named_call_group, 'any_name')
+    assert.equal(body.named_pickup_group, 'any_name')
+    assert.equal(body.callerid, '999999999')
+    assert.equal(body.outbound_auth, 'my_trunk')
+    assert.equal(body.outbound_proxy, 'proxy_trunk')
+    assert.equal(body.rewrite_contact, 'yes')
+    assert.equal(body.force_rport, 'yes')
+    assert.equal(body.direct_media, 'yes')
+    assert.equal(body.t38_udptl, 'yes')
+    assert.equal(body.t38_udptl_nat, 'yes')
+    assert.equal(body.disable_direct_media_on_nat, 'yes')
+    assert.equal(body.ice_support, 'yes')
+    assert.equal(body.allow_overlap, 'yes')
+    assert.equal(body.dtmf_mode, 'auto')
+    assert.equal(body.rtp_timeout, 15)
+    assert.equal(body.rtp_timeout_hold, 15)
+    assert.equal(body.rtp_keepalive, 15)
+    assert.equal(body.timers_sess_expires, 15)
+    assert.equal(body.device_state_busy_at, 15)
+  })
 })
