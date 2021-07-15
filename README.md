@@ -60,8 +60,30 @@ Install Asterisk 18
 Installing and Using Alembic and run migrations
 ============================
 
+  If you use python 2 it may be necessary to install typing and psycopg2. Because in some cases python n makes these libs available by default. I solved it using the following commands:
+
+    For typing:
+
+      try:
+
+      pip install typing
+
+      If it doesn't work
+
+      wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+      and then run python get-pip.py
+
+    For psycopg2
+
+      Step 1
+      sudo apt-get install build-dep python-psycopg2
+
+      Step 1
+      pip install psycopg2-binary
+
   https://wiki.asterisk.org/wiki/display/AST/Setting+up+PJSIP+Realtime
 
+  if you use python 2 it may be necessary to install typing and psycopg2
 Config API connection
 =============================
 
