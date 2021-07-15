@@ -777,4 +777,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ######################## FORCE R PORT #########################
+  test('Should return 400 if an invalid force_rport was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        force_rport: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo force_rport deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
 })
