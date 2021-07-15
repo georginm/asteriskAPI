@@ -813,4 +813,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ######################### T38 UDP TL ##########################
+  test('Should return 400 if an invalid t38_udptl was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        t38_udptl: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo t38_udptl deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
 })
