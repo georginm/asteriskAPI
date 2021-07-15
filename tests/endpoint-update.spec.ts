@@ -817,4 +817,22 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.pickup_group, '25,54')
   })
   // ###############################################################
+
+  // ###################### NAMED CALL GROUP #######################
+  test('Should return 400 if named_call_group exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        named_call_group: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo named_call_group deve ser de no máximo 40 caracteres.'
+    )
+  })
+  // ###############################################################
 })
