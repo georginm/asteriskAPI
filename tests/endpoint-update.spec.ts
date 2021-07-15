@@ -741,4 +741,40 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ####################### OUTBOUND PROXY ########################
+  test('Should return 400 if outbound_proxy exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        outbound_proxy: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo outbound_proxy deve ser de no máximo 40 caracteres.'
+    )
+  })
+  // ###############################################################
+
+  // ######################## RTP SYMMETRIC #########################
+  test('Should return 400 if an invalid rtp_symmetric was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        rtp_symmetric: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo rtp_symmetric deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
 })
