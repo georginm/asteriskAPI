@@ -412,7 +412,7 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.message[0].message, 'O campo mac_address deve ser único.')
   })
 
-  test('Should return 200 if auth has been updated', async (assert) => {
+  test('Should return 200 if mac_address has been updated', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({ mac_address: '01:23:45:67:89:AF' })
@@ -420,6 +420,82 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect(200)
 
     assert.equal(body.mac_address, '01:23:45:67:89:AF')
+  })
+  // ###############################################################
+
+  // ############################## DENY ###########################
+  test('Should return 400 if an invalid ip was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        deny: '154.145.142.9999',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'Um dos parâmetros informados no campo deny é invalido'
+    )
+  })
+
+  test('Should return 400 if an invalid mask was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        deny: '154.145.142.999/266.254.215.25',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'Um dos parâmetros informados no campo deny é invalido'
+    )
+  })
+
+  test('Should return 400 if deny exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        deny: '255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255,255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo deny deve ser de no máximo 95 caracteres.'
+    )
+  })
+
+  test('Should return 400 if deny is below the minimum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        deny: '1.1.1.',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo deny deve ser de no mínimo 7 caracteres.'
+    )
+  })
+
+  test('Should return 200 if deny has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ deny: '255.64.2.199/145.8.218.54' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.deny, '255.64.2.199/145.8.218.54')
   })
   // ###############################################################
 })
