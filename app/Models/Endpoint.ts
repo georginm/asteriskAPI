@@ -25,7 +25,7 @@ export default class Endpoint extends BaseModel {
   public rtpSymmetric: string // yes/no
 
   @column({ columnName: 'force_rport' })
-  public forceRPort: string // yes/no
+  public forceRport: string // yes/no
 
   @column({ columnName: 'direct_media' })
   public directMedia: string // yes/no
@@ -40,19 +40,19 @@ export default class Endpoint extends BaseModel {
   public macAddress: string // max lenght 18
 
   @column({ columnName: 't38_udptl' })
-  public t38UdpTl: string // yes/no
+  public t38Udptl: string // yes/no
 
   @column({ columnName: 't38_udptl_nat' })
-  public t38UdpTlNat: string // yes/no
+  public t38UdptlNat: string // yes/no
 
   @column({ columnName: 'rtp_timeout' })
-  public rtpTimeOut: number
+  public rtpTimeout: number
 
   @column({ columnName: 'rtp_timeout_hold' })
-  public rtpTimeOutHold: number
+  public rtpTimeoutHold: number
 
   @column({ columnName: 'rtp_keepalive' })
-  public rtpKeepAlive: number
+  public rtpKeepalive: number
 
   @column({ columnName: 'dtmf_mode' })
   public dtmfMode: string
@@ -96,8 +96,8 @@ export default class Endpoint extends BaseModel {
   @column({ columnName: 'named_pickup_group' })
   public namedPickupGroup: string
 
-  @column({ columnName: 'callerid' })
-  public callerId: string
+  @column()
+  public callerid: string
 
   @column({ columnName: 'outbound_auth' })
   public outboundAuth: string

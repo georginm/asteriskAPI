@@ -17,6 +17,6 @@ export default class Extension extends BaseModel {
   @column()
   public app: string
 
-  @column({ columnName: 'appdata' })
-  public appData: string
+  @column()
+  public appdata: string
 }

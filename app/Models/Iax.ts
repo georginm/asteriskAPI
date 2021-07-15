@@ -12,8 +12,8 @@ export default class Iax extends BaseModel {
   @column()
   public type: string
 
-  @column({ columnName: 'username' })
-  public userName: string
+  @column()
+  public username: string
 
   @column()
   public secret: string
@@ -27,20 +27,20 @@ export default class Iax extends BaseModel {
   @column()
   public port: string
 
-  @column({ columnName: 'regseconds' })
-  public regSeconds: string
+  @column()
+  public regseconds: string
 
   @column()
   public host: string
 
-  @column({ columnName: 'defaultip' })
-  public defaultIp: string
+  @column()
+  public defaultip: string
 
   @column()
   public mask: string
 
-  @column({ columnName: 'callerid' })
-  public callerId: string
+  @column()
+  public callerid: string
 
   @column()
   public trunk: string
@@ -48,8 +48,8 @@ export default class Iax extends BaseModel {
   @column()
   public auth: string
 
-  @column({ columnName: 'maxauthreq' })
-  public maxAuthReq: number
+  @column()
+  public maxauthreq: number
 
   @column()
   public encryption: string

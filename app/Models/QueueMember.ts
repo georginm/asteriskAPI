@@ -9,8 +9,8 @@ export default class QueueMember extends BaseModel {
   @column()
   public interface: string
 
-  @column({ columnName: 'membername' })
-  public memberName: string
+  @column()
+  public membername: string
 
   @column({ columnName: 'state_interface' })
   public stateInterface: string
@@ -21,9 +21,9 @@ export default class QueueMember extends BaseModel {
   @column()
   public paused: number
 
-  @column({ columnName: 'uniqueid' })
-  public uniqueId: number
+  @column()
+  public uniqueid: number
 
-  @column({ columnName: 'wrapuptime' })
-  public wrapUpTime: number
+  @column()
+  public wrapuptime: number
 }

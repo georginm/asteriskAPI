@@ -7,26 +7,26 @@ export default class Queue extends BaseModel {
   @column({ isPrimary: true })
   public name: string
 
-  @column({ columnName: 'musiconhold' })
-  public musicOnHold: string
+  @column()
+  public musiconhold: string
 
-  @column({ columnName: 'timeout' })
-  public timeOut: string
+  @column()
+  public timeout: string
 
-  @column({ columnName: 'ringinuse' })
-  public ringInUse: string
+  @column()
+  public ringinuse: string
 
   @column({ columnName: 'monitor_type' })
   public monitorType: string
 
-  @column({ columnName: 'strategy' })
+  @column()
   public strategy: string
 
-  @column({ columnName: 'joinempty' })
-  public joinEmpty: string
+  @column()
+  public joinempty: string
 
-  @column({ columnName: 'leavewhenempty' })
-  public leaveWhenEmpty: string
+  @column()
+  public leavewhenempty: string
 
   @column({ columnName: 'deleted_at' })
   public deletedAt: DateTime | null
