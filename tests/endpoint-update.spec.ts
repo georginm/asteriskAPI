@@ -1011,4 +1011,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // #################### DEVICE STATE BUSY AT #####################
+  test('Should return 400 if an invalid device_state_busy_at was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        device_state_busy_at: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo device_state_busy_at deve ser numérico.'
+    )
+  })
+  // ###############################################################
 })
