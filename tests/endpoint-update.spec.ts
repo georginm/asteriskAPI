@@ -867,4 +867,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ######################### ICE SUPPORT #########################
+  test('Should return 400 if an invalid ice_support was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        ice_support: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo ice_support deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
 })
