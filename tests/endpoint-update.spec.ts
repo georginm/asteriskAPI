@@ -723,4 +723,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ####################### OUTBOUND AUTH ########################
+  test('Should return 400 if outbound_auth exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        outbound_auth: '54,54,54,54,54,54,54,54,54,54,54,54,54,54',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo outbound_auth deve ser de no máximo 40 caracteres.'
+    )
+  })
+  // ###############################################################
 })
