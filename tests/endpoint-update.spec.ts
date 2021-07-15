@@ -975,4 +975,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ####################### RTP KEEPALIVE #########################
+  test('Should return 400 if an invalid rtp_keepalive was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        rtp_keepalive: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo rtp_keepalive deve ser numérico.'
+    )
+  })
+  // ###############################################################
 })
