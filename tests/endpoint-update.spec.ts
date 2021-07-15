@@ -921,4 +921,58 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ######################## RTP TIMEOUT ########################
+  test('Should return 400 if an invalid rtp_timeout was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        rtp_timeout: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo rtp_timeout deve ser numérico.'
+    )
+  })
+  // ###############################################################
+
+  // ###################### RTP TIMEOUT HOLD #######################
+  test('Should return 400 if an invalid rtp_timeout_hold was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        rtp_timeout_hold: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo rtp_timeout_hold deve ser numérico.'
+    )
+  })
+  // ###############################################################
+
+  // ###################### RTP TIMEOUT HOLD #######################
+  test('Should return 400 if an invalid rtp_timeout_hold was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        rtp_timeout_hold: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo rtp_timeout_hold deve ser numérico.'
+    )
+  })
+  // ###############################################################
 })
