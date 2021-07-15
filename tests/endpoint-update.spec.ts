@@ -885,4 +885,40 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ######################## ALLOW OVERLAP ########################
+  test('Should return 400 if an invalid allow_overlap was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        allow_overlap: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo allow_overlap deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
+
+  // ######################## DTMF MODE ########################
+  test('Should return 400 if an invalid dtmf_mode was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        dtmf_mode: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo dtmf_mode deve ser 'rfc4733,inband,info,auto,auto_info'."
+    )
+  })
+  // ###############################################################
 })
