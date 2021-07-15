@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
-// import { errorHandle } from 'App/utils/errorHandle'
 import CreateEndpoint from 'App/Validators/CreateEndpointValidator'
 import UpdateEndpoint from 'App/Validators/UpdateEndpointValidator'
 
@@ -32,7 +31,6 @@ export default class EndpointsController {
       }
 
       data.merge(request.body())
-
       await data.save()
 
       return success(response, data)
