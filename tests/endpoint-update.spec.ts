@@ -795,4 +795,22 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
   // ###############################################################
+
+  // ######################## DIRECT MEDIA #########################
+  test('Should return 400 if an invalid direct_media was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        direct_media: 'maybe',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      "O campo direct_media deve ser 'yes,no'."
+    )
+  })
+  // ###############################################################
 })
