@@ -498,4 +498,81 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.deny, '255.64.2.199/145.8.218.54')
   })
   // ###############################################################
+
+  // ######################## CONTACT DENY #########################
+  test('Should return 400 if an invalid ip was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        contact_deny: '154.145.142.9999',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'Um dos parâmetros informados no campo contact_deny é invalido'
+    )
+  })
+
+  test('Should return 400 if an invalid mask was provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        contact_deny: '154.145.142.999/266.254.215.25',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'Um dos parâmetros informados no campo contact_deny é invalido'
+    )
+  })
+
+  test('Should return 400 if contact_deny exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        contact_deny:
+          '255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255,255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo contact_deny deve ser de no máximo 95 caracteres.'
+    )
+  })
+
+  test('Should return 400 if contact_deny is below the minimum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        contact_deny: '1.1.1.',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body.message[0].message,
+      'O campo contact_deny deve ser de no mínimo 7 caracteres.'
+    )
+  })
+
+  test('Should return 200 if contact_deny has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({ contact_deny: '255.64.2.199/145.8.218.54' })
+      .set('Accept', 'aplication/json')
+      .expect(200)
+
+    assert.equal(body.contact_deny, '255.64.2.199/145.8.218.54')
+  })
+  // ###############################################################
 })
