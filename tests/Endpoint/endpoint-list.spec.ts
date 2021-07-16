@@ -4,7 +4,7 @@ import test from 'japa'
 // #################################################################
 // ###################### TEST GROUP - LIST ######################
 // #################################################################
-test.group('Endpoint - List', async (group) => {
+test.group('Endpoint - List', async () => {
   // ############################## ID ###############################
   test('Should return 400 if id endpoint not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
@@ -854,7 +854,7 @@ test.group('Endpoint - List', async (group) => {
   })
   // ###############################################################
 
-  // #################### DEVICE STATE BUSY AT #####################
+  // ################### SUCCESSFULLY LISTED ITEM ####################
   test('Should return 200 if the item was listed', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/endpoints/list/?id=id_ex')
