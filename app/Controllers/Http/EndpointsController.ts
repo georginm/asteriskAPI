@@ -3,6 +3,7 @@ import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
 import CreateEndpoint from 'App/Validators/Endpoint/CreateEndpointValidator'
 import UpdateEndpoint from 'App/Validators/Endpoint/UpdateEndpointValidator'
+import ListEndpoint from 'App/Validators/Endpoint/ListEndpointValidator'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -56,14 +57,20 @@ export default class EndpointsController {
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const where = request.qs()
+    try {
+      const where = await request.validate(ListEndpoint)
+      console.log({ ...where })
+      const data = await Endpoint.query()
+        .where({ ...where })
+        .orderBy('id')
 
-    const data = await Endpoint.query().where(where).orderBy('id')
+      if (!data.length) {
+        return badRequest(response, 'Endpoints Not Exists')
+      }
 
-    if (!data.length) {
-      return badRequest(response, 'Endpoints Not Exists')
+      return success(response, data)
+    } catch (error) {
+      return badRequest(response, error.messages.errors)
     }
-
-    return success(response, data)
   }
 }
