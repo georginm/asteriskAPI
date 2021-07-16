@@ -853,4 +853,19 @@ test.group('Endpoint - List', async (group) => {
     )
   })
   // ###############################################################
+
+  // #################### DEVICE STATE BUSY AT #####################
+  test('Should return 200 if the item was listed', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .get('/endpoints/list/?id=id_ex')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    assert.equal(body[0].id, 'id_ex')
+    assert.equal(body[0].transport, 'udp')
+    assert.equal(body[0].aors, 'aors_')
+    assert.equal(body[0].auth, 'auth_')
+  })
+  // ###############################################################
 })
