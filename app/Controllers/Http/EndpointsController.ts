@@ -64,7 +64,6 @@ export default class EndpointsController {
   public async list({ request, response }: HttpContextContract) {
     try {
       const where = await request.validate(ListEndpoint)
-      console.log({ ...where })
       const data = await Endpoint.query()
         .where({ ...where })
         .orderBy('id')
