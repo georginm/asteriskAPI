@@ -4,6 +4,7 @@ import Endpoint from 'App/Models/Endpoint'
 import CreateEndpoint from 'App/Validators/Endpoint/CreateEndpointValidator'
 import UpdateEndpoint from 'App/Validators/Endpoint/UpdateEndpointValidator'
 import ListEndpoint from 'App/Validators/Endpoint/ListEndpointValidator'
+import DeleteEndpoint from 'App/Validators/Endpoint/DeleteEndpointValidator'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -41,19 +42,23 @@ export default class EndpointsController {
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { id } = request.params()
+    try {
+      const { params } = await request.validate(DeleteEndpoint)
 
-    const data = await Endpoint.find(id)
+      const data = await Endpoint.find(params.id)
 
-    if (!data) {
-      return badRequest(response, 'Endpoint Not Exists')
+      if (!data) {
+        return badRequest(response, 'Endpoint Not Exists')
+      }
+
+      await data.delete()
+
+      return success(response, {
+        message: 'Endpoint Has Been Deleted',
+      })
+    } catch (error) {
+      return badRequest(response, error.messages.errors)
     }
-
-    await data.delete()
-
-    return success(response, {
-      message: 'Endpoint Has Been Deleted',
-    })
   }
 
   public async list({ request, response }: HttpContextContract) {
