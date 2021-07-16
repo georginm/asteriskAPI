@@ -1,8 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Endpoint from 'App/Models/Endpoint'
-import CreateEndpoint from 'App/Validators/CreateEndpointValidator'
-import UpdateEndpoint from 'App/Validators/UpdateEndpointValidator'
+import CreateEndpoint from 'App/Validators/Endpoint/CreateEndpointValidator'
+import UpdateEndpoint from 'App/Validators/Endpoint/UpdateEndpointValidator'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
