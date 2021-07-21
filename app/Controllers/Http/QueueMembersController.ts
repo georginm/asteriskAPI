@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, success } from 'App/Helpers/http-helper'
 
 import QueueMember from 'App/Models/QueueMember'
 import Queue from 'App/Models/Queue'
@@ -9,7 +8,7 @@ import Endpoint from 'App/Models/Endpoint'
 export default class QueueMembersController {
   public async index({ response }: HttpContextContract) {
     const data = await QueueMember.query().orderBy('interface')
-    return success(response, data)
+    return response.ok(data)
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -21,24 +20,24 @@ export default class QueueMembersController {
     )
 
     if (!endpointAlreadyExists) {
-      return badRequest(response, 'Interface Not Found')
+      return response.badRequest({ message: 'Interface Not Found' })
     }
 
     const queueAlreadyExists = await Queue.find(queue.queue_name)
 
     if (!queueAlreadyExists) {
-      return badRequest(response, 'Queue Not Found')
+      return response.badRequest({ message: 'Queue Not Found' })
     }
 
     const dataExists = await alreadyExists('queue_members', inter)
 
     if (dataExists) {
-      return badRequest(response, 'QueueMember Already Exists')
+      return response.badRequest({ message: 'QueueMember Already Exists' })
     }
 
     const data = await insert('queue_members', request.body())
 
-    return created(response, data)
+    return response.created(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -47,12 +46,12 @@ export default class QueueMembersController {
     const data = await QueueMember.findBy('uniqueid', uniqueid)
 
     if (!data) {
-      return badRequest(response, 'QueueMember Not Exists')
+      return response.badRequest({ message: 'QueueMember Not Exists' })
     }
 
     await QueueMember.query().where(data.$attributes).delete()
 
-    return success(response, {
+    return response.ok({
       message: 'QueueMember Has Been Deleted',
     })
   }
@@ -71,9 +70,9 @@ export default class QueueMembersController {
     }
 
     if (!data) {
-      return badRequest(response, 'QueueMember Not Exists')
+      return response.badRequest({ message: 'QueueMember Not Exists' })
     }
 
-    return success(response, data)
+    return response.ok(data)
   }
 }
