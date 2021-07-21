@@ -30,23 +30,11 @@ Install Asterisk 18
 
     ./contrib/scripts/install_prereq install
 
-    ./contrib/scripts/install_prereq install-unpackaged
-
-    ./configure --with-jansson-bundled
-
-    make && make install
-
-    make samples
-
-  Install o initscript
-  --------------------
-
-    make config
-
-  Asterisk Log Manager
-  --------------------
-  
-    make install-logrotate
+    # For Asterisk 13 and 14...
+    $ ./configure --with-pjproject-bundled
+    # For Asterisk 15+...
+    $ ./configure
+    $ make && make install
 
   Check if asterisk is running
   ----------------------------
