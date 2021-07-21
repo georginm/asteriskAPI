@@ -1,11 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Auth from 'App/Models/Auth'
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
     const data = await Auth.all()
-    return success(response, data)
+    return response.ok(data)
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -15,25 +14,25 @@ export default class AuthController {
 
     for (const field of requireFields) {
       if (!request.body()[field]) {
-        return badRequest(response, `${field} was not provided`)
+        return response.badRequest({ message: `${field} was not provided` })
       }
     }
 
     const idAlreadyExists = await Auth.find(id)
 
     if (idAlreadyExists) {
-      return badRequest(response, 'auth id already exists')
+      return response.badRequest({ message: 'auth id already exists' })
     }
 
     const userNameExists = await Auth.findBy('username', username)
 
     if (userNameExists) {
-      return badRequest(response, 'auth username already exists')
+      return response.badRequest({ message: 'auth username already exists' })
     }
 
     const data = await Auth.create(request.body())
 
-    return created(response, data)
+    return response.created(data)
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -43,21 +42,23 @@ export default class AuthController {
     if (username) {
       const userNameAlreadyExists = await Auth.findBy('username', username)
       if (userNameAlreadyExists) {
-        return badRequest(response, 'username provided already exists')
+        return response.badRequest({
+          message: 'username provided already exists',
+        })
       }
     }
 
     const data = await Auth.find(id)
 
     if (!data) {
-      return badRequest(response, 'auth not exists')
+      return response.badRequest({ message: 'auth not exists' })
     }
 
     data.merge(request.body())
 
     await data.save()
 
-    return success(response, data)
+    return response.ok(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -66,21 +67,21 @@ export default class AuthController {
     const data = await Auth.find(id)
 
     if (!data) {
-      return badRequest(response, 'auth not exists')
+      return response.badRequest({ message: 'auth not exists' })
     }
 
     await data.delete()
 
-    return success(response, { message: 'auth has been deleted' })
+    return response.ok({ message: 'auth has been deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
     const where = request.qs()
     const data = await Auth.query().where(where)
     if (!data.length) {
-      return badRequest(response, 'Auth Not Exists')
+      return response.badRequest({ message: 'Auth Not Exists' })
     }
 
-    return success(response, data)
+    return response.ok(data)
   }
 }
