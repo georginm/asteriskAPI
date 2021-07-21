@@ -4,7 +4,7 @@ import test from 'japa'
 // #################################################################
 // ###################### TEST GROUP - LIST ######################
 // #################################################################
-test.skip('Endpoint - List', async () => {
+test.group('Endpoint - List', async () => {
   // ############################## ID ###############################
   test('Should return 400 if id endpoint not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
@@ -12,7 +12,7 @@ test.skip('Endpoint - List', async () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
-    assert.equal(body.message[0].message, 'O registro de id não existe.')
+    assert.equal(body[0].message, 'O registro de id não existe.')
   })
 
   test('Should return 400 if id exceeds the maximum length', async (assert) => {
@@ -23,7 +23,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo id deve ser de no máximo 5 caracteres.'
     )
   })
@@ -36,7 +36,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo id deve ser de no mínimo 3 caracteres.'
     )
   })
@@ -50,7 +50,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       "O campo transport deve ser 'udp,tcp,tls,ws,wss'."
     )
   })
@@ -65,7 +65,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo context deve ser de no máximo 40 caracteres.'
     )
   })
@@ -80,7 +80,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo disallow deve ser de no máximo 20 caracteres.'
     )
   })
@@ -93,7 +93,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo disallow não corresponde com o padrão aceito.'
     )
   })
@@ -106,7 +106,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo disallow deve conter um codec válido.'
     )
   })
@@ -121,7 +121,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo allow deve ser de no máximo 20 caracteres.'
     )
   })
@@ -134,7 +134,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo allow não corresponde com o padrão aceito.'
     )
   })
@@ -146,10 +146,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      'O campo allow deve conter um codec válido.'
-    )
+    assert.equal(body[0].message, 'O campo allow deve conter um codec válido.')
   })
   // ###############################################################
 
@@ -162,7 +159,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo aors deve ser de no máximo 5 caracteres.'
     )
   })
@@ -175,7 +172,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo aors deve ser de no mínimo 3 caracteres.'
     )
   })
@@ -187,7 +184,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body.message[0].message, 'O registro de aors não existe.')
+    assert.equal(body[0].message, 'O registro de aors não existe.')
   })
 
   test('Should return 400 if provided aor already exists', async (assert) => {
@@ -197,7 +194,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body.message[0].message, 'O campo aors deve ser único.')
+    assert.equal(body[0].message, 'O campo aors deve ser único.')
   })
   // ###############################################################
 
@@ -210,7 +207,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo auth deve ser de no máximo 5 caracteres.'
     )
   })
@@ -223,7 +220,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo auth deve ser de no mínimo 3 caracteres.'
     )
   })
@@ -235,7 +232,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body.message[0].message, 'O registro de auth não existe.')
+    assert.equal(body[0].message, 'O registro de auth não existe.')
   })
   // ###############################################################
 
@@ -248,7 +245,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo mac_address deve ser de no máximo 17 caracteres.'
     )
   })
@@ -261,7 +258,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo mac_address não corresponde com o padrão aceito.'
     )
   })
@@ -273,7 +270,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body.message[0].message, 'O campo mac_address deve ser único.')
+    assert.equal(body[0].message, 'O campo mac_address deve ser único.')
   })
   // ###############################################################
 
@@ -286,7 +283,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo deny é invalido'
     )
   })
@@ -299,7 +296,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo deny é invalido'
     )
   })
@@ -314,7 +311,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo deny deve ser de no máximo 95 caracteres.'
     )
   })
@@ -327,7 +324,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo deny deve ser de no mínimo 7 caracteres.'
     )
   })
@@ -342,7 +339,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo contact_deny é invalido'
     )
   })
@@ -355,7 +352,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo contact_deny é invalido'
     )
   })
@@ -370,7 +367,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo contact_deny deve ser de no máximo 95 caracteres.'
     )
   })
@@ -383,7 +380,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo contact_deny deve ser de no mínimo 7 caracteres.'
     )
   })
@@ -398,7 +395,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo permit é invalido'
     )
   })
@@ -411,7 +408,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo permit é invalido'
     )
   })
@@ -426,7 +423,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo permit deve ser de no máximo 95 caracteres.'
     )
   })
@@ -439,7 +436,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo permit deve ser de no mínimo 7 caracteres.'
     )
   })
@@ -454,7 +451,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo contact_permit é invalido'
     )
   })
@@ -467,7 +464,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'Um dos parâmetros informados no campo contact_permit é invalido'
     )
   })
@@ -482,7 +479,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo contact_permit deve ser de no máximo 95 caracteres.'
     )
   })
@@ -495,7 +492,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo contact_permit deve ser de no mínimo 7 caracteres.'
     )
   })
@@ -510,7 +507,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo call_group deve conter um grupo válido.'
     )
   })
@@ -525,7 +522,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo call_group deve ser de no máximo 40 caracteres.'
     )
   })
@@ -540,7 +537,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo pickup_group deve conter um grupo válido.'
     )
   })
@@ -555,7 +552,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo pickup_group deve ser de no máximo 40 caracteres.'
     )
   })
@@ -572,7 +569,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo named_call_group deve ser de no máximo 40 caracteres.'
     )
   })
@@ -589,7 +586,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo named_pickup_group deve ser de no máximo 40 caracteres.'
     )
   })
@@ -606,7 +603,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo outbound_auth deve ser de no máximo 40 caracteres.'
     )
   })
@@ -623,7 +620,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo outbound_proxy deve ser de no máximo 40 caracteres.'
     )
   })
@@ -637,10 +634,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo rtp_symmetric deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo rtp_symmetric deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -652,10 +646,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo force_rport deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo force_rport deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -667,10 +658,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo direct_media deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo direct_media deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -682,10 +670,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo t38_udptl deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo t38_udptl deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -697,10 +682,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo t38_udptl_nat deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo t38_udptl_nat deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -713,7 +695,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       "O campo disable_direct_media_on_nat deve ser 'yes,no'."
     )
   })
@@ -727,10 +709,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo ice_support deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo ice_support deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -742,10 +721,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      "O campo allow_overlap deve ser 'yes,no'."
-    )
+    assert.equal(body[0].message, "O campo allow_overlap deve ser 'yes,no'.")
   })
   // ###############################################################
 
@@ -758,7 +734,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       "O campo dtmf_mode deve ser 'rfc4733,inband,info,auto,auto_info'."
     )
   })
@@ -772,10 +748,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      'O campo rtp_timeout deve ser numérico.'
-    )
+    assert.equal(body[0].message, 'O campo rtp_timeout deve ser numérico.')
   })
   // ###############################################################
 
@@ -787,10 +760,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      'O campo rtp_timeout_hold deve ser numérico.'
-    )
+    assert.equal(body[0].message, 'O campo rtp_timeout_hold deve ser numérico.')
   })
   // ###############################################################
 
@@ -802,10 +772,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      'O campo rtp_timeout_hold deve ser numérico.'
-    )
+    assert.equal(body[0].message, 'O campo rtp_timeout_hold deve ser numérico.')
   })
   // ###############################################################
 
@@ -817,10 +784,7 @@ test.skip('Endpoint - List', async () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(
-      body.message[0].message,
-      'O campo rtp_keepalive deve ser numérico.'
-    )
+    assert.equal(body[0].message, 'O campo rtp_keepalive deve ser numérico.')
   })
   // ###############################################################
 
@@ -833,7 +797,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo timers_sess_expires deve ser numérico.'
     )
   })
@@ -848,7 +812,7 @@ test.skip('Endpoint - List', async () => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo device_state_busy_at deve ser numérico.'
     )
   })

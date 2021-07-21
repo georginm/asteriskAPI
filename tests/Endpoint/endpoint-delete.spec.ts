@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-test.skip('Endpoint - Delete', async (group) => {
+test.group('Endpoint - Delete', async (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'exist' })
     await supertest(process.env.BASE_URL).post('/auths').send({
@@ -34,7 +34,7 @@ test.skip('Endpoint - Delete', async (group) => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
-    assert.equal(body.message[0].message, 'O registro de params.id não existe.')
+    assert.equal(body[0].message, 'O registro de params.id não existe.')
   })
 
   test('Should return 404 if id endpoint was not provided', async (assert) => {
@@ -55,7 +55,7 @@ test.skip('Endpoint - Delete', async (group) => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo params.id deve ser de no máximo 5 caracteres.'
     )
   })
@@ -68,7 +68,7 @@ test.skip('Endpoint - Delete', async (group) => {
       .expect(400)
 
     assert.equal(
-      body.message[0].message,
+      body[0].message,
       'O campo params.id deve ser de no mínimo 3 caracteres.'
     )
   })
@@ -77,7 +77,6 @@ test.skip('Endpoint - Delete', async (group) => {
     const { body } = await supertest(process.env.BASE_URL)
       .delete('/endpoints/exist')
       .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
       .expect(200)
 
     assert.equal(body.message, 'Endpoint Has Been Deleted')
