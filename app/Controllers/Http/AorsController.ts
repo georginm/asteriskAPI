@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Aor from 'App/Models/Aor'
+import CreateAorValidator from 'App/Validators/Aor/CreateAorValidator'
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
@@ -9,18 +10,9 @@ export default class AorsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { id } = request.body()
+    const validator = await request.validate(CreateAorValidator)
 
-    if (!id) {
-      return badRequest(response, 'aor id not provided')
-    }
-    const dataExists = await Aor.find(id)
-
-    if (dataExists) {
-      return badRequest(response, 'aor already exists')
-    }
-
-    const data = await Aor.create(request.body())
+    const data = await Aor.create(validator)
 
     return created(response, data)
   }
