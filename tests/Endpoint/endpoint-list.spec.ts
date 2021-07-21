@@ -4,7 +4,7 @@ import test from 'japa'
 // #################################################################
 // ###################### TEST GROUP - LIST ######################
 // #################################################################
-test.group('Endpoint - List', async () => {
+test.skip('Endpoint - List', async () => {
   // ############################## ID ###############################
   test('Should return 400 if id endpoint not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
