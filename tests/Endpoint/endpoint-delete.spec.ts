@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-test.group('Endpoint - Delete', async (group) => {
+test.skip('Endpoint - Delete', async (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'exist' })
     await supertest(process.env.BASE_URL).post('/auths').send({

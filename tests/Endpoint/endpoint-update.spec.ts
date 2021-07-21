@@ -4,7 +4,7 @@ import supertest from 'supertest'
 // #################################################################
 // ###################### TEST GROUP - UPDATE ######################
 // #################################################################
-test.group('Endpoint Controller - Update', (group) => {
+test.skip('Endpoint Controller - Update', (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'exist' })
     await supertest(process.env.BASE_URL).post('/auths').send({
