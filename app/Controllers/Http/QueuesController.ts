@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest, created, success } from 'App/Helpers/http-helper'
 import Queue from 'App/Models/Queue'
 import { DateTime } from 'luxon'
 
@@ -8,10 +7,10 @@ export default class QueuesController {
     const data = await Queue.query().whereNull('deleted_at')
 
     if (!data) {
-      return badRequest(response, 'There are not Queues')
+      return response.badRequest({ message: 'There are not Queues' })
     }
 
-    return success(response, data)
+    return response.ok(data)
   }
 
   public async store({ request, response }: HttpContextContract) {
@@ -20,12 +19,12 @@ export default class QueuesController {
     const dataExists = await Queue.find(name)
 
     if (dataExists) {
-      return badRequest(response, 'Queue Already Exists')
+      return response.badRequest({ message: 'Queue Already Exists' })
     }
 
     const data = await Queue.create(request.body())
 
-    return created(response, data)
+    return response.created(data)
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -34,7 +33,7 @@ export default class QueuesController {
     const data = await Queue.find(name)
 
     if (!data) {
-      return badRequest(response, 'Queue Not Exists')
+      return response.badRequest({ message: 'Queue Not Exists' })
     }
     // If the body has name, the current queue is disabled and another
     // one is generated with the given name
@@ -43,7 +42,7 @@ export default class QueuesController {
     if (!name) {
       await data.merge(request.body())
       await data.save()
-      return success(response, data)
+      return response.ok(data)
     }
 
     const newNameExists = await Queue.find(name)
@@ -52,10 +51,10 @@ export default class QueuesController {
       await data.merge({ deletedAt: DateTime.now() }).save()
       const newData = await Queue.create(request.body())
 
-      return success(response, newData)
+      return response.ok(newData)
     }
 
-    return badRequest(response, 'Queue Already Exists')
+    return response.badRequest({ message: 'Queue Already Exists' })
   }
 
   public async softdelete({ request, response }: HttpContextContract) {
@@ -63,16 +62,16 @@ export default class QueuesController {
     const data = await Queue.find(name)
 
     if (!data) {
-      return badRequest(response, 'Queue Not Exists')
+      return response.badRequest({ message: 'Queue Not Exists' })
     }
 
     if (data.deletedAt) {
-      return badRequest(response, 'Queue is already disabled')
+      return response.badRequest({ message: 'Queue is already disabled' })
     }
 
     await data.merge({ deletedAt: DateTime.now() }).save()
 
-    return success(response, { message: 'Queue Has Been Disabled' })
+    return response.ok({ message: 'Queue Has Been Disabled' })
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -80,32 +79,32 @@ export default class QueuesController {
     const data = await Queue.find(name)
 
     if (!data) {
-      return badRequest(response, 'Queue Not Exists')
+      return response.badRequest({ message: 'Queue Not Exists' })
     }
 
     await data.delete()
 
-    return success(response, { message: 'Queue Has Been Deleted' })
+    return response.ok({ message: 'Queue Has Been Deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
     const where = request.qs()
     const data = await Queue.query().where(where)
     if (!data) {
-      return badRequest(response, 'There are not Queues')
+      return response.badRequest({ message: 'There are not Queues' })
     }
 
-    return success(response, data)
+    return response.ok(data)
   }
 
   public async listDeleted({ response }: HttpContextContract) {
     const data = await Queue.query().whereNotNull('deleted_at')
 
     if (!data.length) {
-      return badRequest(response, 'There are not Queues')
+      return response.badRequest({ message: 'There are not Queues' })
     }
 
-    return success(response, data)
+    return response.ok(data)
   }
 
   public async activate({ request, response }: HttpContextContract) {
@@ -113,14 +112,14 @@ export default class QueuesController {
     const data = await Queue.findBy('name', name)
 
     if (!data) {
-      return badRequest(response, 'There are not Queues')
+      return response.badRequest({ message: 'There are not Queues' })
     }
 
     if (!data.deletedAt) {
-      return badRequest(response, 'Queue is already activated')
+      return response.badRequest({ message: 'Queue is already activated' })
     }
     await data.merge({ deletedAt: null }).save()
 
-    return success(response, data)
+    return response.ok(data)
   }
 }
