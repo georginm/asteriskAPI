@@ -1036,7 +1036,7 @@ test.group('Endpoint Controller - Update', (group) => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
-    console.log(body)
+
     assert.equal(body.transport, 'udp')
     assert.equal(body.aors, 'exist')
     assert.equal(body.auth, 'exist')
