@@ -88,4 +88,18 @@ test.group('Aor controller - Store', (group) => {
       'O campo contact deve ser de no máximo 255 caracteres.'
     )
   })
+
+  // ####################### MAX CONTACTS ############################
+  test('Should return 400 if maxContacts receives a number', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/aors/aors_')
+      .send({
+        maxContacts: '1sdasd',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
+  })
 })
