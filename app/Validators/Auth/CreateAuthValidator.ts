@@ -12,7 +12,10 @@ export default class CreateAuthValidator {
       rules.unique({ table: 'ps_auths', column: 'id' }),
     ]),
 
-    username: schema.string({ trim: true }, [rules.maxLength(40)]),
+    username: schema.string({ trim: true }, [
+      rules.maxLength(40),
+      rules.unique({ table: 'ps_auths', column: 'username' }),
+    ]),
     password: schema.string({ trim: true }, [rules.maxLength(80)]),
 
     authType: schema.enum(['userpass']),
