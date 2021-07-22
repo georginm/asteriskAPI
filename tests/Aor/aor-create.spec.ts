@@ -110,6 +110,21 @@ test.group('Aor controller - Store', (group) => {
     )
   })
 
+  // ####################### MAX CONTACTS ############################
+  test('Should return 400 if maxContacts receives a number', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/aors')
+      .send({
+        id: 'teste',
+        maxContacts: '1sdasd',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
+  })
+
   test('Should return 201 if aor has been created', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
