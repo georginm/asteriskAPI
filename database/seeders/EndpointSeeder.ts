@@ -12,7 +12,7 @@ export default class EndpointsSeederSeeder extends BaseSeeder {
       disallow: 'all',
       allow: 'alaw, ulaw, gsm',
       directMedia: 'no',
-      forceRPort: 'yes',
+      forceRport: 'yes',
       rewriteContact: 'yes',
       rtpSymmetric: 'yes',
       macAddress: '',
