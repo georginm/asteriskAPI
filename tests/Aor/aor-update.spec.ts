@@ -71,4 +71,21 @@ test.group('Aor controller - Store', (group) => {
 
     assert.equal(body[0].message, 'O campo contact deve ser de texto.')
   })
+
+  test('Should return 400 if contact exceed the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/aors/aors_')
+      .send({
+        contact:
+          'exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo contact deve ser de no máximo 255 caracteres.'
+    )
+  })
 })
