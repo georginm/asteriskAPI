@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Aor from 'App/Models/Aor'
 import CreateAorValidator from 'App/Validators/Aor/CreateAorValidator'
 import DeleteAorValidator from 'App/Validators/Aor/DeleteAorValidator'
+import ListAorValidator from 'App/Validators/Aor/ListAorValidator'
 import UpdateAorValidator from 'App/Validators/Aor/UpdateAorValidator'
 
 export default class AorsController {
@@ -62,12 +63,16 @@ export default class AorsController {
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const where = request.qs()
-    const data = await Aor.query().where(where)
-    if (!data.length) {
-      return response.badRequest({ message: 'aor not exists' })
-    }
+    try {
+      const where = await request.validate(ListAorValidator)
+      const data = await Aor.query().where(where)
+      if (!data.length) {
+        return response.badRequest({ message: 'aor not exists' })
+      }
 
-    return response.ok(data)
+      return response.ok(data)
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
+    }
   }
 }
