@@ -102,4 +102,19 @@ test.group('Aor controller - Store', (group) => {
 
     assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
   })
+
+  test('Should return 200 if aor has been updated', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/aors/aors_')
+      .send({
+        contact: 'any_contact',
+        maxContacts: 1,
+      })
+      .set('Accept', 'application/json')
+      .expect(200)
+
+    assert.equal(body.id, 'aors_')
+    assert.equal(body.contact, 'any_contact')
+    assert.equal(body.max_contacts, 1)
+  })
 })
