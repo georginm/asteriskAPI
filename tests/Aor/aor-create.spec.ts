@@ -48,6 +48,22 @@ test.group('Aor controller - Store', (group) => {
     )
   })
 
+  test('Should return 400 if id is below the minimum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/aors')
+      .send({
+        id: 'id',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo id deve ser de no mínimo 3 caracteres.'
+    )
+  })
+
   test('Should return 201 if aor has been created', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
