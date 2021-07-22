@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Auth from 'App/Models/Auth'
+import CreateAuthValidator from 'App/Validators/Auth/CreateAuthValidator'
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
@@ -8,31 +9,15 @@ export default class AuthController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { username, id } = request.body()
+    try {
+      const validator = await request.validate(CreateAuthValidator)
 
-    const requireFields = ['id', 'username', 'auth_type', 'password']
+      const data = await Auth.create(validator)
 
-    for (const field of requireFields) {
-      if (!request.body()[field]) {
-        return response.badRequest({ message: `${field} was not provided` })
-      }
+      return response.created(data)
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
     }
-
-    const idAlreadyExists = await Auth.find(id)
-
-    if (idAlreadyExists) {
-      return response.badRequest({ message: 'auth id already exists' })
-    }
-
-    const userNameExists = await Auth.findBy('username', username)
-
-    if (userNameExists) {
-      return response.badRequest({ message: 'auth username already exists' })
-    }
-
-    const data = await Auth.create(request.body())
-
-    return response.created(data)
   }
 
   public async update({ request, response }: HttpContextContract) {
