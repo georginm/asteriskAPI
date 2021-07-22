@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Aor from 'App/Models/Aor'
 import CreateAorValidator from 'App/Validators/Aor/CreateAorValidator'
+import DeleteAorValidator from 'App/Validators/Aor/DeleteAorValidator'
 import UpdateAorValidator from 'App/Validators/Aor/UpdateAorValidator'
 
 export default class AorsController {
@@ -43,17 +44,21 @@ export default class AorsController {
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { id } = request.params()
+    try {
+      const { params } = await request.validate(DeleteAorValidator)
 
-    const data = await Aor.find(id)
+      const data = await Aor.find(params.id)
 
-    if (!data) {
-      return response.badRequest({ message: 'aor not exists' })
+      if (!data) {
+        return response.badRequest({ message: 'aor not exists' })
+      }
+
+      await data.delete()
+
+      return response.ok({ message: 'aor has been deleted' })
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
     }
-
-    await data.delete()
-
-    return response.ok({ message: 'aor has been deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
