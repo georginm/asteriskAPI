@@ -9,11 +9,16 @@ export default class AorsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const validator = await request.validate(CreateAorValidator)
+    try {
+      const validator = await request.validate(CreateAorValidator)
 
-    const data = await Aor.create(validator)
+      const data = await Aor.create(validator)
 
-    return response.created(data)
+      return response.created(data)
+    } catch (error) {
+      console.log(error)
+      return response.badRequest(error.messages.errors)
+    }
   }
 
   public async update({ request, response }: HttpContextContract) {
