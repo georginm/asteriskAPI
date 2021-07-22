@@ -57,4 +57,18 @@ test.group('Aor controller - Store', (group) => {
       'O campo params.id deve ser de no mínimo 3 caracteres.'
     )
   })
+
+  // ########################## CONTACT ##############################
+  test('Should return 400 if contact receives a number', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/aors/aors_')
+      .send({
+        contact: 144,
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo contact deve ser de texto.')
+  })
 })
