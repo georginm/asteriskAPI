@@ -14,7 +14,7 @@ export default class CreateAorValidator {
 
     contact: schema.string.optional({ trim: true }, [rules.maxLength(255)]),
 
-    maxContacts: schema.number(),
+    maxContacts: schema.number.optional(),
   })
 
   public messages = validation
