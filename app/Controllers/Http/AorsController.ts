@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { badRequest } from 'App/Helpers/http-helper'
 import Aor from 'App/Models/Aor'
 import CreateAorValidator from 'App/Validators/Aor/CreateAorValidator'
 import UpdateAorValidator from 'App/Validators/Aor/UpdateAorValidator'
@@ -22,19 +23,24 @@ export default class AorsController {
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { params, ...validator } = await request.validate(UpdateAorValidator)
+    try {
+      const { params, ...validator } = await request.validate(
+        UpdateAorValidator
+      )
 
-    const data = await Aor.find(params.id)
+      const data = await Aor.find(params.id)
 
-    if (!data) {
-      return response.badRequest({ message: 'Internal Server Error.' })
+      if (!data) {
+        return response.badRequest({ message: 'Internal Server Error.' })
+      }
+
+      data.merge(validator)
+      await data.save()
+
+      return response.ok(data)
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
     }
-
-    data.merge(validator)
-
-    await data.save()
-
-    return response.ok(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
