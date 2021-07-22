@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { badRequest } from 'App/Helpers/http-helper'
 import Aor from 'App/Models/Aor'
 import CreateAorValidator from 'App/Validators/Aor/CreateAorValidator'
 import UpdateAorValidator from 'App/Validators/Aor/UpdateAorValidator'
