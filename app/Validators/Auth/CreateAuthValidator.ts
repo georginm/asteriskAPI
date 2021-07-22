@@ -8,7 +8,7 @@ export default class CreateAuthValidator {
   public schema = schema.create({
     id: schema.string({ trim: true }, [
       rules.maxLength(5),
-      rules.minLength(5),
+      rules.minLength(3),
       rules.unique({ table: 'ps_auths', column: 'id' }),
     ]),
 
