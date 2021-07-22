@@ -16,7 +16,6 @@ export default class AorsController {
 
       return response.created(data)
     } catch (error) {
-      console.log(error)
       return response.badRequest(error.messages.errors)
     }
   }
