@@ -5,6 +5,8 @@ test.group('Aor controller - Store', (group) => {
   group.after(async () => {
     await supertest(process.env.BASE_URL).delete('/aors/6666')
   })
+
+  // ############################## ID ###############################
   test('Should return 400 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
@@ -30,6 +32,22 @@ test.group('Aor controller - Store', (group) => {
     assert.equal(body[0].message, 'O campo id deve ser único.')
   })
 
+  test('Should return 400 if id exceed the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/aors')
+      .send({
+        id: 'id_exceeds',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo id deve ser de no máximo 5 caracteres.'
+    )
+  })
+
   test('Should return 201 if aor has been created', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
@@ -41,7 +59,6 @@ test.group('Aor controller - Store', (group) => {
       .set('Accept', 'application/json')
       .expect(201)
 
-    console.log(body)
     assert.equal(body.id, '6666')
     assert.equal(body.contact, 'any_contact')
     assert.equal(body.max_contacts, 1)
