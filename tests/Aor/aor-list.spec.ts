@@ -68,4 +68,15 @@ test.group('Aor controller - List', (group) => {
 
     assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
   })
+
+  // ####################### AORS WAS LISTED #########################
+  test('Should return 200 if aor was listed', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .get('/aors/list/?id=aors_')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    assert.equal(body[0].id, 'aors_')
+  })
 })
