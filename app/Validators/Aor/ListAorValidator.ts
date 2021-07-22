@@ -9,7 +9,7 @@ export default class ListAorValidator {
     id: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_aors', column: 'id' }),
+      rules.exists({ table: 'ps_aors', column: 'id' }),
     ]),
 
     contact: schema.string.optional({ trim: true }, [rules.maxLength(255)]),
