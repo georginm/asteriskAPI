@@ -62,4 +62,18 @@ test.group('Auth Controller - Update', () => {
       'O campo params.id deve ser de no mínimo 3 caracteres.'
     )
   })
+
+  // ########################### USERNAME ###########################
+  test('Should return 400 if username provided already exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/auths/auth_')
+      .send({
+        username: 'any_username',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo username deve ser único.')
+  })
 })
