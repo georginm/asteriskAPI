@@ -143,4 +143,24 @@ test.group('Auth Controller - Store', (group) => {
 
     assert.equal(body[0].message, 'O campo password é obrigatório.')
   })
+
+  test('Should return 400 if password exceed the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/auths')
+      .send({
+        id: 'any_i',
+        username: 'anyusername',
+        password:
+          '-anypassword-anypassword-anypassword-anypassword-anypassword-anypassword-anypassword-anypassword',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo password deve ser de no máximo 80 caracteres.'
+    )
+  })
+
 })
