@@ -50,4 +50,16 @@ test.group('Auth Controller - List', () => {
     assert.equal(body[0].message, 'O registro de username não existe.')
   })
 
+  test('Should return 400 if username exceed the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .get('/auths/list/?username=anyusernameanyusernameanyusernameanyusername')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo username deve ser de no máximo 40 caracteres.'
+    )
+  })
 })
