@@ -11,8 +11,9 @@ export default class CreateExtensionValidator {
     priority: schema.number([
       rules.uniquePerRelated({
         table: 'extensions',
-        column: 'context',
-        relatedColumn: 'priority',
+        column: 'priority',
+        relatedColumn: 'context',
+        secondRelatedColumn: 'exten',
       }),
     ]),
     app: schema.string({ trim: true }, [rules.maxLength(40)]),
