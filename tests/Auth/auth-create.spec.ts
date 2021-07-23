@@ -100,6 +100,21 @@ test.group('Auth Controller - Store', (group) => {
     assert.equal(body[0].message, 'O campo username é obrigatório.')
   })
 
+  test('Should return 400 if auth username already exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/auths')
+      .send({
+        id: 'any',
+        authType: 'userpass',
+        username: 'any_username',
+        password: 'password',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo username deve ser único.')
+  })
   test('Should return 400 if authType was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
