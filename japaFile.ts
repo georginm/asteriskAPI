@@ -19,7 +19,7 @@ const before = async () => {
   await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors_' })
   await supertest(process.env.BASE_URL).post('/auths').send({
     id: 'auth_',
-    auth_type: 'userpass',
+    authType: 'userpass',
     username: 'any_username',
     password: 'any_password',
   })
@@ -38,7 +38,7 @@ const before = async () => {
 
 const after = async () => {
   await supertest(process.env.BASE_URL).delete('/aors/aors_')
-  await supertest(process.env.BASE_URL).delete('/auths/auths_')
+  await supertest(process.env.BASE_URL).delete('/auths/auth_')
   await supertest(process.env.BASE_URL).delete('/endpoints/id_ex')
 }
 
