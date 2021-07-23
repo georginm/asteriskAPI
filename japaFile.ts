@@ -19,7 +19,6 @@ const before = async () => {
   await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors_' })
   await supertest(process.env.BASE_URL).post('/auths').send({
     id: 'auth_',
-    authType: 'userpass',
     username: 'any_username',
     password: 'any_password',
   })
