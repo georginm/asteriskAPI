@@ -30,7 +30,7 @@ const before = async () => {
     aors: 'aors_',
     auth: 'auth_',
     context: 'from-internal',
-    mac_address: '01:23:45:67:89:AC',
+    macAddress: '01:23:45:67:89:AC',
     disallow: 'all',
     allow: 'alaw',
   })
