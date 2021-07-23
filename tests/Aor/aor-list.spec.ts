@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-test.group('Aor controller - List', (group) => {
+test.skip('Aor controller - List', (group) => {
   group.after(async () => {
     await supertest(process.env.BASE_URL).delete('/aors/6666')
   })

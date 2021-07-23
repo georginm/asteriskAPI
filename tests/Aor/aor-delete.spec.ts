@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-test.group('Aor Controller - Delete', (group) => {
+test.skip('Aor Controller - Delete', (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors3' })
   })
