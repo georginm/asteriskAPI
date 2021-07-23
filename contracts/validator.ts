@@ -9,6 +9,7 @@ declare module '@ioc:Adonis/Core/Validator' {
       table: string
       column: string
       relatedColumn: string
+      secondRelatedColumn: string
     }): Rule
   }
 }
