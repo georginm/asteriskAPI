@@ -19,4 +19,15 @@ test.group('Auth Controller - Delete', (group) => {
 
     assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot DELETE:/api/auths')
   })
+
+  test('Should return 400 if id provided not exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .delete('/auths/not_e')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O registro de params.id não existe.')
+  })
+
 })
