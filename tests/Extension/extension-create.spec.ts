@@ -120,4 +120,24 @@ test.group('Extension Controller - Store', async (group) => {
     assert.equal(body[0].message, 'O campo app é obrigatório.')
   })
 
+  test('Should return 400 if app exceeds the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        app: 'any_test-any_test-any_test-any_test-any_test-',
+        context: '*100',
+        priority: 1,
+        exten: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo app deve ser de no máximo 40 caracteres.'
+    )
+  })
+
 })
