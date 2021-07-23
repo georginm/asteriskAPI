@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Auth from 'App/Models/Auth'
 import CreateAuthValidator from 'App/Validators/Auth/CreateAuthValidator'
+import ListAuthValidator from 'App/Validators/Auth/ListAuthValidator'
 import UpdateAuthValidator from 'App/Validators/Auth/UpdateAuthValidator'
 
 export default class AuthController {
@@ -56,12 +57,16 @@ export default class AuthController {
   }
 
   public async list({ request, response }: HttpContextContract) {
-    const where = request.qs()
-    const data = await Auth.query().where(where)
-    if (!data.length) {
-      return response.badRequest({ message: 'Auth Not Exists' })
-    }
+    try {
+      const where = await request.validate(ListAuthValidator)
+      const data = await Auth.query().where(where)
+      if (!data.length) {
+        return response.badRequest({ message: 'Auth Not Exists' })
+      }
 
-    return response.ok(data)
+      return response.ok(data)
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
+    }
   }
 }
