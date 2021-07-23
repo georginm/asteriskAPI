@@ -47,4 +47,22 @@ test.group('Extension Controller - Store', async (group) => {
       'O campo context deve ser de no máximo 40 caracteres.'
     )
   })
+
+  // ########################### EXTEN ###############################
+  test('Should return 400 if exten was not provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        context: 'any_context',
+        priority: 1,
+        app: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo exten é obrigatório.')
+  })
+
 })
