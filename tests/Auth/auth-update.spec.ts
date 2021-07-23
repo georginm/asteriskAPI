@@ -112,4 +112,21 @@ test.group('Auth Controller - Update', () => {
     )
   })
 
+  // #################### AUTH HAS BEEN CREATED ######################
+  test('Should return 201 if auth has been created', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/auths/auth_')
+      .send({
+        username: 'any_user',
+        password: 'password',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    assert.equal(body.id, 'auth_')
+    assert.equal(body.username, 'any_user')
+    assert.equal(body.password, 'password')
+    assert.equal(body.auth_type, 'userpass')
+  })
 })
