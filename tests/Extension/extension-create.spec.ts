@@ -11,4 +11,20 @@ test.group('Extension Controller - Store', async (group) => {
       appdata: 'a',
     })
   })
+  // ############################ CONTEXT ############################
+  test('Should return 400 if context was not provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        exten: '*100',
+        priority: 1,
+        app: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo context é obrigatório.')
+  })
 })
