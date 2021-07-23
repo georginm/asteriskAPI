@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Extension from 'App/Models/Extension'
+import CreateExtensionValidator from 'App/Validators/Extension/CreateExtensionValidator'
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
@@ -9,7 +10,9 @@ export default class ExtensionsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const data = await Extension.create(request.body())
+      const validator = await request.validate(CreateExtensionValidator)
+      const data = await Extension.create(validator)
+
       return response.created(data)
     } catch (error) {
       return response.badRequest(error.message)
