@@ -94,25 +94,29 @@ validator.rule(
     }
   }
 )
+
 validator.rule(
   'uniquePerRelated',
   async (
     value,
-    [{ table, column, relatedColumn }],
+    [{ table, column, relatedColumn, secondRelatedColumn }],
     { pointer, arrayExpressionPointer, errorReporter, tip }
   ) => {
-    // if (typeof pointer !== 'string') return
-    // if (!tip[relatedColumn]) return
+    if (typeof value === 'string') return
+    if (typeof pointer !== 'string') return
+    if (!tip[relatedColumn]) return
+    if (!tip[secondRelatedColumn]) return
 
     const result = await Database.from(table)
       .where(relatedColumn, tip[relatedColumn])
+      .where(secondRelatedColumn, tip[secondRelatedColumn])
       .where(column, value)
 
     if (result.length > 0) {
       errorReporter.report(
         pointer,
         'uniquePerRelated',
-        'The field must be unique in related.',
+        'The fields must be unique in related.',
         arrayExpressionPointer
       )
     }
