@@ -129,6 +129,7 @@ test.group('Auth Controller - Store', (group) => {
     )
   })
 
+  // ############################ PASSWORD ###########################
   test('Should return 400 if password was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
