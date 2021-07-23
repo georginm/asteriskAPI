@@ -3,7 +3,7 @@ import supertest from 'supertest'
 
 test.group('Auth Controller - Store', (group) => {
   group.after(async () => {
-    await supertest(process.env.BASE_URL).delete('/auths/id_')
+    await supertest(process.env.BASE_URL).delete('/auths/any_i')
   })
 
   // ############################# ID ################################
@@ -180,6 +180,9 @@ test.group('Auth Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(201)
 
-    assert.exists(body)
+    assert.equal(body.id, 'any_i')
+    assert.equal(body.username, 'any_user')
+    assert.equal(body.password, 'password')
+    assert.equal(body.auth_type, 'userpass')
   })
 })
