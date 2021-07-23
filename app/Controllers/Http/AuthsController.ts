@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Auth from 'App/Models/Auth'
 import CreateAuthValidator from 'App/Validators/Auth/CreateAuthValidator'
+import UpdateAuthValidator from 'App/Validators/Auth/UpdateAuthValidator'
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
@@ -21,29 +22,23 @@ export default class AuthController {
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params()
-    const { username } = request.body()
+    try {
+      const { params, ...validator } = await request.validate(
+        UpdateAuthValidator
+      )
 
-    if (username) {
-      const userNameAlreadyExists = await Auth.findBy('username', username)
-      if (userNameAlreadyExists) {
-        return response.badRequest({
-          message: 'username provided already exists',
-        })
+      const data = await Auth.find(params.id)
+      if (!data) {
+        return response.badRequest({ message: 'Internal Server Error' })
       }
+
+      data.merge(validator)
+      await data.save()
+
+      return response.ok(data)
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
     }
-
-    const data = await Auth.find(id)
-
-    if (!data) {
-      return response.badRequest({ message: 'auth not exists' })
-    }
-
-    data.merge(request.body())
-
-    await data.save()
-
-    return response.ok(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
