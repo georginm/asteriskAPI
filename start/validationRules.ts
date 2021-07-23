@@ -1,13 +1,5 @@
-/*
-|--------------------------------------------------------------------------
-| Preloaded File
-|--------------------------------------------------------------------------
-|
-| Any code written inside this file will be executed during the application
-| boot.
-|
-*/
 import { validator } from '@ioc:Adonis/Core/Validator'
+import Database from '@ioc:Adonis/Lucid/Database'
 
 validator.rule(
   'ipList',
@@ -99,6 +91,35 @@ validator.rule(
         'invalid callgroup was provided',
         arrayExpressionPointer
       )
+    }
+  }
+)
+validator.rule(
+  'uniquePerRelated',
+  async (
+    value,
+    [{ table, column, relatedColumn }],
+    { pointer, arrayExpressionPointer, errorReporter, tip }
+  ) => {
+    // if (typeof pointer !== 'string') return
+    // if (!tip[relatedColumn]) return
+
+    const result = await Database.from(table)
+      .where(relatedColumn, tip[relatedColumn])
+      .where(column, value)
+
+    if (result.length > 0) {
+      errorReporter.report(
+        pointer,
+        'uniquePerRelated',
+        'The field must be unique in related.',
+        arrayExpressionPointer
+      )
+    }
+  },
+  () => {
+    return {
+      async: true,
     }
   }
 )

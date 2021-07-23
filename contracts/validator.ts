@@ -5,5 +5,10 @@ declare module '@ioc:Adonis/Core/Validator' {
     ipList(): Rule
     codecExists(): Rule
     callGroupExists(): Rule
+    uniquePerRelated(options?: {
+      table: string
+      column: string
+      relatedColumn: string
+    }): Rule
   }
 }
