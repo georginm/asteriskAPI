@@ -140,4 +140,20 @@ test.group('Extension Controller - Store', async (group) => {
     )
   })
 
+  // ########################### APPDATA #############################
+  test('Should return 400 if appdata was not provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        context: 'any_context',
+        priority: 1,
+        exten: 'answer',
+        app: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo appdata é obrigatório.')
+  })
 })
