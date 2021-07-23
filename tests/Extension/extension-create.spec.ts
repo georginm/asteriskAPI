@@ -85,4 +85,22 @@ test.group('Extension Controller - Store', async (group) => {
     )
   })
 
+  // ########################## PRIORITY #############################
+  test('Should return 400 if priority field provided was a string', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        exten: 'any_test',
+        context: '*100',
+        priority: 'asdas',
+        app: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo priority deve ser numérico.')
+  })
+
 })
