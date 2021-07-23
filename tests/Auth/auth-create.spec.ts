@@ -2,6 +2,7 @@ import test from 'japa'
 import supertest from 'supertest'
 
 test.group('Auth Controller - Store', (group) => {
+  // ############################# ID ################################
   test('Should return 400 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
