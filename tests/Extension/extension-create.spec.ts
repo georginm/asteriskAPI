@@ -178,4 +178,24 @@ test.group('Extension Controller - Store', async (group) => {
     )
   })
 
+  // ################## CONTEXT, EXTEN AND PRIORITY ##################
+  test('Should return 400 if there is already an extension registered with the same context, exten and priority ', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        context: 'context',
+        exten: '*100',
+        priority: 1,
+        app: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo priority deve ser único no relacionamento.'
+    )
+  })
 })
