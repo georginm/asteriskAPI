@@ -17,8 +17,6 @@ export default class CreateAuthValidator {
       rules.unique({ table: 'ps_auths', column: 'username' }),
     ]),
     password: schema.string({ trim: true }, [rules.maxLength(80)]),
-
-    authType: schema.enum(['userpass']),
   })
 
   public messages = validation
