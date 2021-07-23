@@ -46,4 +46,19 @@ test.group('Auth Controller - Store', (group) => {
 
     assert.equal(body[0].message, 'O campo authType é obrigatório.')
   })
+
+  test('Should return 400 if password was not provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/auths')
+      .send({
+        id: 'any_i',
+        authType: 'userpass',
+        username: 'any_useryarn',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo password é obrigatório.')
+  })
 })
