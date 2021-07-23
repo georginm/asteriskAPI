@@ -11,6 +11,11 @@ test.group('Extension Controller - Store', async (group) => {
       appdata: 'a',
     })
   })
+
+  // group.after(async () => {
+  //   await supertest(process.env.BASE_URL).delete('/extensions')
+  // })
+
   // ############################ CONTEXT ############################
   test('Should return 400 if context was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
@@ -197,5 +202,27 @@ test.group('Extension Controller - Store', async (group) => {
       body[0].message,
       'O campo priority deve ser único no relacionamento.'
     )
+  })
+
+  // ################## EXTENSION HAS BEEN CREATED ###################
+  test('Should return 201 if extension has been created', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        context: 'any_context',
+        exten: '*100',
+        priority: 1,
+        app: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+
+    assert.equal(body.context, 'any_context')
+    assert.equal(body.exten, '*100')
+    assert.equal(body.priority, 1)
+    assert.equal(body.app, 'answer')
+    assert.equal(body.appdata, 'a')
   })
 })
