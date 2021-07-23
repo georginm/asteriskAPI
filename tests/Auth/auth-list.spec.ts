@@ -39,4 +39,15 @@ test.group('Auth Controller - List', () => {
     )
   })
 
+  // ########################### USERNAME ###########################
+  test('Should return 400 if username provided not exists', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .get('/auths/list/?username=not_e')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O registro de username não existe.')
+  })
+
 })
