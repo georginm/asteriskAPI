@@ -1,4 +1,4 @@
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, beforeCreate, column } from '@ioc:Adonis/Lucid/Orm'
 
 export default class Auth extends BaseModel {
   public static table = 'ps_auths'
@@ -14,4 +14,9 @@ export default class Auth extends BaseModel {
 
   @column()
   public password: string
+
+  @beforeCreate()
+  public static defaultUserpass(auth: Auth) {
+    auth.authType = 'userpass'
+  }
 }
