@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Auth from 'App/Models/Auth'
 import CreateAuthValidator from 'App/Validators/Auth/CreateAuthValidator'
+import DeleteAuthValidator from 'App/Validators/Auth/DeleteAuthValidator'
 import ListAuthValidator from 'App/Validators/Auth/ListAuthValidator'
 import UpdateAuthValidator from 'App/Validators/Auth/UpdateAuthValidator'
 
@@ -43,17 +44,21 @@ export default class AuthController {
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { id } = request.params()
+    try {
+      const { params } = await request.validate(DeleteAuthValidator)
 
-    const data = await Auth.find(id)
+      const data = await Auth.find(params.id)
 
-    if (!data) {
-      return response.badRequest({ message: 'auth not exists' })
+      if (!data) {
+        return response.badRequest({ message: 'Internal Server Error' })
+      }
+
+      await data.delete()
+
+      return response.ok({ message: 'auth has been deleted' })
+    } catch (error) {
+      return response.badRequest(error.messages.errors)
     }
-
-    await data.delete()
-
-    return response.ok({ message: 'auth has been deleted' })
   }
 
   public async list({ request, response }: HttpContextContract) {
