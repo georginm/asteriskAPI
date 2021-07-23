@@ -30,4 +30,13 @@ test.group('Auth Controller - Delete', (group) => {
     assert.equal(body[0].message, 'O registro de params.id não existe.')
   })
 
+  test('Should return 200 if aor has been deleted', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .delete('/auths/any_')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    assert.equal(body.message, 'auth has been deleted')
+  })
 })
