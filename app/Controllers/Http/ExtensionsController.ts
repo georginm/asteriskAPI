@@ -15,7 +15,7 @@ export default class ExtensionsController {
 
       return response.created(data)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest(error.messages.errors)
     }
   }
 
