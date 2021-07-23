@@ -103,4 +103,21 @@ test.group('Extension Controller - Store', async (group) => {
     assert.equal(body[0].message, 'O campo priority deve ser numérico.')
   })
 
+  // ########################### APP ###############################
+  test('Should return 400 if app was not provided', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/extensions')
+      .send({
+        context: 'any_context',
+        priority: 1,
+        exten: 'answer',
+        appdata: 'a',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo app é obrigatório.')
+  })
+
 })
