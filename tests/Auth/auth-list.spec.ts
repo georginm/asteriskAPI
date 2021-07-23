@@ -62,4 +62,18 @@ test.group('Auth Controller - List', () => {
       'O campo username deve ser de no máximo 40 caracteres.'
     )
   })
+
+  // #################### AUTH HAS BEEN LISTED ######################
+  test('Should return 200 if auth has been listed', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .get('/auths/list/?id=auth_')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+
+    assert.equal(body[0].id, 'auth_')
+    assert.equal(body[0].username, 'any_username')
+    assert.equal(body[0].password, 'any_password')
+    assert.equal(body[0].auth_type, 'userpass')
+  })
 })
