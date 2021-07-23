@@ -84,6 +84,7 @@ test.group('Auth Controller - Store', (group) => {
     assert.equal(body[0].message, 'O campo id deve ser de texto.')
   })
 
+  // ########################### USERNAME ###########################
   test('Should return 400 if username was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
