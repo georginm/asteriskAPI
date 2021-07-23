@@ -2,6 +2,10 @@ import test from 'japa'
 import supertest from 'supertest'
 
 test.group('Auth Controller - Store', (group) => {
+  group.after(async () => {
+    await supertest(process.env.BASE_URL).delete('/auths/id_')
+  })
+
   // ############################# ID ################################
   test('Should return 400 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
@@ -163,4 +167,19 @@ test.group('Auth Controller - Store', (group) => {
     )
   })
 
+  // #################### AUTH HAS BEEN CREATED ######################
+  test('Should return 201 if auth has been created', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/auths')
+      .send({
+        id: 'any_i',
+        username: 'any_user',
+        password: 'password',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+
+    assert.exists(body)
+  })
 })
