@@ -1,7 +1,7 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-test.skip('Aor controller - Update', () => {
+test.group('Aor controller - Update', () => {
   // ############################## ID ###############################
   test('Should return 404 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
