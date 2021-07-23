@@ -29,4 +29,20 @@ test.group('Auth Controller - Update', () => {
     assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/auths')
   })
 
+  test('Should return 400 if id exceed the maximum length', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/auths/id_exceeds')
+      .send({
+        username: 'anyusername',
+        password: 'password',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(
+      body[0].message,
+      'O campo params.id deve ser de no máximo 5 caracteres.'
+    )
+  })
 })
