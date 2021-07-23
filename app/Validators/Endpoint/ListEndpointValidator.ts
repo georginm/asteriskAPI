@@ -45,7 +45,7 @@ export default class ListEndpointValidator {
       rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
-    mac_address: schema.string.optional({ trim: true }, [
+    macAddress: schema.string.optional({ trim: true }, [
       rules.maxLength(17),
       rules.minLength(17),
       rules.unique({ table: 'ps_endpoints', column: 'mac_address' }),
