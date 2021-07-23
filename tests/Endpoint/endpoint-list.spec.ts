@@ -4,7 +4,7 @@ import test from 'japa'
 // #################################################################
 // ###################### TEST GROUP - LIST ######################
 // #################################################################
-test.skip('Endpoint - List', async () => {
+test.group('Endpoint - List', async () => {
   // ############################## ID ###############################
   test('Should return 400 if id endpoint not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
@@ -239,38 +239,38 @@ test.skip('Endpoint - List', async () => {
   // ##################### MAC ADDRESS #############################
   test('Should return 400 if address length does not match the specified pattern', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
-      .get('/endpoints/list/?mac_address=01:23:45:67:89:AEE')
+      .get('/endpoints/list/?macAddress=01:23:45:67:89:AEE')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
 
     assert.equal(
       body[0].message,
-      'O campo mac_address deve ser de no máximo 17 caracteres.'
+      'O campo macAddress deve ser de no máximo 17 caracteres.'
     )
   })
 
-  test('Should return 400 if an invalid mac_address was provided', async (assert) => {
+  test('Should return 400 if an invalid macAddress was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
-      .get('/endpoints/list/?mac_address=01,23:45:67:89:ae')
+      .get('/endpoints/list/?macAddress=01,23:45:67:89:ae')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
 
     assert.equal(
       body[0].message,
-      'O campo mac_address não corresponde com o padrão aceito.'
+      'O campo macAddress não corresponde com o padrão aceito.'
     )
   })
 
-  test('Should return 400 if mac_address already exists', async (assert) => {
+  test('Should return 400 if macAddress already exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
-      .get('/endpoints/list/?mac_address=01:23:45:67:89:AC')
+      .get('/endpoints/list/?macAddress=01:23:45:67:89:AC')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo mac_address deve ser único.')
+    assert.equal(body[0].message, 'O campo macAddress deve ser único.')
   })
   // ###############################################################
 

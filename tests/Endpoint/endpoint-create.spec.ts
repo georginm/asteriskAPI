@@ -5,7 +5,7 @@ import supertest from 'supertest'
 // ###################### TEST GROUP - STORE ######################
 // #################################################################
 
-test.skip('Endpoint Controller - Store', (group) => {
+test.group('Endpoint Controller - Store', (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors2' })
     await supertest(process.env.BASE_URL).post('/auths').send({
@@ -31,7 +31,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors_',
         auth: 'auth_',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -39,7 +39,6 @@ test.skip('Endpoint Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    console.log(body[0].message)
     assert.equal(body[0].message, 'O campo id é obrigatório.')
   })
 
@@ -52,7 +51,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -75,7 +74,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -98,7 +97,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors_',
         auth: 'auth_',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:AA',
+        macAddress: '01:23:45:67:89:AA',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -120,7 +119,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors_',
         auth: 'auth_',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -140,7 +139,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors_',
         auth: 'auth_',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -164,7 +163,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         transport: 'udp',
         aors: 'aors2',
         auth: 'auth2',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -184,7 +183,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -209,7 +208,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         context: 'any_context',
         aors: 'aors_',
         auth: 'auth_',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         allow: 'alaw',
       })
       .set('Accept', 'application/json')
@@ -228,7 +227,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'teste',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'allsss,ssssss,sssss,sssss',
         allow: 'alaw',
       })
@@ -251,7 +250,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'teste',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'lsss asdasd asd asd',
         allow: 'alaw',
       })
@@ -274,7 +273,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'teste',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'alaw,tes',
         allow: 'alaw',
       })
@@ -299,7 +298,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         context: 'any_context',
         aors: 'aors_',
         auth: 'auth_',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'alaw',
       })
       .set('Accept', 'application/json')
@@ -318,7 +317,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'teste',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         allow: 'allsss,ssssssssss,sssssss,',
         disallow: 'alaw',
       })
@@ -341,7 +340,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'teste',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'alaw',
         allow: 'alaw asds asdas',
       })
@@ -364,7 +363,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'teste',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alsad',
       })
@@ -385,7 +384,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         transport: 'udp',
         auth: 'auth_',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -405,7 +404,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2asda',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -428,7 +427,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'ao',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -451,7 +450,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'not_e',
         auth: 'aors_',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:ab',
+        macAddress: '01:23:45:67:89:ab',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -471,7 +470,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors_',
         auth: 'aors_',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:ab',
+        macAddress: '01:23:45:67:89:ab',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -492,7 +491,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         transport: 'udp',
         aors: 'aors2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -512,7 +511,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2test',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -535,7 +534,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'au',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -558,7 +557,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'not_e',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:AE_test',
+        macAddress: '01:23:45:67:89:AE_test',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -572,7 +571,7 @@ test.skip('Endpoint Controller - Store', (group) => {
   // ###############################################################
 
   // ##################### MAC ADDRESS #############################
-  test('Should return 400 if mac_address was not provided', async (assert) => {
+  test('Should return 400 if macAddress was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
@@ -588,7 +587,7 @@ test.skip('Endpoint Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo mac_address é obrigatório.')
+    assert.equal(body[0].message, 'O campo macAddress é obrigatório.')
   })
 
   test('Should return 400 if address length does not match the specified pattern', async (assert) => {
@@ -600,7 +599,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AEE',
+        macAddress: '01:23:45:67:89:AEE',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -610,11 +609,11 @@ test.skip('Endpoint Controller - Store', (group) => {
 
     assert.equal(
       body[0].message,
-      'O campo mac_address deve ser de no máximo 17 caracteres.'
+      'O campo macAddress deve ser de no máximo 17 caracteres.'
     )
   })
 
-  test('Should return 400 if an invalid mac_address was provided', async (assert) => {
+  test('Should return 400 if an invalid macAddress was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
@@ -623,7 +622,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01,23:45:67:89:ae',
+        macAddress: '01,23:45:67:89:ae',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -633,11 +632,11 @@ test.skip('Endpoint Controller - Store', (group) => {
 
     assert.equal(
       body[0].message,
-      'O campo mac_address não corresponde com o padrão aceito.'
+      'O campo macAddress não corresponde com o padrão aceito.'
     )
   })
 
-  test('Should return 400 if mac_address already exists', async (assert) => {
+  test('Should return 400 if macAddress already exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/endpoints')
       .send({
@@ -646,7 +645,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AC',
+        macAddress: '01:23:45:67:89:AC',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -654,7 +653,7 @@ test.skip('Endpoint Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo mac_address deve ser único.')
+    assert.equal(body[0].message, 'O campo macAddress deve ser único.')
   })
   // ###############################################################
 
@@ -668,7 +667,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         deny: '154.145.142.9999',
@@ -692,7 +691,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         deny: '154.145.142.999/266.254.215.25',
@@ -716,7 +715,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         deny: '255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255,255.64.2.199/145.8.218.54,255.64.2.199/255.255.255.255',
@@ -740,7 +739,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         deny: '1.1.1.',
@@ -766,7 +765,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         contact_deny: '154.145.142.9999',
@@ -790,7 +789,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         contact_deny: '154.145.142.999/266.254.215.25',
@@ -814,7 +813,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_deny:
@@ -839,7 +838,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_deny: '1.1.1.',
@@ -865,7 +864,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         permit: '154.145.142.9999',
@@ -889,7 +888,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         permit: '154.145.142.999/266.254.215.25',
@@ -913,7 +912,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         permit:
@@ -938,7 +937,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         permit: '1.1.1.',
@@ -964,7 +963,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '154.145.142.9999',
@@ -988,7 +987,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '154.145.142.999/266.254.215.25',
@@ -1012,7 +1011,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit:
@@ -1037,7 +1036,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '1.1.1.',
@@ -1063,7 +1062,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         call_group: 'as',
@@ -1087,7 +1086,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1114,7 +1113,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
         pickup_group: 'as',
@@ -1138,7 +1137,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1165,7 +1164,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1192,7 +1191,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1219,7 +1218,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1246,7 +1245,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1273,7 +1272,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         contact_permit: '255.64.2.199/145.8.218.54',
@@ -1300,7 +1299,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         rewrite_contact: 'maybe',
@@ -1323,7 +1322,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         rtp_symmetric: 'maybe',
@@ -1346,7 +1345,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         force_rport: 'maybe',
@@ -1369,7 +1368,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         direct_media: 'maybe',
@@ -1392,7 +1391,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         t38_udptl: 'maybe',
@@ -1415,7 +1414,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         t38_udptl_nat: 'maybe',
@@ -1438,7 +1437,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         disable_direct_media_on_nat: 'maybe',
@@ -1464,7 +1463,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         ice_support: 'maybe',
@@ -1487,7 +1486,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         allow_overlap: 'maybe',
@@ -1510,7 +1509,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         dtmf_mode: 'maybe',
@@ -1536,7 +1535,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         rtp_timeout: 'maybe',
@@ -1559,7 +1558,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         rtp_timeout_hold: 'maybe',
@@ -1582,7 +1581,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         rtp_timeout_hold: 'maybe',
@@ -1605,7 +1604,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         rtp_keepalive: 'maybe',
@@ -1628,7 +1627,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         timers_sess_expires: 'maybe',
@@ -1654,7 +1653,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         device_state_busy_at: 'maybe',
@@ -1680,7 +1679,7 @@ test.skip('Endpoint Controller - Store', (group) => {
         aors: 'aors2',
         auth: 'auth2',
         context: 'from-internal',
-        mac_address: '01:23:45:67:89:B4',
+        macAddress: '01:23:45:67:89:B4',
         disallow: 'all',
         allow: 'alaw',
       })
@@ -1688,7 +1687,6 @@ test.skip('Endpoint Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(201)
 
-    // assert.equal(body[0].message,  'O registro de auth não existe.')
     assert.equal(body.id, 'test')
     assert.equal(body.transport, 'udp')
     assert.equal(body.aors, 'aors2')

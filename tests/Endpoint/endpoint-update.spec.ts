@@ -4,13 +4,12 @@ import supertest from 'supertest'
 // #################################################################
 // ###################### TEST GROUP - UPDATE ######################
 // #################################################################
-test.skip('Endpoint Controller - Update', (group) => {
+test.group('Endpoint Controller - Update', (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'exist' })
     await supertest(process.env.BASE_URL).post('/auths').send({
       id: 'exist',
-      auth_type: 'userpass',
-      username: 'any_user',
+      username: 'any_username3',
       password: 'any_password2',
     })
   })
@@ -308,7 +307,7 @@ test.skip('Endpoint Controller - Update', (group) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
-        mac_address: '01:23:45:67:89:AEE',
+        macAddress: '01:23:45:67:89:AEE',
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -316,15 +315,15 @@ test.skip('Endpoint Controller - Update', (group) => {
 
     assert.equal(
       body[0].message,
-      'O campo mac_address deve ser de no máximo 17 caracteres.'
+      'O campo macAddress deve ser de no máximo 17 caracteres.'
     )
   })
 
-  test('Should return 400 if an invalid mac_address was provided', async (assert) => {
+  test('Should return 400 if an invalid macAddress was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
-        mac_address: '01,23:45:67:89:ae',
+        macAddress: '01,23:45:67:89:ae',
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -332,21 +331,21 @@ test.skip('Endpoint Controller - Update', (group) => {
 
     assert.equal(
       body[0].message,
-      'O campo mac_address não corresponde com o padrão aceito.'
+      'O campo macAddress não corresponde com o padrão aceito.'
     )
   })
 
-  test('Should return 400 if mac_address already exists', async (assert) => {
+  test('Should return 400 if macAddress already exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
-        mac_address: '01:23:45:67:89:AC',
+        macAddress: '01:23:45:67:89:AC',
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo mac_address deve ser único.')
+    assert.equal(body[0].message, 'O campo macAddress deve ser único.')
   })
   // ###############################################################
 
@@ -1003,7 +1002,7 @@ test.skip('Endpoint Controller - Update', (group) => {
         aors: 'exist',
         auth: 'exist',
         context: 'any_context',
-        mac_address: '01:23:45:67:89:AE',
+        macAddress: '01:23:45:67:89:AE',
         disallow: 'all',
         allow: 'alaw',
         deny: '100.251.136.36',

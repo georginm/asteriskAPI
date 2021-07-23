@@ -1,13 +1,12 @@
 import test from 'japa'
 import supertest from 'supertest'
 
-test.skip('Endpoint - Delete', async (group) => {
+test.group('Endpoint - Delete', async (group) => {
   group.before(async () => {
     await supertest(process.env.BASE_URL).post('/aors').send({ id: 'exist' })
     await supertest(process.env.BASE_URL).post('/auths').send({
       id: 'exist',
-      auth_type: 'userpass',
-      username: 'any_user',
+      username: 'any_user2',
       password: 'any_password2',
     })
     await supertest(process.env.BASE_URL).post('/endpoints').send({
@@ -16,7 +15,7 @@ test.skip('Endpoint - Delete', async (group) => {
       aors: 'exist',
       auth: 'exist',
       context: 'from-internal',
-      mac_address: '01:23:45:67:89:B4',
+      macAddress: '01:23:45:67:89:B4',
       disallow: 'all',
       allow: 'alaw',
     })
