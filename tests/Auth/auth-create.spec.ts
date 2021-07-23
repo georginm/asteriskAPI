@@ -70,6 +70,20 @@ test.group('Auth Controller - Store', (group) => {
       'O campo id deve ser de no mínimo 3 caracteres.'
     )
   })
+
+  test('Should return 400 if id receives a number', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .post('/auths')
+      .send({
+        id: 144,
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body[0].message, 'O campo id deve ser de texto.')
+  })
+
   test('Should return 400 if username was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
