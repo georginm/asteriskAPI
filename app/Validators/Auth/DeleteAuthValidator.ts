@@ -2,7 +2,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import validation from 'App/localization/validation'
 
-export default class DeleteAuthValidator {
+class DeleteAuthValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
@@ -17,3 +17,5 @@ export default class DeleteAuthValidator {
 
   public messages = validation
 }
+
+export { DeleteAuthValidator }
