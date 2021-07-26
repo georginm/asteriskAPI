@@ -2,7 +2,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import validation from 'App/localization/validation'
 
-export default class UpdateEndpointValidator {
+class UpdateEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
@@ -132,3 +132,5 @@ export default class UpdateEndpointValidator {
 
   public messages = validation
 }
+
+export { UpdateEndpointValidator }
