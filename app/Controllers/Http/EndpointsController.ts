@@ -1,9 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Endpoint from 'App/Models/Endpoint'
-import CreateEndpoint from 'App/Validators/Endpoint/CreateEndpointValidator'
-import UpdateEndpoint from 'App/Validators/Endpoint/UpdateEndpointValidator'
-import ListEndpoint from 'App/Validators/Endpoint/ListEndpointValidator'
-import DeleteEndpoint from 'App/Validators/Endpoint/DeleteEndpointValidator'
+import {
+  CreateEndpointValidator,
+  UpdateEndpointValidator,
+  ListEndpointValidator,
+  DeleteEndpointValidator,
+} from 'App/Validators/Endpoint'
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
@@ -13,7 +15,7 @@ export default class EndpointsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const validator = await request.validate(CreateEndpoint)
+      const validator = await request.validate(CreateEndpointValidator)
       const data = await Endpoint.create(validator)
 
       return response.created(data)
@@ -24,7 +26,9 @@ export default class EndpointsController {
 
   public async update({ request, response }: HttpContextContract) {
     try {
-      const { params, ...validator } = await request.validate(UpdateEndpoint)
+      const { params, ...validator } = await request.validate(
+        UpdateEndpointValidator
+      )
       const data = await Endpoint.find(params.id)
 
       if (!data) {
@@ -42,7 +46,7 @@ export default class EndpointsController {
 
   public async destroy({ request, response }: HttpContextContract) {
     try {
-      const { params } = await request.validate(DeleteEndpoint)
+      const { params } = await request.validate(DeleteEndpointValidator)
 
       const data = await Endpoint.find(params.id)
 
@@ -60,7 +64,7 @@ export default class EndpointsController {
 
   public async list({ request, response }: HttpContextContract) {
     try {
-      const where = await request.validate(ListEndpoint)
+      const where = await request.validate(ListEndpointValidator)
       const data = await Endpoint.query()
         .where({ ...where })
         .orderBy('id')
