@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Extension from 'App/Models/Extension'
 import CreateExtensionValidator from 'App/Validators/Extension/CreateExtensionValidator'
+import UpdateExtensionValidator from 'App/Validators/Extension/UpdateExtensionValidator'
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
@@ -20,9 +21,11 @@ export default class ExtensionsController {
   }
 
   public async update({ request, response }: HttpContextContract) {
-    const { id } = request.params()
+    const { params, ...validator } = await request.validate(
+      UpdateExtensionValidator
+    )
 
-    const data = await Extension.find(id)
+    const data = await Extension.find(params.id)
 
     if (!data) {
       return response.badRequest({ message: 'Extension Not Exists' })
