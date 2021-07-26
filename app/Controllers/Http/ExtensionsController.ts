@@ -1,7 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Extension from 'App/Models/Extension'
-import CreateExtensionValidator from 'App/Validators/Extension/CreateExtensionValidator'
-import UpdateExtensionValidator from 'App/Validators/Extension/UpdateExtensionValidator'
+import {
+  CreateExtensionValidator,
+  UpdateExtensionValidator,
+} from 'App/Validators/Extension'
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
