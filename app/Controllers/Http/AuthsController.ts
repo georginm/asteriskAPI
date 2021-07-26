@@ -1,9 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Auth from 'App/Models/Auth'
-import CreateAuthValidator from 'App/Validators/Auth/CreateAuthValidator'
-import DeleteAuthValidator from 'App/Validators/Auth/DeleteAuthValidator'
-import ListAuthValidator from 'App/Validators/Auth/ListAuthValidator'
-import UpdateAuthValidator from 'App/Validators/Auth/UpdateAuthValidator'
+import {
+  CreateAuthValidator,
+  DeleteAuthValidator,
+  ListAuthValidator,
+  UpdateAuthValidator,
+} from 'App/Validators/Auth'
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
