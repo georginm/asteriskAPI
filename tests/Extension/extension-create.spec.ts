@@ -224,5 +224,7 @@ test.group('Extension Controller - Store', async (group) => {
     assert.equal(body.priority, 1)
     assert.equal(body.app, 'answer')
     assert.equal(body.appdata, 'a')
+
+    await supertest(process.env.BASE_URL).delete(`/extensions/${body.id}`)
   })
 })
