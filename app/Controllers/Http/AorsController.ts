@@ -1,9 +1,11 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Aor from 'App/Models/Aor'
-import CreateAorValidator from 'App/Validators/Aor/CreateAorValidator'
-import DeleteAorValidator from 'App/Validators/Aor/DeleteAorValidator'
-import ListAorValidator from 'App/Validators/Aor/ListAorValidator'
-import UpdateAorValidator from 'App/Validators/Aor/UpdateAorValidator'
+import {
+  CreateAorValidator,
+  DeleteAorValidator,
+  ListAorValidator,
+  UpdateAorValidator,
+} from 'app/Validators/Aor'
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
