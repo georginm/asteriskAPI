@@ -2,7 +2,7 @@ import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import validation from 'App/localization/validation'
 
-export default class CreateAorValidator {
+class CreateAorValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
@@ -19,3 +19,5 @@ export default class CreateAorValidator {
 
   public messages = validation
 }
+
+export { CreateAorValidator }
