@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import EndpointService from 'App/Services/EndpointServices'
 import Endpoint from 'App/Models/Endpoint'
 import {
   CreateEndpointValidator,
@@ -15,67 +16,82 @@ export default class EndpointsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const validator = await request.validate(CreateEndpointValidator)
-      const data = await Endpoint.create(validator)
+      await request.validate(CreateEndpointValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
 
+    try {
+      const data = await new EndpointService().create(request.body())
       return response.created(data)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      if (error.status === 400) {
+        return response.badRequest({ message: error.message })
+      }
+
+      return response.internalServerError(error)
     }
   }
 
   public async update({ request, response }: HttpContextContract) {
     try {
-      const { params, ...validator } = await request.validate(
-        UpdateEndpointValidator
-      )
-      const data = await Endpoint.find(params.id)
+      await request.validate(UpdateEndpointValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
 
-      if (!data) {
-        return response.badRequest({ message: 'Internal Server Error' })
-      }
-
-      data.merge(validator)
-      await data.save()
+    try {
+      const { id } = request.params()
+      const data = await new EndpointService().update({
+        id,
+        ...request.body(),
+      })
 
       return response.ok(data)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      if (error.status === 400) {
+        return response.badRequest({ message: error.message })
+      }
+
+      return response.internalServerError(error)
     }
   }
 
   public async destroy({ request, response }: HttpContextContract) {
     try {
-      const { params } = await request.validate(DeleteEndpointValidator)
+      await request.validate(DeleteEndpointValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
 
-      const data = await Endpoint.find(params.id)
+    try {
+      await new EndpointService().destroy(request.params())
 
-      if (!data) {
-        return response.badRequest({ message: 'Endpoint Not Exists' })
+      return response.ok({ message: 'Endpoint Has Been Deleted.' })
+    } catch (error) {
+      if (error.status === 400) {
+        return response.badRequest({ message: error.message })
       }
 
-      await data.delete()
-
-      return response.ok({ message: 'Endpoint Has Been Deleted' })
-    } catch (error) {
-      return response.badRequest(error.messages.errors)
+      return response.internalServerError(error)
     }
   }
 
   public async list({ request, response }: HttpContextContract) {
     try {
-      const where = await request.validate(ListEndpointValidator)
-      const data = await Endpoint.query()
-        .where({ ...where })
-        .orderBy('id')
-
-      if (!data.length) {
-        return response.badRequest({ message: 'Endpoints Not Exists' })
-      }
-
-      return response.ok(data)
+      await request.validate(ListEndpointValidator)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      return response.unprocessableEntity(error.messages.errors)
     }
+
+    const data = await new EndpointService().list(request.qs())
+
+    if (!data.length) {
+      return response.badRequest({
+        message: 'There is no endpoint with the information provided.',
+      })
+    }
+
+    return response.ok(data)
   }
 }
