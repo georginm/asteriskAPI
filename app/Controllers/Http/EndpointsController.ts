@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import EndpointService from 'App/Services/EndpointServices'
-import Endpoint from 'App/Models/Endpoint'
 import {
   CreateEndpointValidator,
   UpdateEndpointValidator,
@@ -10,7 +9,7 @@ import {
 
 export default class EndpointsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Endpoint.all()
+    const data = await new EndpointService().index()
     return response.ok(data)
   }
 
