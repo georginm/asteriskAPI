@@ -6,11 +6,9 @@ class ListEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    // qs: schema.object().members({
     id: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.exists({ table: 'ps_endpoints', column: 'id' }),
     ]),
 
     context: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
@@ -34,21 +32,16 @@ class ListEndpointValidator {
     aors: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'aors' }),
-      rules.exists({ table: 'ps_aors', column: 'id' }),
     ]),
 
     auth: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'auth' }),
-      rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
     macAddress: schema.string.optional({ trim: true }, [
       rules.maxLength(17),
       rules.minLength(17),
-      rules.unique({ table: 'ps_endpoints', column: 'mac_address' }),
       rules.regex(/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/),
     ]),
 
@@ -103,15 +96,6 @@ class ListEndpointValidator {
       rules.maxLength(40),
     ]),
 
-    rewrite_contact: schema.enum.optional(['yes', 'no'] as const),
-    rtp_symmetric: schema.enum.optional(['yes', 'no'] as const),
-    force_rport: schema.enum.optional(['yes', 'no'] as const),
-    direct_media: schema.enum.optional(['yes', 'no'] as const),
-    t38_udptl: schema.enum.optional(['yes', 'no'] as const),
-    t38_udptl_nat: schema.enum.optional(['yes', 'no'] as const),
-    disable_direct_media_on_nat: schema.enum.optional(['yes', 'no'] as const),
-    ice_support: schema.enum.optional(['yes', 'no'] as const),
-    allow_overlap: schema.enum.optional(['yes', 'no'] as const),
     transport: schema.enum.optional(['udp', 'tcp', 'tls', 'ws', 'wss']),
 
     dtmf_mode: schema.enum.optional([
@@ -121,14 +105,7 @@ class ListEndpointValidator {
       'auto',
       'auto_info',
     ] as const),
-
-    rtp_timeout: schema.number.optional(),
-    rtp_timeout_hold: schema.number.optional(),
-    rtp_keepalive: schema.number.optional(),
-    timers_sess_expires: schema.number.optional(),
-    device_state_busy_at: schema.number.optional(),
   })
-  // })
 
   public messages = validator
 }
