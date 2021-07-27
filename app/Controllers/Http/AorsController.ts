@@ -5,7 +5,7 @@ import {
   DeleteAorValidator,
   ListAorValidator,
   UpdateAorValidator,
-} from 'app/Validators/Aor'
+} from 'App/Validators/Aor'
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
@@ -18,7 +18,6 @@ export default class AorsController {
       const validator = await request.validate(CreateAorValidator)
 
       const data = await Aor.create(validator)
-
       return response.created(data)
     } catch (error) {
       return response.badRequest(error.messages.errors)
