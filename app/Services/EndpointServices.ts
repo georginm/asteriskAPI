@@ -45,4 +45,19 @@ export default class EndpointService {
       throw new Exception(error, 500)
     }
   }
+
+  public async destroy(data) {
+    await exists('ps_endpoints', 'id', data.id, 'endpoint')
+
+    const item = await Endpoint.find(data.id)
+    try {
+      if (!item) {
+        throw new Exception('Internal Server Error', 500)
+      }
+
+      return await item.delete()
+    } catch (error) {
+      throw new Exception(error, 500)
+    }
+  }
 }
