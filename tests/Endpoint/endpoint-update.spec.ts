@@ -26,7 +26,7 @@ test.group('Endpoint Controller - Update', (group) => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
-    assert.equal(body[0].message, 'O registro de params.id não existe.')
+    assert.equal(body.message, 'O registro de endpoint não existe.')
   })
 
   test('Should return 404 if id endpoint was not provided', async (assert) => {
@@ -36,12 +36,12 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/endpoints')
   })
 
-  test('Should return 400 if id exceeds the maximum length', async (assert) => {
+  test('Should return 422 if id exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/exceeed')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -49,12 +49,12 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -63,7 +63,7 @@ test.group('Endpoint Controller - Update', (group) => {
   })
 
   // ######################### Transport #############################
-  test('Should return 400 if transport provided not exists', async (assert) => {
+  test('Should return 422 if transport provided not exists', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -71,7 +71,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -81,7 +81,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // #################################################################
 
   // ######################### CONTEXT #############################
-  test('Should return 400 if context exceeds the maximum length', async (assert) => {
+  test('Should return 422 if context exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -89,7 +89,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -99,7 +99,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################## DISALLOW #############################
-  test('Should return 400 if disallow exceeds the maximum length', async (assert) => {
+  test('Should return 422 if disallow exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -107,7 +107,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -115,7 +115,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid disallow was provided', async (assert) => {
+  test('Should return 422 if an invalid disallow was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -123,7 +123,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -131,7 +131,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid codec was provided', async (assert) => {
+  test('Should return 422 if an invalid codec was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -139,7 +139,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -149,7 +149,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################## ALLOW #############################
-  test('Should return 400 if allow exceeds the maximum length', async (assert) => {
+  test('Should return 422 if allow exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -157,7 +157,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -165,7 +165,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid allow was provided', async (assert) => {
+  test('Should return 422 if an invalid allow was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -173,7 +173,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -181,7 +181,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid codec was provided', async (assert) => {
+  test('Should return 422 if an invalid codec was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -189,14 +189,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo allow deve conter um codec válido.')
   })
   // ###############################################################
 
   // ########################## AORS ###############################
-  test('Should return 400 if aors exceeds the maximum length', async (assert) => {
+  test('Should return 422 if aors exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -204,7 +204,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -212,7 +212,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if aors is below the minimum length', async (assert) => {
+  test('Should return 422 if aors is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -220,7 +220,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -238,10 +238,10 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O registro de aors não existe.')
+    assert.equal(body.message, 'O registro de aors não existe.')
   })
 
-  test('Should return 400 if provided aor already exists', async (assert) => {
+  test('Should return 400 if provided aor already registered', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -251,12 +251,12 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo aors deve ser único.')
+    assert.equal(body.message, 'O campo aors deve ser único.')
   })
   // ###############################################################
 
   // ########################### AUTH ##############################
-  test('Should return 400 if auth exceeds the maximum length', async (assert) => {
+  test('Should return 422 if auth exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -264,7 +264,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -272,7 +272,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if auth is below the minimum length', async (assert) => {
+  test('Should return 422 if auth is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -280,7 +280,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -298,6 +298,9 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
+    assert.equal(body.message, 'O registro de auth não existe.')
+  })
+
   test('Should return 400 if provided auth already registered', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
@@ -313,7 +316,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ##################### MAC ADDRESS #############################
-  test('Should return 400 if address length does not match the specified pattern', async (assert) => {
+  test('Should return 422 if address length does not match the specified pattern', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -321,7 +324,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -329,7 +332,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid macAddress was provided', async (assert) => {
+  test('Should return 422 if an invalid macAddress was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -337,7 +340,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -345,7 +348,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if macAddress already exists', async (assert) => {
+  test('Should return 400 if macAddress already registered', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -355,12 +358,12 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo macAddress deve ser único.')
+    assert.equal(body.message, 'O campo mac_address deve ser único.')
   })
   // ###############################################################
 
   // ############################## DENY ###########################
-  test('Should return 400 if an invalid ip was provided', async (assert) => {
+  test('Should return 422 if an invalid ip was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -368,7 +371,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -376,7 +379,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid mask was provided', async (assert) => {
+  test('Should return 422 if an invalid mask was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -384,7 +387,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -392,7 +395,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if deny exceeds the maximum length', async (assert) => {
+  test('Should return 422 if deny exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -400,7 +403,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -408,7 +411,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if deny is below the minimum length', async (assert) => {
+  test('Should return 422 if deny is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -416,7 +419,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -426,7 +429,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################## CONTACT DENY #########################
-  test('Should return 400 if an invalid ip was provided', async (assert) => {
+  test('Should return 422 if an invalid ip was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -434,7 +437,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -442,7 +445,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid mask was provided', async (assert) => {
+  test('Should return 422 if an invalid mask was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -450,7 +453,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -458,7 +461,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if contact_deny exceeds the maximum length', async (assert) => {
+  test('Should return 422 if contact_deny exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -467,7 +470,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -475,7 +478,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if contact_deny is below the minimum length', async (assert) => {
+  test('Should return 422 if contact_deny is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -483,7 +486,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -493,7 +496,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ########################### PERMIT ############################
-  test('Should return 400 if an invalid ip was provided', async (assert) => {
+  test('Should return 422 if an invalid ip was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -501,7 +504,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -509,7 +512,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid mask was provided', async (assert) => {
+  test('Should return 422 if an invalid mask was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -517,7 +520,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -525,7 +528,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if permit exceeds the maximum length', async (assert) => {
+  test('Should return 422 if permit exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -534,7 +537,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -542,7 +545,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if permit is below the minimum length', async (assert) => {
+  test('Should return 422 if permit is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -550,7 +553,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -560,7 +563,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ####################### CONTACT PERMIT ########################
-  test('Should return 400 if an invalid ip was provided', async (assert) => {
+  test('Should return 422 if an invalid ip was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -568,7 +571,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -576,7 +579,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if an invalid mask was provided', async (assert) => {
+  test('Should return 422 if an invalid mask was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -584,7 +587,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -592,7 +595,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if contact_permit exceeds the maximum length', async (assert) => {
+  test('Should return 422 if contact_permit exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -601,7 +604,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -609,7 +612,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if contact_permit is below the minimum length', async (assert) => {
+  test('Should return 422 if contact_permit is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -617,7 +620,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -627,7 +630,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################## CALL GROUP ###########################
-  test('Should return 400 if invalid callgroup was provided', async (assert) => {
+  test('Should return 422 if invalid callgroup was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -635,7 +638,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -643,7 +646,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if call_group exceeds the maximum length', async (assert) => {
+  test('Should return 422 if call_group exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -651,7 +654,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -661,7 +664,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ####################### PICKUP GROUP ##########################
-  test('Should return 400 if invalid pickup_group was provided', async (assert) => {
+  test('Should return 422 if invalid pickup_group was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -669,7 +672,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -677,7 +680,7 @@ test.group('Endpoint Controller - Update', (group) => {
     )
   })
 
-  test('Should return 400 if pickup_group exceeds the maximum length', async (assert) => {
+  test('Should return 422 if pickup_group exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -685,7 +688,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -695,7 +698,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ###################### NAMED CALL GROUP #######################
-  test('Should return 400 if named_call_group exceeds the maximum length', async (assert) => {
+  test('Should return 422 if named_call_group exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -703,7 +706,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -713,7 +716,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ###################### NAMED CALL GROUP #######################
-  test('Should return 400 if named_pickup_group exceeds the maximum length', async (assert) => {
+  test('Should return 422 if named_pickup_group exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -721,7 +724,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -731,7 +734,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ####################### OUTBOUND AUTH ########################
-  test('Should return 400 if outbound_auth exceeds the maximum length', async (assert) => {
+  test('Should return 422 if outbound_auth exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -739,7 +742,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -749,7 +752,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ####################### OUTBOUND PROXY ########################
-  test('Should return 400 if outbound_proxy exceeds the maximum length', async (assert) => {
+  test('Should return 422 if outbound_proxy exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -757,7 +760,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -767,7 +770,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################## RTP SYMMETRIC #########################
-  test('Should return 400 if an invalid rtp_symmetric was provided', async (assert) => {
+  test('Should return 422 if an invalid rtp_symmetric was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -775,14 +778,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo rtp_symmetric deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ######################## FORCE R PORT #########################
-  test('Should return 400 if an invalid force_rport was provided', async (assert) => {
+  test('Should return 422 if an invalid force_rport was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -790,14 +793,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo force_rport deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ######################## DIRECT MEDIA #########################
-  test('Should return 400 if an invalid direct_media was provided', async (assert) => {
+  test('Should return 422 if an invalid direct_media was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -805,14 +808,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo direct_media deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ######################### T38 UDP TL ##########################
-  test('Should return 400 if an invalid t38_udptl was provided', async (assert) => {
+  test('Should return 422 if an invalid t38_udptl was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -820,14 +823,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo t38_udptl deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ####################### T38 UDP TL NAT ########################
-  test('Should return 400 if an invalid t38_udptl_nat was provided', async (assert) => {
+  test('Should return 422 if an invalid t38_udptl_nat was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -835,14 +838,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo t38_udptl_nat deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ################# DISABLE DIRECT MEDIA ON NAT #################
-  test('Should return 400 if an invalid disable_direct_media_on_nat was provided', async (assert) => {
+  test('Should return 422 if an invalid disable_direct_media_on_nat was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -850,7 +853,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -860,7 +863,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################### ICE SUPPORT #########################
-  test('Should return 400 if an invalid ice_support was provided', async (assert) => {
+  test('Should return 422 if an invalid ice_support was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -868,14 +871,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo ice_support deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ######################## ALLOW OVERLAP ########################
-  test('Should return 400 if an invalid allow_overlap was provided', async (assert) => {
+  test('Should return 422 if an invalid allow_overlap was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -883,14 +886,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, "O campo allow_overlap deve ser 'yes,no'.")
   })
   // ###############################################################
 
   // ######################## DTMF MODE ########################
-  test('Should return 400 if an invalid dtmf_mode was provided', async (assert) => {
+  test('Should return 422 if an invalid dtmf_mode was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -898,7 +901,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -908,7 +911,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // ######################## RTP TIMEOUT ########################
-  test('Should return 400 if an invalid rtp_timeout was provided', async (assert) => {
+  test('Should return 422 if an invalid rtp_timeout was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -916,14 +919,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo rtp_timeout deve ser numérico.')
   })
   // ###############################################################
 
   // ###################### RTP TIMEOUT HOLD #######################
-  test('Should return 400 if an invalid rtp_timeout_hold was provided', async (assert) => {
+  test('Should return 422 if an invalid rtp_timeout_hold was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -931,14 +934,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo rtp_timeout_hold deve ser numérico.')
   })
   // ###############################################################
 
   // ###################### RTP TIMEOUT HOLD #######################
-  test('Should return 400 if an invalid rtp_timeout_hold was provided', async (assert) => {
+  test('Should return 422 if an invalid rtp_timeout_hold was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -946,14 +949,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo rtp_timeout_hold deve ser numérico.')
   })
   // ###############################################################
 
   // ####################### RTP KEEPALIVE #########################
-  test('Should return 400 if an invalid rtp_keepalive was provided', async (assert) => {
+  test('Should return 422 if an invalid rtp_keepalive was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -961,14 +964,14 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo rtp_keepalive deve ser numérico.')
   })
   // ###############################################################
 
   // #################### TIMERS SESS EXPIRES ######################
-  test('Should return 400 if an invalid timers_sess_expires was provided', async (assert) => {
+  test('Should return 422 if an invalid timers_sess_expires was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -976,7 +979,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -986,7 +989,7 @@ test.group('Endpoint Controller - Update', (group) => {
   // ###############################################################
 
   // #################### DEVICE STATE BUSY AT #####################
-  test('Should return 400 if an invalid device_state_busy_at was provided', async (assert) => {
+  test('Should return 422 if an invalid device_state_busy_at was provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/endpoints/id_ex')
       .send({
@@ -994,7 +997,7 @@ test.group('Endpoint Controller - Update', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -1050,7 +1053,7 @@ test.group('Endpoint Controller - Update', (group) => {
     assert.equal(body.aors, 'exist')
     assert.equal(body.auth, 'exist')
     assert.equal(body.context, 'any_context')
-    assert.equal(body.mac_address, '01:23:45:67:89:AE')
+    assert.equal(body.macAddress, '01:23:45:67:89:AE')
     assert.equal(body.disallow, 'all')
     assert.equal(body.allow, 'alaw')
     assert.equal(body.deny, '100.251.136.36')

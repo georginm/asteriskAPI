@@ -33,7 +33,7 @@ test.group('Endpoint - Delete', async (group) => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(400)
-    assert.equal(body[0].message, 'O registro de params.id não existe.')
+    assert.equal(body.message, 'O registro de endpoint não existe.')
   })
 
   test('Should return 404 if id endpoint was not provided', async (assert) => {
@@ -46,12 +46,12 @@ test.group('Endpoint - Delete', async (group) => {
     )
   })
 
-  test('Should return 400 if id exceeds the maximum length', async (assert) => {
+  test('Should return 422 if id exceeds the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .delete('/endpoints/exceeed')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -59,12 +59,12 @@ test.group('Endpoint - Delete', async (group) => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .delete('/endpoints/id')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -78,6 +78,6 @@ test.group('Endpoint - Delete', async (group) => {
       .set('Accept', 'application/json')
       .expect(200)
 
-    assert.equal(body.message, 'Endpoint Has Been Deleted')
+    assert.equal(body.message, 'Endpoint Has Been Deleted.')
   })
 })
