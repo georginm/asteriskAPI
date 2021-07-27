@@ -65,4 +65,8 @@ export default class EndpointService {
   public async list(data) {
     return await Endpoint.query().where(data).orderBy('id')
   }
+
+  public async index() {
+    return await Endpoint.all()
+  }
 }
