@@ -10,7 +10,6 @@ class UpdateEndpointValidator {
       id: schema.string({ trim: true }, [
         rules.maxLength(5),
         rules.minLength(3),
-        rules.exists({ table: 'ps_endpoints', column: 'id' }),
       ]),
     }),
 
@@ -35,21 +34,16 @@ class UpdateEndpointValidator {
     aors: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'aors' }),
-      rules.exists({ table: 'ps_aors', column: 'id' }),
     ]),
 
     auth: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'auth' }),
-      rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
     macAddress: schema.string.optional({ trim: true }, [
       rules.maxLength(17),
       rules.minLength(17),
-      rules.unique({ table: 'ps_endpoints', column: 'mac_address' }),
       rules.regex(/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/),
     ]),
 

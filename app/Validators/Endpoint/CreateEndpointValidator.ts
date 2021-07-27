@@ -6,11 +6,7 @@ class CreateEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [
-      rules.maxLength(5),
-      rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'id' }),
-    ]),
+    id: schema.string({ trim: true }, [rules.maxLength(5), rules.minLength(3)]),
 
     transport: schema.enum(['udp', 'tcp', 'tls', 'ws', 'wss']),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
@@ -34,21 +30,16 @@ class CreateEndpointValidator {
     aors: schema.string({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'aors' }),
-      rules.exists({ table: 'ps_aors', column: 'id' }),
     ]),
 
     auth: schema.string({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.unique({ table: 'ps_endpoints', column: 'auth' }),
-      rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
     macAddress: schema.string({ trim: true }, [
       rules.maxLength(17),
       rules.minLength(17),
-      rules.unique({ table: 'ps_endpoints', column: 'mac_address' }),
       rules.regex(/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/),
     ]),
 
