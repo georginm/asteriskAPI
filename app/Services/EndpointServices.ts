@@ -60,4 +60,8 @@ export default class EndpointService {
       throw new Exception(error, 500)
     }
   }
+
+  public async list(data) {
+    return await Endpoint.query().where(data).orderBy('id')
+  }
 }
