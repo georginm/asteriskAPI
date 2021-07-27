@@ -298,7 +298,17 @@ test.group('Endpoint Controller - Update', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O registro de auth não existe.')
+  test('Should return 400 if provided auth already registered', async (assert) => {
+    const { body } = await supertest(process.env.BASE_URL)
+      .put('/endpoints/id_ex')
+      .send({
+        auth: 'auth_',
+      })
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+
+    assert.equal(body.message, 'O campo auth deve ser único.')
   })
   // ###############################################################
 
