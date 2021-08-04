@@ -10,7 +10,6 @@ class DeleteAorValidator {
       id: schema.string({ trim: true }, [
         rules.maxLength(5),
         rules.minLength(3),
-        rules.exists({ table: 'ps_aors', column: 'id' }),
       ]),
     }),
   })
