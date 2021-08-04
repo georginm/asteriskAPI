@@ -7,7 +7,7 @@ test.group('Aor controller - Store', (group) => {
   })
 
   // ############################## ID ###############################
-  test('Should return 400 if id was not provided', async (assert) => {
+  test('Should return 404 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -15,7 +15,7 @@ test.group('Aor controller - Store', (group) => {
         max_contacts: 1,
       })
       .set('Accept', 'application/json')
-      .expect(400)
+      .expect(404)
 
     assert.equal(body[0].message, 'O campo id é obrigatório.')
   })
@@ -28,11 +28,10 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect(400)
-
-    assert.equal(body[0].message, 'O campo id deve ser único.')
+    assert.equal(body.message, 'O campo id deve ser único.')
   })
 
-  test('Should return 400 if id exceed the maximum length', async (assert) => {
+  test('Should return 422 if id exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -40,7 +39,7 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -48,7 +47,7 @@ test.group('Aor controller - Store', (group) => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -56,7 +55,7 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -64,7 +63,7 @@ test.group('Aor controller - Store', (group) => {
     )
   })
 
-  test('Should return 400 if id receives a number', async (assert) => {
+  test('Should return 422 if id receives a number', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -72,13 +71,13 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo id deve ser de texto.')
   })
 
   // ########################## CONTACT ##############################
-  test('Should return 400 if contact receives a number', async (assert) => {
+  test('Should return 422 if contact receives a number', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -87,12 +86,12 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo contact deve ser de texto.')
   })
 
-  test('Should return 400 if contact exceed the maximum length', async (assert) => {
+  test('Should return 422 if contact exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -102,7 +101,7 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -111,7 +110,7 @@ test.group('Aor controller - Store', (group) => {
   })
 
   // ####################### MAX CONTACTS ############################
-  test('Should return 400 if maxContacts receives a number', async (assert) => {
+  test('Should return 422 if maxContacts receives a number', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -120,7 +119,7 @@ test.group('Aor controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
   })
