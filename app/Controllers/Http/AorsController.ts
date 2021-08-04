@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import AorServices from 'App/Services/AorServices'
 import Aor from 'App/Models/Aor'
 import {
   CreateAorValidator,
@@ -15,51 +16,58 @@ export default class AorsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const validator = await request.validate(CreateAorValidator)
-
-      const data = await Aor.create(validator)
+      await request.validate(CreateAorValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
+    try {
+      const data = await new AorServices().create(request.body())
       return response.created(data)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      if (error.status === 400) {
+        return response.badRequest({ message: error.message })
+      }
+
+      return response.internalServerError(error)
     }
   }
 
   public async update({ request, response }: HttpContextContract) {
     try {
-      const { params, ...validator } = await request.validate(
-        UpdateAorValidator
-      )
+      await request.validate(UpdateAorValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
 
-      const data = await Aor.find(params.id)
-
-      if (!data) {
-        return response.badRequest({ message: 'Internal Server Error.' })
-      }
-
-      data.merge(validator)
-      await data.save()
+    try {
+      const data = await new AorServices().update({
+        ...request.params(),
+        ...request.body(),
+      })
 
       return response.ok(data)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      if (error.status === 400)
+        return response.badRequest({ message: error.message })
     }
   }
 
   public async destroy({ request, response }: HttpContextContract) {
     try {
-      const { params } = await request.validate(DeleteAorValidator)
-
-      const data = await Aor.find(params.id)
-
-      if (!data) {
-        return response.badRequest({ message: 'aor not exists' })
-      }
-
-      await data.delete()
-
-      return response.ok({ message: 'aor has been deleted' })
+      await request.validate(DeleteAorValidator)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      return response.unprocessableEntity(error.messages.errors)
+    }
+
+    try {
+      await new AorServices().destroy(request.params())
+
+      return response.ok({ message: 'Aor has been deleted.' })
+    } catch (error) {
+      if (error.status === 400)
+        return response.badRequest({ message: error.message })
+
+      return response.internalServerError(error)
     }
   }
 
@@ -68,7 +76,7 @@ export default class AorsController {
       const where = await request.validate(ListAorValidator)
       const data = await Aor.query().where(where)
       if (!data.length) {
-        return response.badRequest({ message: 'aor not exists' })
+        return response.badRequest({ message: 'aor not exists.' })
       }
 
       return response.ok(data)
