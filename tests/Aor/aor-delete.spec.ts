@@ -59,6 +59,6 @@ test.group('Aor Controller - Delete', (group) => {
       .set('Accept', 'application/json')
       .expect(200)
 
-    assert.equal(body.message, 'aor has been deleted')
+    assert.equal(body.message, 'Aor has been deleted.')
   })
 })
