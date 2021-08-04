@@ -6,11 +6,7 @@ class CreateAorValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [
-      rules.maxLength(5),
-      rules.minLength(3),
-      rules.unique({ table: 'ps_aors', column: 'id' }),
-    ]),
+    id: schema.string({ trim: true }, [rules.maxLength(5), rules.minLength(3)]),
 
     contact: schema.string.optional({ trim: true }, [rules.maxLength(255)]),
 
