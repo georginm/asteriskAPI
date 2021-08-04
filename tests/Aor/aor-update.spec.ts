@@ -26,7 +26,7 @@ test.group('Aor controller - Update', () => {
     assert.equal(body.message, 'O registro de id não existe.')
   })
 
-  test('Should return 400 if id exceed the maximum length', async (assert) => {
+  test('Should return 422 if id exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/aors/exceed')
       .send({
@@ -34,7 +34,7 @@ test.group('Aor controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -42,7 +42,7 @@ test.group('Aor controller - Update', () => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/aors/id')
       .send({
@@ -50,7 +50,7 @@ test.group('Aor controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -59,7 +59,7 @@ test.group('Aor controller - Update', () => {
   })
 
   // ########################## CONTACT ##############################
-  test('Should return 400 if contact receives a number', async (assert) => {
+  test('Should return 422 if contact receives a number', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/aors/aors_')
       .send({
@@ -67,12 +67,12 @@ test.group('Aor controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo contact deve ser de texto.')
   })
 
-  test('Should return 400 if contact exceed the maximum length', async (assert) => {
+  test('Should return 422 if contact exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/aors/aors_')
       .send({
@@ -81,7 +81,7 @@ test.group('Aor controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -90,7 +90,7 @@ test.group('Aor controller - Update', () => {
   })
 
   // ####################### MAX CONTACTS ############################
-  test('Should return 400 if maxContacts receives a number', async (assert) => {
+  test('Should return 422 if maxContacts receives a number', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/aors/aors_')
       .send({
@@ -98,7 +98,7 @@ test.group('Aor controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
   })
@@ -115,6 +115,6 @@ test.group('Aor controller - Update', () => {
 
     assert.equal(body.id, 'aors_')
     assert.equal(body.contact, 'any_contact')
-    assert.equal(body.max_contacts, 1)
+    assert.equal(body.maxContacts, 1)
   })
 })
