@@ -51,4 +51,21 @@ export default class AuthServices {
     }
   }
 
+  public async list(data) {
+    const keys = Object.keys(data)
+
+    for (var key of keys) {
+      await exists('ps_auths', key, data[key], key)
+    }
+
+    try {
+      return await Auth.query().where(data).orderBy('id')
+    } catch (error) {
+      throw new Exception(error, 500)
+    }
+  }
+
+  public async index() {
+    return await Auth.all()
+  }
 }
