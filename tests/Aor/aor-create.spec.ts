@@ -7,7 +7,7 @@ test.group('Aor controller - Store', (group) => {
   })
 
   // ############################## ID ###############################
-  test('Should return 404 if id was not provided', async (assert) => {
+  test('Should return 422 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/aors')
       .send({
@@ -15,7 +15,7 @@ test.group('Aor controller - Store', (group) => {
         max_contacts: 1,
       })
       .set('Accept', 'application/json')
-      .expect(404)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo id é obrigatório.')
   })
