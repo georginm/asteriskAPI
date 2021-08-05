@@ -9,7 +9,6 @@ class ListAuthValidator {
     id: schema.string.optional({ trim: true }, [
       rules.maxLength(5),
       rules.minLength(3),
-      rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
     username: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
