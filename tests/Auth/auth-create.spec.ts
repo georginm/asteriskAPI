@@ -32,7 +32,7 @@ test.group('Auth Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo id deve ser único.')
+    assert.equal(body.message, 'O campo id deve ser único.')
   })
 
   test('Should return 422 if id exceed the maximum length', async (assert) => {
@@ -111,7 +111,7 @@ test.group('Auth Controller - Store', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O campo username deve ser único.')
+    assert.equal(body.message, 'O campo username deve ser único.')
   })
 
   test('Should return 422 if username exceed the maximum length', async (assert) => {
