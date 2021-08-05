@@ -49,7 +49,17 @@ export default class AorServices {
   }
 
   public async list(data) {
+    const keys = Object.keys(data)
+
+    for (var key of keys) {
+      await exists('ps_aors', key, data[key], key)
+    }
+
+    try {
     return await Aor.query().where(data).orderBy('id')
+    } catch (error) {
+      throw new Exception(error, 500)
+    }
   }
 
   public async index() {
