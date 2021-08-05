@@ -7,7 +7,7 @@ test.group('Auth Controller - Store', (group) => {
   })
 
   // ############################# ID ################################
-  test('Should return 400 if id was not provided', async (assert) => {
+  test('Should return 422 if id was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -16,8 +16,7 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
-
+      .expect(422)
     assert.equal(body[0].message, 'O campo id é obrigatório.')
   })
 
@@ -36,7 +35,7 @@ test.group('Auth Controller - Store', (group) => {
     assert.equal(body[0].message, 'O campo id deve ser único.')
   })
 
-  test('Should return 400 if id exceed the maximum length', async (assert) => {
+  test('Should return 422 if id exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -46,7 +45,7 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -54,7 +53,7 @@ test.group('Auth Controller - Store', (group) => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -64,7 +63,7 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -72,7 +71,7 @@ test.group('Auth Controller - Store', (group) => {
     )
   })
 
-  test('Should return 400 if id receives a number', async (assert) => {
+  test('Should return 422 if id receives a number', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -80,13 +79,13 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo id deve ser de texto.')
   })
 
   // ########################### USERNAME ###########################
-  test('Should return 400 if username was not provided', async (assert) => {
+  test('Should return 422 if username was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -95,7 +94,7 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo username é obrigatório.')
   })
@@ -115,7 +114,7 @@ test.group('Auth Controller - Store', (group) => {
     assert.equal(body[0].message, 'O campo username deve ser único.')
   })
 
-  test('Should return 400 if username exceed the maximum length', async (assert) => {
+  test('Should return 422 if username exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -125,7 +124,7 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -134,7 +133,7 @@ test.group('Auth Controller - Store', (group) => {
   })
 
   // ############################ PASSWORD ###########################
-  test('Should return 400 if password was not provided', async (assert) => {
+  test('Should return 422 if password was not provided', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -143,12 +142,12 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo password é obrigatório.')
   })
 
-  test('Should return 400 if password exceed the maximum length', async (assert) => {
+  test('Should return 422 if password exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .post('/auths')
       .send({
@@ -159,7 +158,7 @@ test.group('Auth Controller - Store', (group) => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
