@@ -5,7 +5,6 @@ export const exists = async (
   table: string,
   column: string,
   value: string,
-  key: string,
   select: string = '*'
 ): Promise<void> => {
   const data = await Database.from(table)
@@ -13,6 +12,6 @@ export const exists = async (
     .where(column, '=', value)
 
   if (!data.length) {
-    throw new Exception(`O registro de ${key} não existe.`, 400)
+    throw new Exception(`O registro de ${column} não existe.`, 400)
   }
 }

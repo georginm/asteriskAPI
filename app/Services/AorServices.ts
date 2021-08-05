@@ -33,7 +33,7 @@ export default class AorServices {
   }
 
   public async destroy(data) {
-    await exists('ps_aors', 'id', data.id, 'Aor', 'id')
+    await exists('ps_aors', 'id', data.id, 'id')
 
     const item = await Aor.find(data.id)
 
