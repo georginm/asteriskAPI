@@ -27,7 +27,7 @@ test.group('Auth Controller - Delete', (group) => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O registro de params.id não existe.')
+    assert.equal(body.message, 'O registro de id não existe.')
   })
 
   test('Should return 200 if aor has been deleted', async (assert) => {
