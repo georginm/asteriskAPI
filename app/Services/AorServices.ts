@@ -14,11 +14,10 @@ export default class AorServices {
     }
   }
 
-  public async update(data): Promise<Aor> {
-    await exists('ps_aors', 'id', data.id, 'id')
-
+  public async update(data, id): Promise<Aor> {
+    await exists('ps_aors', 'id', id, 'id')
     try {
-      const item = await Aor.find(data.id)
+      const item = await Aor.find(id)
 
       if (!item) {
         throw new Exception('Internal Server Error', 500)
@@ -27,7 +26,7 @@ export default class AorServices {
       item.merge(data)
       await item.save()
 
-      return data
+      return item
     } catch (error) {
       throw new Exception(error, 500)
     }

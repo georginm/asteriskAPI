@@ -20,8 +20,10 @@ export default class AorsController {
     } catch (error) {
       return response.unprocessableEntity(error.messages.errors)
     }
+
     try {
       const data = await new AorServices().create(request.body())
+
       return response.created(data)
     } catch (error) {
       if (error.status === 400) {
@@ -40,10 +42,10 @@ export default class AorsController {
     }
 
     try {
-      const data = await new AorServices().update({
-        ...request.params(),
-        ...request.body(),
-      })
+      const data = await new AorServices().update(
+        request.body(),
+        request.params().id
+      )
 
       return response.ok(data)
     } catch (error) {
