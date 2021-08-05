@@ -75,15 +75,16 @@ export default class AorsController {
 
   public async list({ request, response }: HttpContextContract) {
     try {
-      const where = await request.validate(ListAorValidator)
-      const data = await Aor.query().where(where)
-      if (!data.length) {
-        return response.badRequest({ message: 'aor not exists.' })
-      }
+      await request.validate(ListAorValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
 
+    try {
+      const data = await new AorServices().list({ ...request.qs() })
       return response.ok(data)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      return response.badRequest({ message: error.message })
     }
   }
 }
