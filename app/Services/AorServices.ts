@@ -56,7 +56,7 @@ export default class AorServices {
     }
 
     try {
-    return await Aor.query().where(data).orderBy('id')
+      return await Aor.query().where(data).orderBy('id')
     } catch (error) {
       throw new Exception(error, 500)
     }
