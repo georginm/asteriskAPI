@@ -13,10 +13,7 @@ class UpdateAuthValidator {
       ]),
     }),
 
-    username: schema.string.optional({ trim: true }, [
-      rules.maxLength(40),
-      rules.unique({ table: 'ps_auths', column: 'username' }),
-    ]),
+    username: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
     password: schema.string.optional({ trim: true }, [rules.maxLength(80)]),
   })
 

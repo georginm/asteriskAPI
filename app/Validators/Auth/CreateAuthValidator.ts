@@ -6,16 +6,8 @@ class CreateAuthValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [
-      rules.maxLength(5),
-      rules.minLength(3),
-      rules.unique({ table: 'ps_auths', column: 'id' }),
-    ]),
-
-    username: schema.string({ trim: true }, [
-      rules.maxLength(40),
-      rules.unique({ table: 'ps_auths', column: 'username' }),
-    ]),
+    id: schema.string({ trim: true }, [rules.maxLength(5), rules.minLength(3)]),
+    username: schema.string({ trim: true }, [rules.maxLength(40)]),
     password: schema.string({ trim: true }, [rules.maxLength(80)]),
   })
 

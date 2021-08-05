@@ -12,10 +12,7 @@ class ListAuthValidator {
       rules.exists({ table: 'ps_auths', column: 'id' }),
     ]),
 
-    username: schema.string.optional({ trim: true }, [
-      rules.maxLength(40),
-      rules.exists({ table: 'ps_auths', column: 'username' }),
-    ]),
+    username: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
   })
 
   public messages = validation
