@@ -10,7 +10,6 @@ class UpdateAuthValidator {
       id: schema.string({ trim: true }, [
         rules.maxLength(5),
         rules.minLength(3),
-        rules.exists({ table: 'ps_auths', column: 'id' }),
       ]),
     }),
 
