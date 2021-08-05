@@ -35,4 +35,20 @@ export default class AuthServices {
     }
   }
 
+  public async destroy(data) {
+    await exists('ps_auths', 'id', data.id, 'id')
+
+    const item = await Auth.find(data.id)
+
+    if (!item) {
+      throw new Exception('Internal Server Error', 500)
+    }
+
+    try {
+      return await item.delete()
+    } catch (error) {
+      throw new Exception(error, 500)
+    }
+  }
+
 }
