@@ -16,12 +16,12 @@ test.group('Aor controller - List', (group) => {
     assert.equal(body[0].message, 'O registro de id não existe.')
   })
 
-  test('Should return 400 if id exceed the maximum length', async (assert) => {
+  test('Should return 422 if id exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/aors/list/?id=exceeed')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -29,12 +29,12 @@ test.group('Aor controller - List', (group) => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/aors/list/?id=id')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -43,14 +43,14 @@ test.group('Aor controller - List', (group) => {
   })
 
   // ########################## CONTACT ##############################
-  test('Should return 400 if contact exceed the maximum length', async (assert) => {
+  test('Should return 422 if contact exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get(
         '/aors/list/?contact=exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed,,,,exceed'
       )
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -59,12 +59,12 @@ test.group('Aor controller - List', (group) => {
   })
 
   // ####################### MAX CONTACTS ############################
-  test('Should return 400 if maxContacts receives a string', async (assert) => {
+  test('Should return 422 if maxContacts receives a string', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/aors/list/?maxContacts=asdas')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(body[0].message, 'O campo maxContacts deve ser numérico.')
   })
