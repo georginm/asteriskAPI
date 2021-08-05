@@ -115,6 +115,6 @@ test.group('Aor controller - Update', () => {
 
     assert.equal(body.id, 'aors_')
     assert.equal(body.contact, 'any_contact')
-    assert.equal(body.maxContacts, 1)
+    assert.equal(body.max_contacts, 1)
   })
 })
