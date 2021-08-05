@@ -13,12 +13,20 @@ export default class ExtensionsController {
 
   public async store({ request, response }: HttpContextContract) {
     try {
-      const validator = await request.validate(CreateExtensionValidator)
-      const data = await Extension.create(validator)
+      await request.validate(CreateExtensionValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
 
+    try {
+      const data = await Extension.create(request.body())
       return response.created(data)
     } catch (error) {
-      return response.badRequest(error.messages.errors)
+      if (error.status === 400) {
+        return response.badRequest({ message: error.message })
+      }
+
+      return response.internalServerError(error)
     }
   }
 
