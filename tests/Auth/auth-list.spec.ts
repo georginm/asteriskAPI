@@ -10,7 +10,7 @@ test.group('Auth Controller - List', () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O registro de id não existe.')
+    assert.equal(body.message, 'O registro de id não existe.')
   })
 
   test('Should return 400 if id exceed the maximum length', async (assert) => {
