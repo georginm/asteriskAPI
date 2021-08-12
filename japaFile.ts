@@ -48,9 +48,9 @@ configure({
   files: ['tests/**/*.spec.ts'],
   before: [startHttpServer, before],
   after: [
+    after,
     async () => {
       console.log('Tests finished.')
     },
-    after,
   ],
 })
