@@ -17,10 +17,12 @@ async function startHttpServer() {
 
 const before = async () => {
   await supertest(process.env.BASE_URL).post('/aors').send({ id: 'aors_' })
+
   await supertest(process.env.BASE_URL).post('/auths').send({
     id: 'auth_',
     username: 'any_username',
     password: 'any_password',
+    auth_type: 'userpass',
   })
 
   await supertest(process.env.BASE_URL).post('/endpoints').send({
