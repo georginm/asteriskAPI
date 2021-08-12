@@ -1,0 +1,10 @@
+version: "3" ## Especifica a versão do docker-compose file
+
+services:                 ## Define um serviço
+  app:                    ## Nome do serviço
+    build: .              ## Localização do dockerfile
+    command: yarn dev     ## Comando a ser executado
+    ports:
+      - "3333:3333"       ## Redirecionamento de porta quando chegar alguma requisição
+    volumes:
+      - .:/usr/app        ## Monitoro a pasta atual . e envia as alterações apra /usr/app
