@@ -12,14 +12,7 @@ class UpdateExtensionValidator {
 
     context: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
     exten: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
-    priority: schema.number.optional([
-      rules.uniquePerRelated({
-        table: 'extensions',
-        column: 'priority',
-        relatedColumn: 'context',
-        secondRelatedColumn: 'exten',
-      }),
-    ]),
+    priority: schema.number.optional(),
     app: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
     appdata: schema.string.optional({ trim: true }, [rules.maxLength(256)]),
   })

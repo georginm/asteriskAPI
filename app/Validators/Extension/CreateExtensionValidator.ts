@@ -8,14 +8,7 @@ class CreateExtensionValidator {
   public schema = schema.create({
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
     exten: schema.string({ trim: true }, [rules.maxLength(40)]),
-    priority: schema.number([
-      rules.uniquePerRelated({
-        table: 'extensions',
-        column: 'priority',
-        relatedColumn: 'context',
-        secondRelatedColumn: 'exten',
-      }),
-    ]),
+    priority: schema.number(),
     app: schema.string({ trim: true }, [rules.maxLength(40)]),
     appdata: schema.string({ trim: true }, [rules.maxLength(256)]),
   })
