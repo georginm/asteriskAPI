@@ -1,7 +1,7 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import Endpoint from 'App/Models/Endpoint'
-import { exists } from 'App/utils/exists'
-import { unique } from 'App/utils/unique'
+import { exists } from 'App/utils/database/exists'
+import { unique } from 'App/utils/database/unique'
 
 export default class EndpointService {
   public async create(data): Promise<Endpoint> {

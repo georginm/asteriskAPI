@@ -1,7 +1,7 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import Auth from 'App/Models/Auth'
-import { exists } from 'App/utils/exists'
-import { unique } from 'App/utils/unique'
+import { exists } from 'App/utils/database/exists'
+import { unique } from 'App/utils/database/unique'
 
 export default class AuthServices {
   public async create(data): Promise<Auth> {
