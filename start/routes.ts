@@ -27,6 +27,10 @@ Route.group(() => {
     .except(['create', 'show', 'edit'])
     .as('extensions')
 
+  Route.get('/extensions/list', 'ExtensionsController.list').as(
+    'extension.list'
+  )
+
   //Iax Routes
   Route.resource('iaxs', 'IaxController')
     .except(['create', 'show', 'edit'])
