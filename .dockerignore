@@ -1,1 +1,8 @@
 node_modules
+.editorconfig
+.eslintignore
+.gitignore
+.prettierignore
+.prettierrc
+tests
+README.md
