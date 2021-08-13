@@ -16,4 +16,21 @@ export default class ExtensionService {
     }
   }
 
+  public async update(id, data): Promise<ExtensionRepository> {
+    try {
+      const item = await ExtensionRepository.select(id)
+      if (!item) {
+        throw new Exception('Internal Server Error')
+      }
+
+      item.merge(data)
+
+      await item.save()
+
+      return item
+    } catch (error) {
+      throw new Exception(error, error.status)
+    }
+  }
+
 }
