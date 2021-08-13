@@ -47,7 +47,7 @@ export default class EndpointService {
   }
 
   public async destroy(data) {
-    await exists('ps_endpoints', 'id', data.id, 'endpoint', 'id')
+    await exists('ps_endpoints', 'id', data.id, 'id')
 
     const item = await Endpoint.find(data.id)
 
