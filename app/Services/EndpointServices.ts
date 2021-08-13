@@ -40,7 +40,7 @@ export default class EndpointService {
       item.merge(data)
       await item.save()
 
-      return data
+      return item
     } catch (error) {
       throw new Exception(error, 500)
     }
