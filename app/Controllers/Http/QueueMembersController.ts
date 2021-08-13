@@ -2,7 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import QueueMember from 'App/Models/QueueMember'
 import Queue from 'App/Models/Queue'
-import { alreadyExists, insert } from 'App/Services/DatabaseMethods'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class QueueMembersController {
