@@ -3,6 +3,7 @@ import Extension from 'App/Models/Extension'
 import ExtensionService from 'App/Services/ExtensionService'
 import {
   CreateExtensionValidator,
+  ListExtensionValidator,
   UpdateExtensionValidator,
   DeleteExtensionValidator,
 } from 'App/Validators/Extension'
@@ -75,6 +76,12 @@ export default class ExtensionsController {
   }
 
   public async list({ request, response }: HttpContextContract) {
+    try {
+      await request.validate(ListExtensionValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
+    }
+
     const { id } = request.params()
     const data = await Extension.find(id)
     if (!data) {
