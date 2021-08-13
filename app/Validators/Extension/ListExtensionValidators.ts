@@ -9,6 +9,9 @@ class ListExtensionValidator {
     id: schema.number.optional(),
     context: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
     exten: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    priority: schema.number.optional(),
+    app: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    appdata: schema.string.optional({ trim: true }, [rules.maxLength(256)]),
   })
 
   public messages = validation
