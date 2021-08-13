@@ -24,4 +24,11 @@ export default class ExtensionRepository extends Extension {
       )
   }
 
+  /**
+   * @param id
+   * @returns Extension
+   */
+  public static async select(id: number) {
+    return await Extension.find(id)
+  }
 }
