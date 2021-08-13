@@ -31,4 +31,21 @@ export default class ExtensionRepository extends Extension {
   public static async select(id: number) {
     return await Extension.find(id)
   }
+
+  public static async list(where: object): Promise<Array<Extension>> {
+    const data = await Extension.query()
+      .select('*')
+      .where(where)
+      .orderBy('context')
+      .orderBy('priority')
+
+    if (!data.length) {
+      throw new Exception(
+        'Não há registros com as informações fornecidas.',
+        400
+      )
+    }
+
+    return data
+  }
 }

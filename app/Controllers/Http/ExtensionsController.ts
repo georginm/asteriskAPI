@@ -82,8 +82,8 @@ export default class ExtensionsController {
       return response.unprocessableEntity(error.messages.errors)
     }
 
-    const { id } = request.params()
-    const data = await Extension.find(id)
+    const data = await new ExtensionService().list(request.qs())
+
     if (!data) {
       return response.badRequest({ message: 'Extension Not Exists' })
     }

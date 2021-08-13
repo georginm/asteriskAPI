@@ -44,4 +44,12 @@ export default class ExtensionService {
       throw new Exception(error, 500)
     }
   }
+
+  public async list(data): Promise<Array<ExtensionRepository>> {
+    try {
+      return await ExtensionRepository.list(data)
+    } catch (error) {
+      throw new Exception(error)
+    }
+  }
 }
