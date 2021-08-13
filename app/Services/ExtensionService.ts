@@ -1,5 +1,7 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import ExtensionRepository from 'App/Repositories/ExtensionRepository'
+import { destroy } from 'App/utils/database/destroy'
+import { exists } from 'App/utils/database/exists'
 
 export default class ExtensionService {
   public async create(data): Promise<ExtensionRepository> {
@@ -33,4 +35,13 @@ export default class ExtensionService {
     }
   }
 
+  public async destroy(id): Promise<boolean> {
+    await exists('extensions', 'id', id)
+
+    try {
+      return await destroy('extensions', 'id', id)
+    } catch (error) {
+      throw new Exception(error, 500)
+    }
+  }
 }
