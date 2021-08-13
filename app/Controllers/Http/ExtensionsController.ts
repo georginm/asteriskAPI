@@ -4,8 +4,8 @@ import ExtensionService from 'App/Services/ExtensionService'
 import {
   CreateExtensionValidator,
   UpdateExtensionValidator,
+  DeleteExtensionValidator,
 } from 'App/Validators/Extension'
-import { DeleteExtensionValidator } from 'App/Validators/Extension/DeleteExtensionValidator'
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
