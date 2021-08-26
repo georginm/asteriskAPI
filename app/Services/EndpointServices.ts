@@ -1,10 +1,10 @@
 import { Exception } from '@adonisjs/core/build/standalone'
-import Endpoint from 'App/Models/Endpoint'
+import EndpointRepository from 'App/Repositories/EndpointRepository'
 import { exists } from 'App/utils/database/exists'
 import { unique } from 'App/utils/database/unique'
 
 export default class EndpointService {
-  public async create(data): Promise<Endpoint> {
+  public async create(data): Promise<EndpointRepository> {
     await unique('ps_endpoints', 'id', data.id, 'id')
     await unique('ps_endpoints', 'auth', data.auth, 'id')
     await unique('ps_endpoints', 'aors', data.aors, 'id')
@@ -14,13 +14,13 @@ export default class EndpointService {
     await exists('ps_aors', 'id', data.aors, 'aors')
 
     try {
-      return await Endpoint.create(data)
+      return await EndpointRepository.create(data)
     } catch (error) {
       throw new Exception(error, 500)
     }
   }
 
-  public async update(data): Promise<Endpoint> {
+  public async update(data): Promise<EndpointRepository> {
     await exists('ps_endpoints', 'id', data.id, 'endpoint')
 
     if (data.auth) await unique('ps_endpoints', 'auth', data.auth)
@@ -31,7 +31,7 @@ export default class EndpointService {
     if (data.aors) await exists('ps_aors', 'id', data.aors, 'aors')
 
     try {
-      const item = await Endpoint.find(data.id)
+      const item = await EndpointRepository.find(data.id)
 
       if (!item) {
         throw new Exception('Internal Server Error', 500)
@@ -49,7 +49,7 @@ export default class EndpointService {
   public async destroy(data) {
     await exists('ps_endpoints', 'id', data.id, 'id')
 
-    const item = await Endpoint.find(data.id)
+    const item = await EndpointRepository.find(data.id)
 
     if (!item) {
       throw new Exception('Internal Server Error', 500)
@@ -63,10 +63,10 @@ export default class EndpointService {
   }
 
   public async list(data) {
-    return await Endpoint.query().where(data).orderBy('id')
+    return await EndpointRepository.query().where(data).orderBy('id')
   }
 
   public async index() {
-    return await Endpoint.all()
+    return await EndpointRepository.all()
   }
 }

@@ -1,23 +1,23 @@
 import { Exception } from '@adonisjs/core/build/standalone'
-import Aor from 'App/Models/Aor'
+import AorRepository from 'App/Repositories/AorRepository'
 import { exists } from 'App/utils/database/exists'
 import { unique } from 'App/utils/database/unique'
 
 export default class AorServices {
-  public async create(data): Promise<Aor> {
+  public async create(data): Promise<AorRepository> {
     await unique('ps_aors', 'id', data.id, 'id')
 
     try {
-      return await Aor.create(data)
+      return await AorRepository.create(data)
     } catch (error) {
       throw new Exception(error, 500)
     }
   }
 
-  public async update(data, id): Promise<Aor> {
+  public async update(data, id): Promise<AorRepository> {
     await exists('ps_aors', 'id', id, 'id')
     try {
-      const item = await Aor.find(id)
+      const item = await AorRepository.find(id)
 
       if (!item) {
         throw new Exception('Internal Server Error', 500)
@@ -35,7 +35,7 @@ export default class AorServices {
   public async destroy(data) {
     await exists('ps_aors', 'id', data.id, 'id')
 
-    const item = await Aor.find(data.id)
+    const item = await AorRepository.find(data.id)
 
     if (!item) {
       throw new Exception('Internal Server Error', 500)
@@ -56,13 +56,13 @@ export default class AorServices {
     }
 
     try {
-      return await Aor.query().where(data).orderBy('id')
+      return await AorRepository.query().where(data).orderBy('id')
     } catch (error) {
       throw new Exception(error, 500)
     }
   }
 
   public async index() {
-    return await Aor.all()
+    return await AorRepository.all()
   }
 }

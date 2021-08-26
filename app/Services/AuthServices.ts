@@ -1,26 +1,26 @@
 import { Exception } from '@adonisjs/core/build/standalone'
-import Auth from 'App/Models/Auth'
+import AuthRepository from 'App/Repositories/AuthRepository'
 import { exists } from 'App/utils/database/exists'
 import { unique } from 'App/utils/database/unique'
 
 export default class AuthServices {
-  public async create(data): Promise<Auth> {
+  public async create(data): Promise<AuthRepository> {
     await unique('ps_auths', 'id', data.id, 'id')
     await unique('ps_auths', 'username', data.username, 'username')
 
     try {
-      return await Auth.create(data)
+      return await AuthRepository.create(data)
     } catch (error) {
       throw new Exception(error, 500)
     }
   }
 
-  public async update(data, id: string): Promise<Auth> {
+  public async update(data, id: string): Promise<AuthRepository> {
     await exists('ps_auths', 'id', id, 'id')
     await unique('ps_auths', 'username', data.username, 'username')
 
     try {
-      const item = await Auth.find(id)
+      const item = await AuthRepository.find(id)
 
       if (!item) {
         throw new Exception('Internal Server Error', 500)
@@ -38,7 +38,7 @@ export default class AuthServices {
   public async destroy(data) {
     await exists('ps_auths', 'id', data.id, 'id')
 
-    const item = await Auth.find(data.id)
+    const item = await AuthRepository.find(data.id)
 
     if (!item) {
       throw new Exception('Internal Server Error', 500)
@@ -59,13 +59,13 @@ export default class AuthServices {
     }
 
     try {
-      return await Auth.query().where(data).orderBy('id')
+      return await AuthRepository.query().where(data).orderBy('id')
     } catch (error) {
       throw new Exception(error, 500)
     }
   }
 
   public async index() {
-    return await Auth.all()
+    return await AuthRepository.all()
   }
 }
