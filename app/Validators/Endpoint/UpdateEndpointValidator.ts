@@ -8,7 +8,7 @@ class UpdateEndpointValidator {
   public schema = schema.create({
     params: schema.object().members({
       id: schema.string({ trim: true }, [
-        rules.maxLength(5),
+        rules.maxLength(40),
         rules.minLength(3),
       ]),
     }),

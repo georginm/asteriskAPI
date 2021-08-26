@@ -7,7 +7,7 @@ class ListEndpointValidator {
 
   public schema = schema.create({
     id: schema.string.optional({ trim: true }, [
-      rules.maxLength(5),
+      rules.maxLength(40),
       rules.minLength(3),
     ]),
 

@@ -6,7 +6,10 @@ class CreateEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [rules.maxLength(5), rules.minLength(3)]),
+    id: schema.string({ trim: true }, [
+      rules.maxLength(40),
+      rules.minLength(3),
+    ]),
 
     transport: schema.enum(['udp', 'tcp', 'tls', 'ws', 'wss']),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
