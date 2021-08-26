@@ -29,7 +29,7 @@ test.group('Auth Controller - Update', () => {
     assert.equal(body.message, 'E_ROUTE_NOT_FOUND: Cannot PUT:/api/auths')
   })
 
-  test('Should return 400 if id exceed the maximum length', async (assert) => {
+  test('Should return 422 if id exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/auths/id_exceeds')
       .send({
@@ -38,7 +38,7 @@ test.group('Auth Controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -46,7 +46,7 @@ test.group('Auth Controller - Update', () => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/auths/id')
       .send({
@@ -55,7 +55,7 @@ test.group('Auth Controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -77,7 +77,7 @@ test.group('Auth Controller - Update', () => {
     assert.equal(body[0].message, 'O campo username deve ser único.')
   })
 
-  test('Should return 400 if username exceed the maximum length', async (assert) => {
+  test('Should return 422 if username exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/auths/auth_')
       .send({
@@ -85,7 +85,7 @@ test.group('Auth Controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -94,7 +94,7 @@ test.group('Auth Controller - Update', () => {
   })
 
   // ############################ PASSWORD ###########################
-  test('Should return 400 if password exceed the maximum length', async (assert) => {
+  test('Should return 422 if password exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/auths/auth_')
       .send({
@@ -104,7 +104,7 @@ test.group('Auth Controller - Update', () => {
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
