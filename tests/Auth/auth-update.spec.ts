@@ -112,6 +112,7 @@ test.group('Auth Controller - Update', () => {
     )
   })
 
+  // #################### AUTH HAS BEEN UPDATED ######################
   test('Should return 200 if auth has been created', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .put('/auths/auth_')
