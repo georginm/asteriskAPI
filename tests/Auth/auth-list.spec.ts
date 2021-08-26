@@ -13,12 +13,12 @@ test.group('Auth Controller - List', () => {
     assert.equal(body.message, 'O registro de id não existe.')
   })
 
-  test('Should return 400 if id exceed the maximum length', async (assert) => {
+  test('Should return 422 if id exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/auths/list/?id=exceeeeed')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -26,12 +26,12 @@ test.group('Auth Controller - List', () => {
     )
   })
 
-  test('Should return 400 if id is below the minimum length', async (assert) => {
+  test('Should return 422 if id is below the minimum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/auths/list/?id=id')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
@@ -50,12 +50,12 @@ test.group('Auth Controller - List', () => {
     assert.equal(body[0].message, 'O registro de username não existe.')
   })
 
-  test('Should return 400 if username exceed the maximum length', async (assert) => {
+  test('Should return 422 if username exceed the maximum length', async (assert) => {
     const { body } = await supertest(process.env.BASE_URL)
       .get('/auths/list/?username=anyusernameanyusernameanyusernameanyusername')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(400)
+      .expect(422)
 
     assert.equal(
       body[0].message,
