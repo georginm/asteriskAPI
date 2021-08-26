@@ -47,7 +47,7 @@ test.group('Auth Controller - List', () => {
       .expect('Content-Type', /json/)
       .expect(400)
 
-    assert.equal(body[0].message, 'O registro de username não existe.')
+    assert.equal(body.message, 'O registro de username não existe.')
   })
 
   test('Should return 422 if username exceed the maximum length', async (assert) => {
