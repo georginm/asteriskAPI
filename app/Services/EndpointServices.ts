@@ -20,6 +20,7 @@ export default class EndpointService {
     }
   }
 
+  public async update(data, id): Promise<EndpointRepository | null> {
     await exists('ps_endpoints', 'id', id)
 
     if (data.auth) await unique('ps_endpoints', 'auth', data.auth)
@@ -31,16 +32,15 @@ export default class EndpointService {
     if (data.aors) await exists('ps_aors', 'id', data.aors)
 
     try {
-      const item = await EndpointRepository.find(data.id)
+      const item = await EndpointRepository.find(id)
 
       if (!item) {
-        throw new Exception('Internal Server Error', 500)
+        return item
       }
 
       item.merge(data)
-      await item.save()
 
-      return item
+      return await item.save()
     } catch (error) {
       throw new Exception(error, 500)
     }
