@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AorServices from 'App/Services/AorServices'
-import Aor from 'App/Models/Aor'
 import {
   CreateAorValidator,
   DeleteAorValidator,
@@ -10,7 +9,7 @@ import {
 
 export default class AorsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Aor.all()
+    const data = await new AorServices().index()
     return response.ok(data)
   }
 
