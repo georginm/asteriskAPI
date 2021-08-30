@@ -91,7 +91,7 @@ export default class AorsController {
       return response.ok(data)
     } catch (error) {
       if (error.status === 400) {
-      return response.badRequest({ message: error.message })
+        return response.badRequest({ message: error.message })
       }
 
       return response.internalServerError({ message: error.message })
