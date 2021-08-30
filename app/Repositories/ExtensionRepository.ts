@@ -25,7 +25,7 @@ export default class ExtensionRepository extends Extension {
    * @param id
    * @returns Extension
    */
-  public static async select(id: number) {
+  public static async select(id: number): Promise<Extension | null> {
     return await Extension.find(id)
   }
 
