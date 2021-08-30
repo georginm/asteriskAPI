@@ -6,29 +6,31 @@ Route.group(() => {
     .except(['create', 'show', 'edit'])
     .as('endpoint')
 
-  Route.get('/endpoints/list/', 'EndpointsController.list').as('endpoint.list')
+  Route.get('/endpoints/show/:data', 'EndpointsController.show').as(
+    'endpoint.show'
+  )
 
   // Auth Routes
   Route.resource('auths', 'AuthsController')
     .except(['create', 'show', 'edit'])
     .as('auths')
 
-  Route.get('/auths/list/', 'AuthsController.list').as('auth.list')
+  Route.get('/auths/show/:data', 'AuthsController.show').as('auth.show')
 
   // Aor Routes
   Route.resource('aors', 'AorsController')
     .except(['create', 'show', 'edit'])
     .as('aors')
 
-  Route.get('/aors/list/', 'AorsController.list').as('aors.list')
+  Route.get('/aors/show/:data', 'AorsController.show').as('aors.show')
 
   // Extension Routes
   Route.resource('extensions', 'ExtensionsController')
     .except(['create', 'show', 'edit'])
     .as('extensions')
 
-  Route.get('/extensions/list', 'ExtensionsController.list').as(
-    'extension.list'
+  Route.get('/extensions/show/:data', 'ExtensionsController.show').as(
+    'extension.show'
   )
 
   //Iax Routes
@@ -39,36 +41,32 @@ Route.group(() => {
   // Queue Routes
   Route.group(() => {
     Route.resource('', 'QueuesController')
-      .only(['index', 'destroy'])
+      .only(['index', 'store', 'destroy'])
       .as('queues')
 
     Route.put('/:name', 'QueuesController.update').as('queue.update')
 
     Route.delete('/delete/:name', 'QueuesController.destroy').as('queue.delete')
 
-    Route.get('/deleted', 'QueuesController.listDeleted').as(
-      'queues.listDeleted'
-    )
-
-    Route.get('/list', 'QueuesController.list').as('queues.list')
-
-    Route.post('/:name', 'QueuesController.activate').as('queues.activate')
-
-    Route.delete('/:name', 'QueuesController.softdelete').as(
-      'queues.softdelete'
-    )
+    Route.get('/show/:data', 'QueuesController.show').as('queues.show')
   }).prefix('/queues')
 
   // Queue Members
   Route.group(() => {
     Route.get('/', 'QueueMembersController.index').as('queuemembers.index')
 
-    Route.get('list/', 'QueueMembersController.list').as('queuemembers.list')
+    Route.get('show/:data', 'QueueMembersController.show').as(
+      'queuemembers.show'
+    )
 
     Route.post('', 'QueueMembersController.store').as('queuemembers.store')
 
-    Route.delete('/:uniqueid', 'QueueMembersController.destroy').as(
+    Route.delete('/:interface', 'QueueMembersController.destroy').as(
       'queuemembers.destroy'
+    )
+
+    Route.put('/:interface', 'QueueMembersController.update').as(
+      'queuemembers.update'
     )
   }).prefix('/queuemembers')
 }).prefix('/api')
