@@ -75,7 +75,7 @@ export default class AuthController {
     }
   }
 
-  public async list({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     try {
       await request.validate(ListAuthValidator)
     } catch (error) {
@@ -83,11 +83,16 @@ export default class AuthController {
     }
 
     try {
-      const data = await new AuthServices().list({ ...request.qs() })
+      const data = await new AuthServices().show(request.params().data)
 
+      if (!data.length) {
+        return response.badRequest({
+          message: 'Auth Not Exists',
+        })
+      }
       return response.ok(data)
     } catch (error) {
-      return response.badRequest({ message: error.message })
+      return response.internalServerError(error)
     }
   }
 }
