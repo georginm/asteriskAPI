@@ -63,19 +63,23 @@ export default class ExtensionsController {
     }
   }
 
-  public async list({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     try {
       await request.validate(ListExtensionValidator)
     } catch (error) {
       return response.unprocessableEntity(error.messages.errors)
     }
 
-    const data = await new ExtensionService().list(request.qs())
+    try {
+      const data = await new ExtensionService().show(request.params().data)
 
-    if (!data) {
-      return response.badRequest({ message: 'Extension Not Exists' })
+      if (!data.length) {
+        return response.badRequest({ message: 'Extension Not Exists' })
+      }
+
+      return response.ok(data)
+    } catch (error) {
+      return status(response, error)
     }
-
-    return response.ok(data)
   }
 }

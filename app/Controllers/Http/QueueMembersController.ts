@@ -68,10 +68,22 @@ export default class QueueMembersController {
       data = await QueueMember.query().where(select)
     }
 
-    if (!data) {
-      return response.badRequest({ message: 'QueueMember Not Exists' })
+  public async show({ request, response }: HttpContextContract) {
+    try {
+      await request.validate(ListQueueMemberValidator)
+    } catch (error) {
+      return response.unprocessableEntity()
     }
 
-    return response.ok(data)
+    try {
+      const data = await new QueueMemberService().show(request.params().data)
+      if (!data.length)
+        return response.badRequest({
+          message: 'QueueMember Not Exists',
+        })
+      return response.ok(data)
+    } catch (error) {
+      return { message: error.message }
+    }
   }
 }

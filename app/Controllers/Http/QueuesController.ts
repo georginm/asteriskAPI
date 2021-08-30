@@ -94,32 +94,24 @@ export default class QueuesController {
       return response.badRequest({ message: 'There are not Queues' })
     }
 
-    return response.ok(data)
-  }
-
-  public async listDeleted({ response }: HttpContextContract) {
-    const data = await Queue.query().whereNotNull('deleted_at')
-
-    if (!data.length) {
-      return response.badRequest({ message: 'There are not Queues' })
+  public async show({ request, response }: HttpContextContract) {
+    try {
+      await request.validate(ListQueueValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
     }
 
-    return response.ok(data)
-  }
+    try {
+      const data = await new QueueServices().show(request.params().data)
+      if (!data.length) {
+        return response.badRequest({
+          message: 'Queue Not Exists',
+        })
+      }
 
-  public async activate({ request, response }: HttpContextContract) {
-    const { name } = request.params()
-    const data = await Queue.findBy('name', name)
-
-    if (!data) {
-      return response.badRequest({ message: 'There are not Queues' })
+      return response.ok(data)
+    } catch (error) {
+      return status(response, error)
     }
-
-    if (!data.deletedAt) {
-      return response.badRequest({ message: 'Queue is already activated' })
-    }
-    await data.merge({ deletedAt: null }).save()
-
-    return response.ok(data)
   }
 }
