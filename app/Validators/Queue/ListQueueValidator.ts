@@ -1,17 +1,17 @@
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import validator from 'App/localization/validation'
+import validation from 'App/localization/validation'
 
-class ListEndpointValidator {
+class ListQueueValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
     params: schema.object().members({
-      data: schema.string({ trim: true }, [rules.maxLength(40)]),
+      data: schema.string({ trim: true }, [rules.maxLength(128)]),
     }),
   })
 
-  public messages = validator
+  public messages = validation
 }
 
-export { ListEndpointValidator }
+export { ListQueueValidator }
