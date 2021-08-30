@@ -14,6 +14,7 @@ class CreateAorValidator {
     contact: schema.string.optional({ trim: true }, [rules.maxLength(255)]),
     outboundProxy: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
+      rules.ipList(),
     ]),
 
     supportPath: schema.enum.optional(['yes', 'no'] as const),
