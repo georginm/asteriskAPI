@@ -26,4 +26,7 @@ export default class QueueMember extends BaseModel {
 
   @column()
   public wrapuptime: number
+
+  @column()
+  public ringinuse: string // '0', '1', 'off', 'on', 'false', 'true', 'no', 'yes'
 }
