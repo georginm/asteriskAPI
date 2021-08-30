@@ -3,10 +3,10 @@ import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 export default class QueueMember extends BaseModel {
   public static table = 'queue_members'
 
-  @column({ columnName: 'queue_name' })
+  @column({ columnName: 'queue_name', isPrimary: true })
   public queueName: string
 
-  @column()
+  @column({ isPrimary: true })
   public interface: string
 
   @column()
