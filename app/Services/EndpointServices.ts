@@ -10,8 +10,8 @@ export default class EndpointService {
     await unique('ps_endpoints', 'aors', data.aors, 'id')
     await unique('ps_endpoints', 'mac_address', data.macAddress, 'id')
 
-    await exists('ps_auths', 'id', data.auth, 'auth')
-    await exists('ps_aors', 'id', data.aors, 'aors')
+    await exists('ps_auths', 'id', data.auth, 'id')
+    await exists('ps_aors', 'id', data.aors, 'id')
 
     try {
       return await EndpointRepository.create(data)
@@ -20,15 +20,15 @@ export default class EndpointService {
     }
   }
 
-  public async update(data): Promise<EndpointRepository> {
-    await exists('ps_endpoints', 'id', data.id, 'endpoint')
+    await exists('ps_endpoints', 'id', id)
 
     if (data.auth) await unique('ps_endpoints', 'auth', data.auth)
     if (data.aors) await unique('ps_endpoints', 'aors', data.aors)
     if (data.macAddress)
       await unique('ps_endpoints', 'mac_address', data.macAddress)
-    if (data.auth) await exists('ps_auths', 'id', data.auth, 'auth')
-    if (data.aors) await exists('ps_aors', 'id', data.aors, 'aors')
+
+    if (data.auth) await exists('ps_auths', 'id', data.auth)
+    if (data.aors) await exists('ps_aors', 'id', data.aors)
 
     try {
       const item = await EndpointRepository.find(data.id)
