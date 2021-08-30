@@ -62,21 +62,25 @@ export default class EndpointsController {
     }
   }
 
-  public async list({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     try {
       await request.validate(ListEndpointValidator)
     } catch (error) {
       return response.unprocessableEntity(error.messages.errors)
     }
 
-    const data = await new EndpointService().list(request.qs())
+    try {
+      const data = await new EndpointService().show(request.params().data)
 
-    if (!data.length) {
-      return response.badRequest({
-        message: 'There is no endpoint with the information provided.',
-      })
+      if (!data.length) {
+        return response.badRequest({
+          message: 'Endpoint Not Exists',
+        })
+      }
+
+      return response.ok(data)
+    } catch (error) {
+      return response.internalServerError({ message: error.message })
     }
-
-    return response.ok(data)
   }
 }
