@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Extension from 'App/Models/Extension'
 import ExtensionService from 'App/Services/ExtensionService'
 import { status } from 'App/utils/verifyStatusCode'
 import {
@@ -11,7 +10,7 @@ import {
 
 export default class ExtensionsController {
   public async index({ response }: HttpContextContract) {
-    const data = await Extension.query().orderBy('context').orderBy('priority')
+    const data = await new ExtensionService().index()
     return response.ok(data)
   }
 
