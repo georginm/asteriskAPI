@@ -64,7 +64,7 @@ export default class AuthController {
     }
 
     try {
-      await new AuthServices().destroy(request.params())
+      await new AuthServices().destroy(request.params().id)
 
       return response.ok({ message: 'Auth has been deleted.' })
     } catch (error) {
