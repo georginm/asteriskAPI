@@ -1,5 +1,6 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import EndpointRepository from 'App/Repositories/EndpointRepository'
+import { destroy } from 'App/utils/database/destroy'
 import { exists } from 'App/utils/database/exists'
 import { unique } from 'App/utils/database/unique'
 
@@ -46,17 +47,9 @@ export default class EndpointService {
     }
   }
 
-  public async destroy(data) {
-    await exists('ps_endpoints', 'id', data.id, 'id')
-
-    const item = await EndpointRepository.find(data.id)
-
-    if (!item) {
-      throw new Exception('Internal Server Error', 500)
-    }
-
+  public async destroy(id: string): Promise<boolean> {
     try {
-      return await item.delete()
+      return await destroy('ps_endpoints', 'id', id)
     } catch (error) {
       throw new Exception(error, 500)
     }
