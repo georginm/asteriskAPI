@@ -72,7 +72,7 @@ export default class AorsController {
     }
   }
 
-  public async list({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     try {
       await request.validate(ListAorValidator)
     } catch (error) {
@@ -80,10 +80,21 @@ export default class AorsController {
     }
 
     try {
-      const data = await new AorServices().list({ ...request.qs() })
+      const data = await new AorServices().show(request.params().data)
+
+      if (!data.length) {
+        return response.badRequest({
+          message: 'Aor Not Exists',
+        })
+      }
+
       return response.ok(data)
     } catch (error) {
+      if (error.status === 400) {
       return response.badRequest({ message: error.message })
+      }
+
+      return response.internalServerError({ message: error.message })
     }
   }
 }
