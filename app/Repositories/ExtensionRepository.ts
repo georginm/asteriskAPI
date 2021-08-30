@@ -11,17 +11,14 @@ export default class ExtensionRepository extends Extension {
     priority: string,
     context: string,
     exten: string
-  ): Promise<void> {
+  ): Promise<boolean> {
     const result = await Extension.query()
       .where('context', context)
       .where('exten', exten)
       .where('priority', priority)
 
-    if (result.length)
-      throw new Exception(
-        'Os campos context, exten e priority devem ser únicos por extension.',
-        400
-      )
+    if (result.length) return false
+    return true
   }
 
   /**
