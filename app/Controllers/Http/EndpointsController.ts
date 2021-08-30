@@ -38,10 +38,7 @@ export default class EndpointsController {
 
     try {
       const { id } = request.params()
-      const data = await new EndpointService().update({
-        id,
-        ...request.body(),
-      })
+      const data = await new EndpointService().update(request.body(), id)
 
       return response.ok(data)
     } catch (error) {
@@ -57,7 +54,7 @@ export default class EndpointsController {
     }
 
     try {
-      await new EndpointService().destroy(request.params())
+      await new EndpointService().destroy(request.params().id)
 
       return response.ok({ message: 'Endpoint Has Been Deleted.' })
     } catch (error) {
