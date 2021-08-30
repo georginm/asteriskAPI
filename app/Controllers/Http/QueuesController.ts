@@ -1,98 +1,72 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Queue from 'App/Models/Queue'
-import { DateTime } from 'luxon'
+import { QueueServices } from 'App/Services/QueueServices'
+import { status } from 'App/utils/verifyStatusCode'
+import {
+  CreateQueueValidator,
+  DeleteQueueValidator,
+  ListQueueValidator,
+  UpdateQueueValidator,
+} from 'App/Validators/Queue'
 
 export default class QueuesController {
   public async index({ response }: HttpContextContract) {
-    const data = await Queue.query().whereNull('deleted_at')
+    try {
+      const data = await new QueueServices().index()
 
-    if (!data) {
-      return response.badRequest({ message: 'There are not Queues' })
+      if (!data.length) {
+        return response.ok({ message: 'Nenhuma fila cadastrada.' })
+      }
+
+      return response.ok(data)
+    } catch (error) {
+      return response.internalServerError(error)
     }
-
-    return response.ok(data)
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const { name } = request.body()
-
-    const dataExists = await Queue.find(name)
-
-    if (dataExists) {
-      return response.badRequest({ message: 'Queue Already Exists' })
+    try {
+      await request.validate(CreateQueueValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
     }
 
-    const data = await Queue.create(request.body())
-
-    return response.created(data)
+    try {
+      const data = await new QueueServices().create(request.body())
+      return response.created(data)
+    } catch (error) {
+      return status(response, error)
+    }
   }
 
   public async update({ request, response }: HttpContextContract) {
-    var { name } = request.params()
-
-    const data = await Queue.find(name)
-
-    if (!data) {
-      return response.badRequest({ message: 'Queue Not Exists' })
+    try {
+      await request.validate(UpdateQueueValidator)
+    } catch (error) {
+      return response.unprocessableEntity(error.messages.errors)
     }
-    // If the body has name, the current queue is disabled and another
-    // one is generated with the given name
-    var { name } = request.body()
 
-    if (!name) {
-      await data.merge(request.body())
-      await data.save()
+    try {
+      const { name } = request.params()
+      const data = await new QueueServices().update(request.body(), name)
+
       return response.ok(data)
+    } catch (error) {
+      return status(response, error)
     }
-
-    const newNameExists = await Queue.find(name)
-
-    if (!newNameExists) {
-      await data.merge({ deletedAt: DateTime.now() }).save()
-      const newData = await Queue.create(request.body())
-
-      return response.ok(newData)
-    }
-
-    return response.badRequest({ message: 'Queue Already Exists' })
-  }
-
-  public async softdelete({ request, response }: HttpContextContract) {
-    const { name } = request.params()
-    const data = await Queue.find(name)
-
-    if (!data) {
-      return response.badRequest({ message: 'Queue Not Exists' })
-    }
-
-    if (data.deletedAt) {
-      return response.badRequest({ message: 'Queue is already disabled' })
-    }
-
-    await data.merge({ deletedAt: DateTime.now() }).save()
-
-    return response.ok({ message: 'Queue Has Been Disabled' })
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { name } = request.params()
-    const data = await Queue.find(name)
+    try {
+      await request.validate(DeleteQueueValidator)
+    } catch (error) {}
 
-    if (!data) {
-      return response.badRequest({ message: 'Queue Not Exists' })
+    try {
+      await new QueueServices().destroy(request.params().name)
+      return response.ok({ message: 'Queue Has Been Deleted' })
+    } catch (error) {
+      return status(response, error)
     }
-
-    await data.delete()
-
-    return response.ok({ message: 'Queue Has Been Deleted' })
   }
-
-  public async list({ request, response }: HttpContextContract) {
-    const where = request.qs()
-    const data = await Queue.query().where(where)
-    if (!data) {
-      return response.badRequest({ message: 'There are not Queues' })
-    }
 
   public async show({ request, response }: HttpContextContract) {
     try {

@@ -1,72 +1,67 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-import QueueMember from 'App/Models/QueueMember'
-import Queue from 'App/Models/Queue'
-import Endpoint from 'App/Models/Endpoint'
+import QueueMemberService from 'App/Services/QueueMemberService'
+import {
+  CreateQueueMemberValidator,
+  DeleteQueueMemberValidator,
+  ListQueueMemberValidator,
+  UpdateQueueMemberValidator,
+} from 'App/Validators/QueueMember'
+import { status } from 'App/utils/verifyStatusCode'
 
 export default class QueueMembersController {
   public async index({ response }: HttpContextContract) {
-    const data = await QueueMember.query().orderBy('interface')
+    const data = await new QueueMemberService().index()
     return response.ok(data)
   }
 
   public async store({ request, response }: HttpContextContract) {
-    const inter = request.only(['interface'])
-    const queue = request.only(['queue_name'])
-
-    const endpointAlreadyExists = await Endpoint.find(
-      inter.interface.split('/')[1]
-    )
-
-    if (!endpointAlreadyExists) {
-      return response.badRequest({ message: 'Interface Not Found' })
+    try {
+      await request.validate(CreateQueueMemberValidator)
+    } catch (error) {
+      return response.unprocessableEntity()
     }
 
-    const queueAlreadyExists = await Queue.find(queue.queue_name)
-
-    if (!queueAlreadyExists) {
-      return response.badRequest({ message: 'Queue Not Found' })
+    try {
+      const data = await new QueueMemberService().create(request.body())
+      return response.created(data)
+    } catch (error) {
+      return status(response, error)
     }
-
-    const dataExists = await alreadyExists('queue_members', inter)
-
-    if (dataExists) {
-      return response.badRequest({ message: 'QueueMember Already Exists' })
-    }
-
-    const data = await insert('queue_members', request.body())
-
-    return response.created(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    const { uniqueid } = request.params()
-
-    const data = await QueueMember.findBy('uniqueid', uniqueid)
-
-    if (!data) {
-      return response.badRequest({ message: 'QueueMember Not Exists' })
+    try {
+      await request.validate(DeleteQueueMemberValidator)
+    } catch (error) {
+      return response.unprocessableEntity()
     }
 
-    await QueueMember.query().where(data.$attributes).delete()
-
-    return response.ok({
-      message: 'QueueMember Has Been Deleted',
-    })
+    try {
+      await new QueueMemberService().destroy(request.params().interface)
+    } catch (error) {
+      return status(response, error)
+    }
   }
 
-  public async list({ request, response }: HttpContextContract) {
-    const { endpoint, ...select } = request.qs()
-    var data
-
-    if (endpoint) {
-      data = await QueueMember.query().where({
-        interface: endpoint,
-        ...select,
-      })
-    } else {
-      data = await QueueMember.query().where(select)
+  public async update({ request, response }: HttpContextContract) {
+    try {
+      await request.validate(UpdateQueueMemberValidator)
+    } catch (error) {
+      return response.unprocessableEntity()
     }
+
+    try {
+      const data = await new QueueMemberService().update(
+        request.body(),
+        request.params().interface
+      )
+
+      return response.ok(data)
+    } catch (error) {
+      return status(response, error)
+    }
+  }
 
   public async show({ request, response }: HttpContextContract) {
     try {
