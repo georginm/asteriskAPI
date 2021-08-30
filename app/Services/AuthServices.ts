@@ -52,7 +52,7 @@ export default class AuthServices {
     }
   }
 
-  public async index() {
+  public async index(): Promise<Array<AuthRepository>> {
     return await AuthRepository.all()
   }
 }
