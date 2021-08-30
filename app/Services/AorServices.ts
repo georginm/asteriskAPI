@@ -56,7 +56,7 @@ export default class AorServices {
     }
   }
 
-  public async index() {
+  public async index(): Promise<AorRepository[]> {
     return await AorRepository.all()
   }
 }
