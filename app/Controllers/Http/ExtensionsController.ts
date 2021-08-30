@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Extension from 'App/Models/Extension'
 import ExtensionService from 'App/Services/ExtensionService'
+import { status } from 'App/utils/verifyStatusCode'
 import {
   CreateExtensionValidator,
   ListExtensionValidator,
@@ -25,11 +26,7 @@ export default class ExtensionsController {
       const data = await new ExtensionService().create(request.body())
       return response.created(data)
     } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
+      return status(response, error)
     }
   }
 
@@ -46,11 +43,7 @@ export default class ExtensionsController {
 
       return response.ok(data)
     } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
+      return status(response, error)
     }
   }
 
@@ -67,11 +60,7 @@ export default class ExtensionsController {
         message: 'Extension Has Been Deleted',
       })
     } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
+      return status(response, error)
     }
   }
 

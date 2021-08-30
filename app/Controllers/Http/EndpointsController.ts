@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import EndpointService from 'App/Services/EndpointServices'
+import { status } from 'App/utils/verifyStatusCode'
 import {
   CreateEndpointValidator,
   UpdateEndpointValidator,
@@ -24,11 +25,7 @@ export default class EndpointsController {
       const data = await new EndpointService().create(request.body())
       return response.created(data)
     } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
+      return status(response, error)
     }
   }
 
@@ -48,11 +45,7 @@ export default class EndpointsController {
 
       return response.ok(data)
     } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
+      return status(response, error)
     }
   }
 
@@ -68,11 +61,7 @@ export default class EndpointsController {
 
       return response.ok({ message: 'Endpoint Has Been Deleted.' })
     } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
+      return status(response, error)
     }
   }
 
