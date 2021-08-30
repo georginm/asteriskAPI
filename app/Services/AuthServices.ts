@@ -1,5 +1,6 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import AuthRepository from 'App/Repositories/AuthRepository'
+import { destroy } from 'App/utils/database/destroy'
 import { exists } from 'App/utils/database/exists'
 import { unique } from 'App/utils/database/unique'
 
@@ -35,17 +36,9 @@ export default class AuthServices {
     }
   }
 
-  public async destroy(data) {
-    await exists('ps_auths', 'id', data.id, 'id')
-
-    const item = await AuthRepository.find(data.id)
-
-    if (!item) {
-      throw new Exception('Internal Server Error', 500)
-    }
-
+  public async destroy(id: string): Promise<boolean> {
     try {
-      return await item.delete()
+      return await destroy('ps_auths', 'id', id)
     } catch (error) {
       throw new Exception(error, 500)
     }
