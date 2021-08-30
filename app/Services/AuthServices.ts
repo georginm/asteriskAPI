@@ -51,15 +51,9 @@ export default class AuthServices {
     }
   }
 
-  public async list(data) {
-    const keys = Object.keys(data)
-
-    for (var key of keys) {
-      await exists('ps_auths', key, data[key], key)
-    }
-
+  public async show(data): Promise<Array<AuthRepository>> {
     try {
-      return await AuthRepository.query().where(data).orderBy('id')
+      return await AuthRepository.show(data)
     } catch (error) {
       throw new Exception(error, 500)
     }

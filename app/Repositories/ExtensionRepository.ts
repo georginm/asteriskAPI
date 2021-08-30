@@ -29,20 +29,17 @@ export default class ExtensionRepository extends Extension {
     return await Extension.find(id)
   }
 
-  public static async list(where: object): Promise<Array<Extension>> {
-    const data = await Extension.query()
-      .select('*')
-      .where(where)
-      .orderBy('context')
-      .orderBy('priority')
-
-    if (!data.length) {
-      throw new Exception(
-        'Não há registros com as informações fornecidas.',
-        400
-      )
+  public static async show(data: string): Promise<Array<Extension>> {
+    try {
+      return await Extension.query()
+        .where('context', data)
+        .orWhere('exten', data)
+        .orWhere('appdata', data)
+        .orWhere('app', data)
+        .orderBy('context')
+        .orderBy('priority')
+    } catch (error) {
+      throw new Exception(error.routine, 500)
     }
-
-    return data
   }
 }

@@ -45,9 +45,9 @@ export default class ExtensionService {
     }
   }
 
-  public async list(data): Promise<Array<ExtensionRepository>> {
+  public async show(data): Promise<Array<ExtensionRepository>> {
     try {
-      return await ExtensionRepository.list(data)
+      return await ExtensionRepository.show(data)
     } catch (error) {
       throw new Exception(error)
     }

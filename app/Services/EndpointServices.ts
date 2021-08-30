@@ -62,8 +62,12 @@ export default class EndpointService {
     }
   }
 
-  public async list(data) {
-    return await EndpointRepository.query().where(data).orderBy('id')
+  public async show(data): Promise<Array<EndpointRepository>> {
+    try {
+      return await EndpointRepository.show(data)
+    } catch (error) {
+      throw new Exception(error, 500)
+    }
   }
 
   public async index() {
