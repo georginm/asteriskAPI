@@ -34,7 +34,6 @@ export default class QueueMemberService {
 
     try {
       const item = await QueueMemberRepository.create(data)
-      console.log(item)
       return item
     } catch (error) {
       throw new Exception(error, 500)
