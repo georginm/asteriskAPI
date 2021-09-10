@@ -2,7 +2,7 @@ import { Exception } from '@adonisjs/core/build/standalone'
 import QueueMember from 'App/Models/QueueMember'
 
 export default class QueueMemberRepository extends QueueMember {
-  public static async uniqueByRelarionship(
+  public static async uniqueByRelationship(
     queue_name: string,
     branche: string
   ): Promise<boolean> {

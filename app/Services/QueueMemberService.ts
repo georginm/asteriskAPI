@@ -21,7 +21,7 @@ export default class QueueMemberService {
     await unique('queue_members', 'interface', data.interface)
 
     const uniqueByRelarionship =
-      await QueueMemberRepository.uniqueByRelarionship(
+      await QueueMemberRepository.uniqueByRelationship(
         data.queueName,
         data.interface
       )
