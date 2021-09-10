@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Auth from 'App/Models/Auth'
 import AuthServices from 'App/Services/AuthServices'
 import {
   CreateAuthValidator,
@@ -10,7 +9,7 @@ import {
 
 export default class AuthController {
   public async index({ response }: HttpContextContract) {
-    const data = await Auth.all()
+    const data = await new AuthServices().index()
     return response.ok(data)
   }
 
