@@ -9,7 +9,7 @@ export const destroy = async (
   const data = await Database.from(table).where(column, value).delete()
   if (!data) {
     throw new BadRequestException(
-      `O registro de ${column} não existe na tabela ${table}.`,
+      `The ${column} register does not exist in the ${table} table.`,
       400
     )
   }

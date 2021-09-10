@@ -11,7 +11,7 @@ export const exists = async (
 
   if (!data.length) {
     throw new BadRequestException(
-      `O registro de ${column} na tabela ${table} não existe.`,
+      `The ${column} register in the ${table} table does not exist`,
       400
     )
   }
