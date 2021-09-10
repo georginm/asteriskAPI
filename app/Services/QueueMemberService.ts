@@ -1,4 +1,5 @@
 import { Exception } from '@adonisjs/core/build/standalone'
+import BadRequestException from 'App/Exceptions/BadRequestException'
 import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
 import { destroy } from 'App/utils/database/destroy'
 import { exists } from 'App/utils/database/exists'
@@ -6,13 +7,9 @@ import { unique } from 'App/utils/database/unique'
 
 export default class QueueMemberService {
   public async index(): Promise<QueueMemberRepository[]> {
-    try {
-      return await QueueMemberRepository.query()
-        .orderBy('queue_name')
-        .orderBy('interface')
-    } catch (error) {
-      return error
-    }
+    return await QueueMemberRepository.query()
+      .orderBy('queue_name')
+      .orderBy('interface')
   }
 
   public async create(data): Promise<QueueMemberRepository> {
@@ -32,12 +29,8 @@ export default class QueueMemberService {
         400
       )
 
-    try {
-      const item = await QueueMemberRepository.create(data)
-      return item
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    const item = await QueueMemberRepository.create(data)
+    return item
   }
 
   public async destroy(branche: string): Promise<boolean> {
@@ -48,11 +41,12 @@ export default class QueueMemberService {
   public async show(data: any): Promise<QueueMemberRepository[]> {
     data = data.replace('-', '/')
 
-    try {
-      return await QueueMemberRepository.show(data)
-    } catch (error) {
-      return error
-    }
+    const item = await QueueMemberRepository.show(data)
+
+    if (!item.length)
+      throw new BadRequestException('QueueMember not Exists.', 400)
+
+    return item
   }
 
   public async update(
@@ -62,18 +56,8 @@ export default class QueueMemberService {
     branche = branche.replace('-', '/')
     await exists('queue_members', 'interface', branche)
 
-    try {
-      const item = await QueueMemberRepository.find(branche)
+    const item = await QueueMemberRepository.findOrFail(branche)
 
-      if (!item) {
-        return item
-      }
-
-      item.merge(data)
-
-      return await item.save()
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return await item.merge(data).save()
   }
 }

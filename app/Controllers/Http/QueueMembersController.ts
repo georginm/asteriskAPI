@@ -7,7 +7,6 @@ import {
   ListQueueMemberValidator,
   UpdateQueueMemberValidator,
 } from 'App/Validators/QueueMember'
-import { status } from 'App/utils/verifyStatusCode'
 
 export default class QueueMembersController {
   public async index({ response }: HttpContextContract) {
@@ -16,69 +15,37 @@ export default class QueueMembersController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(CreateQueueMemberValidator)
-    } catch (error) {
-      return response.unprocessableEntity()
-    }
+    await request.validate(CreateQueueMemberValidator)
 
-    try {
-      const data = await new QueueMemberService().create(request.body())
-      return response.created(data)
-    } catch (error) {
-      return status(response, error)
-    }
+    const data = await new QueueMemberService().create(request.body())
+    return response.created(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(DeleteQueueMemberValidator)
-    } catch (error) {
-      return response.unprocessableEntity()
-    }
+    await request.validate(DeleteQueueMemberValidator)
+    await new QueueMemberService().destroy(request.params().interface)
 
-    try {
-      await new QueueMemberService().destroy(request.params().interface)
-    } catch (error) {
-      return status(response, error)
-    }
+    return response.ok({
+      message: 'QueueMember Has Been Deleted',
+    })
   }
 
   public async update({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(UpdateQueueMemberValidator)
-    } catch (error) {
-      return response.unprocessableEntity()
-    }
+    await request.validate(UpdateQueueMemberValidator)
 
-    try {
-      const data = await new QueueMemberService().update(
-        request.body(),
-        request.params().interface
-      )
+    const data = await new QueueMemberService().update(
+      request.body(),
+      request.params().interface
+    )
 
-      return response.ok(data)
-    } catch (error) {
-      return status(response, error)
-    }
+    return response.ok(data)
   }
 
   public async show({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(ListQueueMemberValidator)
-    } catch (error) {
-      return response.unprocessableEntity()
-    }
+    await request.validate(ListQueueMemberValidator)
 
-    try {
-      const data = await new QueueMemberService().show(request.params().data)
-      if (!data.length)
-        return response.badRequest({
-          message: 'QueueMember Not Exists',
-        })
-      return response.ok(data)
-    } catch (error) {
-      return { message: error.message }
-    }
+    const data = await new QueueMemberService().show(request.params().data)
+
+    return response.ok(data)
   }
 }
