@@ -1,6 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ExtensionService from 'App/Services/ExtensionService'
-import { status } from 'App/utils/verifyStatusCode'
 import {
   CreateExtensionValidator,
   ListExtensionValidator,
@@ -15,71 +14,35 @@ export default class ExtensionsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(CreateExtensionValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(CreateExtensionValidator)
 
-    try {
-      const data = await new ExtensionService().create(request.body())
-      return response.created(data)
-    } catch (error) {
-      return status(response, error)
-    }
+    const data = await new ExtensionService().create(request.body())
+    return response.created(data)
   }
 
   public async update({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(UpdateExtensionValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(UpdateExtensionValidator)
 
-    try {
-      const { id } = request.params()
-      const data = await new ExtensionService().update(id, request.body())
+    const { id } = request.params()
+    const data = await new ExtensionService().update(id, request.body())
 
-      return response.ok(data)
-    } catch (error) {
-      return status(response, error)
-    }
+    return response.ok(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(DeleteExtensionValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(DeleteExtensionValidator)
 
-    try {
-      await new ExtensionService().destroy(request.params().id)
-      return response.ok({
-        message: 'Extension Has Been Deleted',
-      })
-    } catch (error) {
-      return status(response, error)
-    }
+    await new ExtensionService().destroy(request.params().id)
+    return response.ok({
+      message: 'Extension Has Been Deleted',
+    })
   }
 
   public async show({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(ListExtensionValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(ListExtensionValidator)
 
-    try {
-      const data = await new ExtensionService().show(request.params().data)
+    const data = await new ExtensionService().show(request.params().data)
 
-      if (!data.length) {
-        return response.badRequest({ message: 'Extension Not Exists' })
-      }
-
-      return response.ok(data)
-    } catch (error) {
-      return status(response, error)
-    }
+    return response.ok(data)
   }
 }
