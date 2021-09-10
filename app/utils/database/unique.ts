@@ -1,5 +1,5 @@
-import { Exception } from '@adonisjs/core/build/standalone'
 import Database from '@ioc:Adonis/Lucid/Database'
+import BadRequestException from 'App/Exceptions/BadRequestException'
 /**
  * @param table
  * @param column
@@ -18,6 +18,9 @@ export const unique = async (
     .where(column, '=', value)
 
   if (data.length) {
-    throw new Exception(`O campo ${column} deve ser único.`, 400)
+    throw new BadRequestException(
+      `O campo ${column} deve ser único na tabela ${table}.`,
+      400
+    )
   }
 }

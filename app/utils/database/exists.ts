@@ -1,5 +1,5 @@
-import { Exception } from '@adonisjs/core/build/standalone'
 import Database from '@ioc:Adonis/Lucid/Database'
+import BadRequestException from 'App/Exceptions/BadRequestException'
 
 export const exists = async (
   table: string,
@@ -10,6 +10,9 @@ export const exists = async (
   const data = await Database.from(table).select(select).where(column, value)
 
   if (!data.length) {
-    throw new Exception(`O registro de ${column} não existe.`, 400)
+    throw new BadRequestException(
+      `O registro de ${column} na tabela ${table} não existe.`,
+      400
+    )
   }
 }
