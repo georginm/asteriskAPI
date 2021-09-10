@@ -10,6 +10,12 @@ Route.group(() => {
     'endpoint.show'
   )
 
+  Route.resource('/branches', 'BranchesController')
+    .except(['create', 'show', 'edit'])
+    .as('branches')
+
+  Route.get('/branches/show/:data', 'BranchesController.show').as('branch.show')
+
   // Auth Routes
   Route.resource('auths', 'AuthsController')
     .except(['create', 'show', 'edit'])
