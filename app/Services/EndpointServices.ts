@@ -1,4 +1,4 @@
-import { Exception } from '@adonisjs/core/build/standalone'
+import BadRequestException from 'App/Exceptions/BadRequestException'
 import EndpointRepository from 'App/Repositories/EndpointRepository'
 import { destroy } from 'App/utils/database/destroy'
 import { exists } from 'App/utils/database/exists'
@@ -14,11 +14,7 @@ export default class EndpointService {
     await exists('ps_auths', 'id', data.auth, 'id')
     await exists('ps_aors', 'id', data.aors, 'id')
 
-    try {
-      return await EndpointRepository.create(data)
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return await EndpointRepository.create(data)
   }
 
   public async update(data, id): Promise<EndpointRepository | null> {
@@ -32,38 +28,24 @@ export default class EndpointService {
     if (data.auth) await exists('ps_auths', 'id', data.auth)
     if (data.aors) await exists('ps_aors', 'id', data.aors)
 
-    try {
-      const item = await EndpointRepository.find(id)
+    const item = await EndpointRepository.findOrFail(id)
 
-      if (!item) {
-        return item
-      }
-
-      item.merge(data)
-
-      return await item.save()
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return await item.merge(data).save()
   }
 
   public async destroy(id: string): Promise<boolean> {
-    try {
-      return await destroy('ps_endpoints', 'id', id)
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return await destroy('ps_endpoints', 'id', id)
   }
 
   public async show(data): Promise<Array<EndpointRepository>> {
-    try {
-      return await EndpointRepository.show(data)
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    const item = await EndpointRepository.show(data)
+    if (!item.length) throw new BadRequestException('Endpoint Not Exists', 400)
+    return item
   }
 
   public async index() {
-    return await EndpointRepository.all()
+    const data = await EndpointRepository.all()
+    if (!data.length) throw new BadRequestException('Endpoint Not Exists', 400)
+    return data
   }
 }

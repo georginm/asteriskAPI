@@ -1,4 +1,4 @@
-import { Exception } from '@adonisjs/core/build/standalone'
+import BadRequestException from 'App/Exceptions/BadRequestException'
 import AuthRepository from 'App/Repositories/AuthRepository'
 import { destroy } from 'App/utils/database/destroy'
 import { exists } from 'App/utils/database/exists'
@@ -9,50 +9,36 @@ export default class AuthServices {
     await unique('ps_auths', 'id', data.id, 'id')
     await unique('ps_auths', 'username', data.username, 'username')
 
-    try {
-      return await AuthRepository.create(data)
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return await AuthRepository.create(data)
   }
 
   public async update(data, id: string): Promise<AuthRepository> {
     await exists('ps_auths', 'id', id, 'id')
     await unique('ps_auths', 'username', data.username, 'username')
 
-    try {
-      const item = await AuthRepository.find(id)
+    const item = await AuthRepository.findOrFail(id)
 
-      if (!item) {
-        throw new Exception('Internal Server Error', 500)
-      }
+    await item.merge(data).save()
 
-      item.merge(data)
-      await item.save()
-
-      return item
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return item
   }
 
   public async destroy(id: string): Promise<boolean> {
-    try {
-      return await destroy('ps_auths', 'id', id)
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    return await destroy('ps_auths', 'id', id)
   }
 
   public async show(data): Promise<Array<AuthRepository>> {
-    try {
-      return await AuthRepository.show(data)
-    } catch (error) {
-      throw new Exception(error, 500)
-    }
+    const item = await AuthRepository.show(data)
+
+    if (!item.length) throw new BadRequestException('Auth not Exists.', 400)
+
+    return item
   }
 
   public async index(): Promise<Array<AuthRepository>> {
-    return await AuthRepository.all()
+    const data = await AuthRepository.all()
+    if (!data.length) throw new BadRequestException('Auth not Exists.', 400)
+
+    return data
   }
 }

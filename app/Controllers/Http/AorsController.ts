@@ -14,87 +14,33 @@ export default class AorsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(CreateAorValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(CreateAorValidator)
+    const data = await new AorServices().create(request.body())
 
-    try {
-      const data = await new AorServices().create(request.body())
-
-      return response.created(data)
-    } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
-    }
+    return response.created(data)
   }
 
   public async update({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(UpdateAorValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(UpdateAorValidator)
+    const data = await new AorServices().update(
+      request.body(),
+      request.params().id
+    )
 
-    try {
-      const data = await new AorServices().update(
-        request.body(),
-        request.params().id
-      )
-
-      return response.ok(data)
-    } catch (error) {
-      if (error.status === 400)
-        return response.badRequest({ message: error.message })
-    }
+    return response.ok(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(DeleteAorValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(DeleteAorValidator)
+    await new AorServices().destroy(request.params().id)
 
-    try {
-      await new AorServices().destroy(request.params())
-
-      return response.ok({ message: 'Aor has been deleted.' })
-    } catch (error) {
-      if (error.status === 400)
-        return response.badRequest({ message: error.message })
-
-      return response.internalServerError(error)
-    }
+    return response.ok({ message: 'Aor has been deleted.' })
   }
 
   public async show({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(ListAorValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(ListAorValidator)
+    const data = await new AorServices().show(request.params().data)
 
-    try {
-      const data = await new AorServices().show(request.params().data)
-
-      if (!data.length) {
-        return response.badRequest({
-          message: 'Aor Not Exists',
-        })
-      }
-
-      return response.ok(data)
-    } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError({ message: error.message })
-    }
+    return response.ok(data)
   }
 }

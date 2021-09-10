@@ -15,84 +15,37 @@ export default class AuthController {
   }
 
   public async store({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(CreateAuthValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(CreateAuthValidator)
 
-    try {
-      const data = await new AuthServices().create(request.body())
+    const data = await new AuthServices().create(request.body())
 
-      return response.created(data)
-    } catch (error) {
-      if (error.status === 400) {
-        return response.badRequest({ message: error.message })
-      }
-
-      return response.internalServerError(error)
-    }
+    return response.created(data)
   }
 
   public async update({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(UpdateAuthValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(UpdateAuthValidator)
 
-    try {
-      const data = await new AuthServices().update(
-        request.body(),
-        request.params().id
-      )
+    const data = await new AuthServices().update(
+      request.body(),
+      request.params().id
+    )
 
-      return response.ok(data)
-    } catch (error) {
-      if (error.status === 400)
-        return response.badRequest({ message: error.message })
-
-      return response.internalServerError(error)
-    }
+    return response.ok(data)
   }
 
   public async destroy({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(DeleteAuthValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(DeleteAuthValidator)
 
-    try {
-      await new AuthServices().destroy(request.params().id)
+    await new AuthServices().destroy(request.params().id)
 
-      return response.ok({ message: 'Auth has been deleted.' })
-    } catch (error) {
-      if (error.status === 400)
-        return response.badRequest({ message: error.message })
-
-      return response.internalServerError(error)
-    }
+    return response.ok({ message: 'Auth has been deleted.' })
   }
 
   public async show({ request, response }: HttpContextContract) {
-    try {
-      await request.validate(ListAuthValidator)
-    } catch (error) {
-      return response.unprocessableEntity(error.messages.errors)
-    }
+    await request.validate(ListAuthValidator)
 
-    try {
-      const data = await new AuthServices().show(request.params().data)
+    const data = await new AuthServices().show(request.params().data)
 
-      if (!data.length) {
-        return response.badRequest({
-          message: 'Auth Not Exists',
-        })
-      }
-      return response.ok(data)
-    } catch (error) {
-      return response.internalServerError(error)
-    }
+    return response.ok(data)
   }
 }
