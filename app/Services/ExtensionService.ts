@@ -5,9 +5,11 @@ import { destroy } from 'App/utils/database/destroy'
 
 export default class ExtensionService {
   public async index(): Promise<ExtensionRepository[]> {
-    return await ExtensionRepository.query()
-      .orderBy('context')
-      .orderBy('priority')
+    const item = await ExtensionRepository.index()
+
+    if (!item.length) throw new BadRequestException('Extension not Exists.')
+
+    return item
   }
   public async create(data): Promise<ExtensionRepository> {
     await ExtensionRepository.uniquePerExtension(
