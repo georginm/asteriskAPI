@@ -23,8 +23,10 @@ export default class ExtensionsController {
   public async update({ request, response }: HttpContextContract) {
     await request.validate(UpdateExtensionValidator)
 
-    const { id } = request.params()
-    const data = await new ExtensionService().update(id, request.body())
+    const data = await new ExtensionService().update(
+      request.params().id,
+      request.body()
+    )
 
     return response.ok(data)
   }
