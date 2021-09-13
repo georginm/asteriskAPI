@@ -35,7 +35,6 @@ export default class ExtensionService {
       const item = await ExtensionRepository.findOrFail(id)
       return await item.merge(data).save()
     } catch (error) {
-      console.log(error.message)
       throw new InternalServerErrorException(error.message, 500)
     }
   }
