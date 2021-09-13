@@ -100,7 +100,7 @@ export default class Iax extends BaseModel {
   public transfer: string
 
   @column()
-  public jitterbuffer: number
+  public jitterbuffer: string
 
   @column()
   public forcejitterbuffer: string
