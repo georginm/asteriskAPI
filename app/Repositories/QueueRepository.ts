@@ -1,4 +1,4 @@
-import { Exception } from '@adonisjs/core/build/standalone'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import Queue from 'App/Models/Queue'
 
 export default class QueueRepository extends Queue {
@@ -9,7 +9,7 @@ export default class QueueRepository extends Queue {
         .orWhere('context', data)
         .orderBy('name')
     } catch (error) {
-      throw new Exception(error, 500)
+      throw new InternalServerErrorException(error.message, 500)
     }
   }
 }

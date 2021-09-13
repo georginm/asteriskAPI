@@ -1,4 +1,4 @@
-import { Exception } from '@adonisjs/core/build/standalone'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class EndpointRepository extends Endpoint {
@@ -12,7 +12,7 @@ export default class EndpointRepository extends Endpoint {
         .orWhere('context', data)
         .orderBy('id')
     } catch (error) {
-      throw new Exception(error, 500)
+      throw new InternalServerErrorException(error.message, 500)
     }
   }
 }

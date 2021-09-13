@@ -1,4 +1,5 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import AuthRepository from 'App/Repositories/AuthRepository'
 import { destroy, exists, unique } from 'App/utils/database/'
 
@@ -7,18 +8,23 @@ export default class AuthServices {
     await unique('ps_auths', 'id', data.id, 'id')
     await unique('ps_auths', 'username', data.username, 'username')
 
-    return await AuthRepository.create(data)
+    try {
+      return await AuthRepository.create(data)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async update(data, id: string): Promise<AuthRepository> {
     await exists('ps_auths', 'id', id, 'id')
     await unique('ps_auths', 'username', data.username, 'username')
 
-    const item = await AuthRepository.findOrFail(id)
-
-    await item.merge(data).save()
-
-    return item
+    try {
+      const item = await AuthRepository.findOrFail(id)
+      return await item.merge(data).save()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async destroy(id: string): Promise<boolean> {

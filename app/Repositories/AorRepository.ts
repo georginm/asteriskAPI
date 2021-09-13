@@ -1,4 +1,4 @@
-import { Exception } from '@adonisjs/core/build/standalone'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import Aor from 'App/Models/Aor'
 
 export default class AorRepository extends Aor {
@@ -11,7 +11,7 @@ export default class AorRepository extends Aor {
         .orWhere('outbound_proxy', data)
         .orderBy('id')
     } catch (error) {
-      throw new Exception(error, 500)
+      throw new InternalServerErrorException(error.message, 500)
     }
   }
 }

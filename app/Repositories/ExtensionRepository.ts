@@ -1,5 +1,6 @@
 import Extension from 'App/Models/Extension'
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 
 export default class ExtensionRepository extends Extension {
   /**
@@ -26,13 +27,17 @@ export default class ExtensionRepository extends Extension {
     return true
   }
 
-  public static async show(data: string): Promise<Array<Extension>> {
-    return await Extension.query()
-      .where('context', data)
-      .orWhere('exten', data)
-      .orWhere('appdata', data)
-      .orWhere('app', data)
-      .orderBy('context')
-      .orderBy('priority')
+  public static async show(data: string): Promise<Extension[]> {
+    try {
+      return await Extension.query()
+        .where('context', data)
+        .orWhere('exten', data)
+        .orWhere('appdata', data)
+        .orWhere('app', data)
+        .orderBy('context')
+        .orderBy('priority')
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 }

@@ -1,36 +1,41 @@
 import Database from '@ioc:Adonis/Lucid/Database'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import Aor from 'App/Models/Aor'
 import Auth from 'App/Models/Auth'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class BranchRepository {
   public static async index(): Promise<any> {
-    const data = await Database.from('ps_endpoints')
-      .join('ps_aors', 'ps_endpoints.aors', '=', 'ps_aors.id')
-      .join('ps_auths', 'ps_endpoints.auth', '=', 'ps_auths.id')
-      .select('ps_endpoints.*')
-      .select('ps_auths.*')
-      .select('ps_aors.*')
-
-    return data
+    try {
+      return await Database.from('ps_endpoints')
+        .join('ps_aors', 'ps_endpoints.aors', '=', 'ps_aors.id')
+        .join('ps_auths', 'ps_endpoints.auth', '=', 'ps_auths.id')
+        .select('ps_endpoints.*')
+        .select('ps_auths.*')
+        .select('ps_aors.*')
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public static async show(where): Promise<any> {
-    const data = await Database.from('ps_endpoints')
-      .join('ps_aors', 'ps_endpoints.aors', '=', 'ps_aors.id')
-      .join('ps_auths', 'ps_endpoints.auth', '=', 'ps_auths.id')
-      .select('ps_endpoints.*')
-      .select('ps_auths.*')
-      .select('ps_aors.*')
-      .where('ps_endpoints.id', where)
-      .orWhere('ps_endpoints.context', where)
-      .orWhere('ps_endpoints.transport', where)
-      .orWhere('ps_endpoints.auth', where)
-      .orWhere('ps_endpoints.aors', where)
-      .orWhere('ps_endpoints.mac_address', where)
-      .orWhere('ps_auths.username', where)
-
-    return data
+    try {
+      return await Database.from('ps_endpoints')
+        .join('ps_aors', 'ps_endpoints.aors', '=', 'ps_aors.id')
+        .join('ps_auths', 'ps_endpoints.auth', '=', 'ps_auths.id')
+        .select('ps_endpoints.*')
+        .select('ps_auths.*')
+        .select('ps_aors.*')
+        .where('ps_endpoints.id', where)
+        .orWhere('ps_endpoints.context', where)
+        .orWhere('ps_endpoints.transport', where)
+        .orWhere('ps_endpoints.auth', where)
+        .orWhere('ps_endpoints.aors', where)
+        .orWhere('ps_endpoints.mac_address', where)
+        .orWhere('ps_auths.username', where)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public static async create(data): Promise<any> {
@@ -43,7 +48,7 @@ export default class BranchRepository {
       await trx.commit()
     } catch (error) {
       await trx.rollback()
-      return error
+      throw new InternalServerErrorException(error.message, 500)
     }
 
     return true
@@ -59,7 +64,7 @@ export default class BranchRepository {
       trx.commit()
     } catch (error) {
       trx.rollback()
-      return error
+      throw new InternalServerErrorException(error.message, 500)
     }
 
     return true
@@ -75,7 +80,7 @@ export default class BranchRepository {
       trx.commit()
     } catch (error) {
       trx.rollback()
-      return error
+      throw new InternalServerErrorException(error.message, 500)
     }
 
     return true

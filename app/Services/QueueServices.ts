@@ -1,4 +1,5 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import QueueRepository from 'App/Repositories/QueueRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
@@ -14,15 +15,23 @@ class QueueServices {
   public async create(data): Promise<QueueRepository> {
     await unique('queues', 'name', data.name)
 
-    return await QueueRepository.create(data)
+    try {
+      return await QueueRepository.create(data)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async update(data, name: string): Promise<QueueRepository | null> {
     await exists('queues', 'name', name)
 
-    const item = await QueueRepository.findOrFail(name)
+    try {
+      const item = await QueueRepository.findOrFail(name)
 
-    return item.merge(data).save()
+      return item.merge(data).save()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async destroy(name: string): Promise<boolean> {

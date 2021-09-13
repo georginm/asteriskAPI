@@ -1,5 +1,6 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
@@ -21,14 +22,12 @@ export default class QueueMemberService {
         data.interface
       )
 
-    if (!uniqueByRelarionship)
-      throw new Exception(
-        'Os campos queue_name e interface devem ser únicos por queue_member.',
-        400
-      )
-
-    const item = await QueueMemberRepository.create(data)
-    return item
+    try {
+      const item = await QueueMemberRepository.create(data)
+      return item
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async destroy(branche: string): Promise<boolean> {
@@ -54,8 +53,12 @@ export default class QueueMemberService {
     branche = branche.replace('-', '/')
     await exists('queue_members', 'interface', branche)
 
-    const item = await QueueMemberRepository.findOrFail(branche)
+    try {
+      const item = await QueueMemberRepository.findOrFail(branche)
 
-    return await item.merge(data).save()
+      return await item.merge(data).save()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 }

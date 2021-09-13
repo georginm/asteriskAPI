@@ -1,4 +1,5 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import EndpointRepository from 'App/Repositories/EndpointRepository'
 import { destroy, exists, unique } from 'App/utils/database/'
 
@@ -12,7 +13,11 @@ export default class EndpointService {
     await exists('ps_auths', 'id', data.auth, 'id')
     await exists('ps_aors', 'id', data.aors, 'id')
 
-    return await EndpointRepository.create(data)
+    try {
+      return await EndpointRepository.create(data)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async update(data, id): Promise<EndpointRepository | null> {
@@ -26,9 +31,12 @@ export default class EndpointService {
     if (data.auth) await exists('ps_auths', 'id', data.auth)
     if (data.aors) await exists('ps_aors', 'id', data.aors)
 
-    const item = await EndpointRepository.findOrFail(id)
-
-    return await item.merge(data).save()
+    try {
+      const item = await EndpointRepository.findOrFail(id)
+      return await item.merge(data).save()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async destroy(id: string): Promise<boolean> {

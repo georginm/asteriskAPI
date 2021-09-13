@@ -1,4 +1,5 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import AorRepository from 'App/Repositories/AorRepository'
 import { destroy, exists, unique } from 'App/utils/database/'
 
@@ -6,17 +7,22 @@ export default class AorServices {
   public async create(data): Promise<AorRepository> {
     await unique('ps_aors', 'id', data.id, 'id')
 
-    return await AorRepository.create(data)
+    try {
+      return await AorRepository.create(data)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async update(data, id): Promise<AorRepository> {
     await exists('ps_aors', 'id', id, 'id')
-    const item = await AorRepository.findOrFail(id)
 
-    item.merge(data)
-    await item.save()
-
-    return item
+    try {
+      const item = await AorRepository.findOrFail(id)
+      return await item.merge(data).save()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async destroy(id) {

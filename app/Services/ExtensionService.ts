@@ -1,4 +1,5 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import ExtensionRepository from 'App/Repositories/ExtensionRepository'
 import { destroy } from 'App/utils/database/destroy'
 
@@ -14,8 +15,11 @@ export default class ExtensionService {
       data.context,
       data.exten
     )
-
-    return await ExtensionRepository.create(data)
+    try {
+      return await ExtensionRepository.create(data)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async update(id, data): Promise<ExtensionRepository> {
@@ -25,11 +29,13 @@ export default class ExtensionService {
       data.exten
     )
 
-    const item = await ExtensionRepository.findOrFail(id)
-
-    await item.merge(data).save()
-
-    return item
+    try {
+      const item = await ExtensionRepository.findOrFail(id)
+      return await item.merge(data).save()
+    } catch (error) {
+      console.log(error.message)
+      throw new InternalServerErrorException(error.message, 500)
+    }
   }
 
   public async destroy(id: string): Promise<boolean> {

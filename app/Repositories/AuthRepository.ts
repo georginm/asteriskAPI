@@ -1,4 +1,4 @@
-import { Exception } from '@adonisjs/core/build/standalone'
+import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import Auth from 'App/Models/Auth'
 
 export default class AuthRepository extends Auth {
@@ -9,7 +9,7 @@ export default class AuthRepository extends Auth {
         .orWhere('username', data)
         .orderBy('id')
     } catch (error) {
-      throw new Exception(error, 500)
+      throw new InternalServerErrorException(error.message, 500)
     }
   }
 }
