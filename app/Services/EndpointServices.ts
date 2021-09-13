@@ -1,8 +1,6 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import EndpointRepository from 'App/Repositories/EndpointRepository'
-import { destroy } from 'App/utils/database/destroy'
-import { exists } from 'App/utils/database/exists'
-import { unique } from 'App/utils/database/unique'
+import { destroy, exists, unique } from 'App/utils/database/'
 
 export default class EndpointService {
   public async create(data): Promise<EndpointRepository> {

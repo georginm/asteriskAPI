@@ -1,7 +1,6 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import BranchRepository from 'App/Repositories/BranchRepository'
-import { exists } from 'App/utils/database/exists'
-import { unique } from 'App/utils/database/unique'
+import { exists, unique } from 'App/utils/database/'
 
 export default class BranchService {
   public async index(): Promise<BranchRepository[]> {

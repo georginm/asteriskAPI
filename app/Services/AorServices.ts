@@ -1,8 +1,6 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import AorRepository from 'App/Repositories/AorRepository'
-import { destroy } from 'App/utils/database/destroy'
-import { exists } from 'App/utils/database/exists'
-import { unique } from 'App/utils/database/unique'
+import { destroy, exists, unique } from 'App/utils/database/'
 
 export default class AorServices {
   public async create(data): Promise<AorRepository> {

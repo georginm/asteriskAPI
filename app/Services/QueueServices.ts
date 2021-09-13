@@ -1,8 +1,6 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import QueueRepository from 'App/Repositories/QueueRepository'
-import { destroy } from 'App/utils/database/destroy'
-import { exists } from 'App/utils/database/exists'
-import { unique } from 'App/utils/database/unique'
+import { destroy, exists, unique } from 'App/utils/database'
 
 class QueueServices {
   public async index(): Promise<QueueRepository[]> {

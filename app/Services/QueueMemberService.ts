@@ -1,9 +1,7 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
-import { destroy } from 'App/utils/database/destroy'
-import { exists } from 'App/utils/database/exists'
-import { unique } from 'App/utils/database/unique'
+import { destroy, exists, unique } from 'App/utils/database'
 
 export default class QueueMemberService {
   public async index(): Promise<QueueMemberRepository[]> {
