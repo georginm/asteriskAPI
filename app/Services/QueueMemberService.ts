@@ -1,4 +1,3 @@
-import { Exception } from '@adonisjs/core/build/standalone'
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
