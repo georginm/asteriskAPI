@@ -6,9 +6,12 @@ import { destroy, exists, unique } from 'App/utils/database'
 
 export default class QueueMemberService {
   public async index(): Promise<QueueMemberRepository[]> {
-    return await QueueMemberRepository.query()
-      .orderBy('queue_name')
-      .orderBy('interface')
+    const data = await QueueMemberRepository.index()
+
+    if (!data.length)
+      throw new BadRequestException('Queue Member not Exists.', 400)
+
+    return data
   }
 
   public async create(data): Promise<QueueMemberRepository> {

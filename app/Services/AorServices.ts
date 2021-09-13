@@ -38,7 +38,7 @@ export default class AorServices {
   }
 
   public async index(): Promise<AorRepository[]> {
-    const data = await AorRepository.all()
+    const data = await AorRepository.index()
 
     if (!data.length) throw new BadRequestException('Aor not Exists', 400)
 

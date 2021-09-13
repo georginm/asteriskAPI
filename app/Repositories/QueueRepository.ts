@@ -12,4 +12,12 @@ export default class QueueRepository extends Queue {
       throw new InternalServerErrorException(error.message, 500)
     }
   }
+
+  public static async index(): Promise<Queue[]> {
+    try {
+      return await Queue.all()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
+  }
 }

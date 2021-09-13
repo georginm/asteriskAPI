@@ -14,4 +14,12 @@ export default class AorRepository extends Aor {
       throw new InternalServerErrorException(error.message, 500)
     }
   }
+
+  public static async index() {
+    try {
+      return await Aor.all()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
+  }
 }

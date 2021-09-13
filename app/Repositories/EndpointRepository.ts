@@ -15,4 +15,12 @@ export default class EndpointRepository extends Endpoint {
       throw new InternalServerErrorException(error.message, 500)
     }
   }
+
+  public static async index() {
+    try {
+      return await Endpoint.all()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
+  }
 }

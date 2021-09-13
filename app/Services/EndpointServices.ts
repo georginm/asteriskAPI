@@ -50,7 +50,7 @@ export default class EndpointService {
   }
 
   public async index() {
-    const data = await EndpointRepository.all()
+    const data = await EndpointRepository.index()
     if (!data.length) throw new BadRequestException('Endpoint Not Exists', 400)
     return data
   }

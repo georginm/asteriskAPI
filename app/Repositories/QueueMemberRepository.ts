@@ -26,4 +26,14 @@ export default class QueueMemberRepository extends QueueMember {
       throw new InternalServerErrorException(error.message, 500)
     }
   }
+
+  public static async index(): Promise<QueueMember[]> {
+    try {
+      return await QueueMember.query()
+        .orderBy('queue_name')
+        .orderBy('interface')
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
+  }
 }

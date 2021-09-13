@@ -40,4 +40,12 @@ export default class ExtensionRepository extends Extension {
       throw new InternalServerErrorException(error.message, 500)
     }
   }
+
+  public static async index(): Promise<Extension[]> {
+    try {
+      return await Extension.query().orderBy('context').orderBy('priority')
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
+  }
 }

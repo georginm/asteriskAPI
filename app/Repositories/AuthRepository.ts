@@ -12,4 +12,12 @@ export default class AuthRepository extends Auth {
       throw new InternalServerErrorException(error.message, 500)
     }
   }
+
+  public static async index() {
+    try {
+      return await Auth.all()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message, 500)
+    }
+  }
 }

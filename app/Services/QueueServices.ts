@@ -5,7 +5,7 @@ import { destroy, exists, unique } from 'App/utils/database'
 
 class QueueServices {
   public async index(): Promise<QueueRepository[]> {
-    const data = await QueueRepository.all()
+    const data = await QueueRepository.index()
 
     if (!data.length) throw new BadRequestException('Queue not Exists.', 400)
 

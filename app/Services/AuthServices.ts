@@ -40,7 +40,8 @@ export default class AuthServices {
   }
 
   public async index(): Promise<Array<AuthRepository>> {
-    const data = await AuthRepository.all()
+    const data = await AuthRepository.index()
+
     if (!data.length) throw new BadRequestException('Auth not Exists.', 400)
 
     return data
