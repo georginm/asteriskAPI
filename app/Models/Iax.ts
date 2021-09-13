@@ -72,8 +72,8 @@ export default class Iax extends BaseModel {
   @column()
   public callerid: string
 
-  @column()
-  public cid_number: string
+  @column({ columnName: 'cid_number' })
+  public cidNumber: string
 
   @column()
   public sendani: string
