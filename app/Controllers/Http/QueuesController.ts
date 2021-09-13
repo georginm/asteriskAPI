@@ -34,6 +34,7 @@ export default class QueuesController {
     await request.validate(DeleteQueueValidator)
 
     await new QueueServices().destroy(request.params().name)
+
     return response.ok({ message: 'Queue Has Been Deleted' })
   }
 
