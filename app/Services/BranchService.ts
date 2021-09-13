@@ -60,8 +60,7 @@ export default class BranchService {
   public async delete(id): Promise<BranchRepository> {
     await exists('ps_endpoints', 'id', id, 'id')
 
-    const data = await BranchRepository.delete(id)
-    return data
+    return await BranchRepository.delete(id)
   }
 
   public async show(data): Promise<BranchRepository[]> {
