@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Queue from 'App/Models/Queue'
 
 export default class QueueRepository extends Queue {
-  public static async show(data) {
+  public static async show(data): Promise<Queue[]> {
     try {
       return await Queue.query()
         .where('name', data)

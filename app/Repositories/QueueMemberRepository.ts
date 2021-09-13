@@ -19,7 +19,7 @@ export default class QueueMemberRepository extends QueueMember {
     return true
   }
 
-  public static async show(data) {
+  public static async show(data): Promise<QueueMember[]> {
     try {
       return await QueueMember.query()
         .where('queue_name', data)
