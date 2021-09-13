@@ -3,7 +3,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import QueueRepository from 'App/Repositories/QueueRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
-class QueueServices {
+export default class QueueServices {
   public async index(): Promise<QueueRepository[]> {
     const data = await QueueRepository.index()
 
@@ -46,5 +46,3 @@ class QueueServices {
     return item
   }
 }
-
-export { QueueServices }

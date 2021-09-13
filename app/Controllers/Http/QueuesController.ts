@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { QueueServices } from 'App/Services/QueueServices'
+import QueueServices from 'App/Services/QueueServices'
 import {
   CreateQueueValidator,
   DeleteQueueValidator,
