@@ -1,3 +1,4 @@
+import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import QueueMember from 'App/Models/QueueMember'
 
@@ -10,7 +11,11 @@ export default class QueueMemberRepository extends QueueMember {
       .where('queue_name', queue_name)
       .where('interface', branche)
 
-    if (result.length) return false
+    if (result.length)
+      throw new BadRequestException(
+        'The queue_name and interface fields must be unique per queue_member.',
+        400
+      )
     return true
   }
 
