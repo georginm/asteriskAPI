@@ -33,8 +33,7 @@ export default class BranchService {
     return await BranchRepository.create(data)
   }
 
-  public async update(id, data): Promise<BranchRepository> {
-    if (data.endpoint.auth !== data.auth.id)
+  public async update(data, id): Promise<BranchRepository> {
       throw new BadRequestException(
         ' The endpoint.auth and auths.id must be the same.'
       )
