@@ -34,24 +34,21 @@ export default class BranchService {
   }
 
   public async update(data, id): Promise<BranchRepository> {
+    // Nenhum dos ids pode vir no corpo da requisição.
+    if (data.endpoint.id || data.auth.id || data.aor.id)
       throw new BadRequestException(
-        ' The endpoint.auth and auths.id must be the same.'
-      )
-
-    if (data.endpoint.aors !== data.aor.id)
-      throw new BadRequestException(
-        ' The endpoint.aors and aors.id must be the same.'
+        'Cannot change id of endpoint, aor or auth.'
       )
 
     await exists('ps_endpoints', 'id', id)
 
-    await unique('ps_endpoints', 'auth', data.endpoint.auth, 'id')
-    await unique('ps_endpoints', 'aors', data.endpoint.aors, 'id')
+    // await unique('ps_endpoints', 'auth', data.endpoint.auth, 'id')
+    // await unique('ps_endpoints', 'aors', data.endpoint.aors, 'id')
     await unique('ps_endpoints', 'mac_address', data.endpoint.macAddress, 'id')
     await unique('ps_auths', 'username', data.auth.username, 'username')
 
-    await unique('ps_aors', 'id', data.aor.id, 'id')
-    await unique('ps_auths', 'id', data.auth.id, 'id')
+    // await unique('ps_aors', 'id', data.aor.id, 'id')
+    // await unique('ps_auths', 'id', data.auth.id, 'id')
 
     return await BranchRepository.update(id, data)
   }
