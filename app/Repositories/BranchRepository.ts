@@ -77,9 +77,9 @@ export default class BranchRepository {
     const trx = await Database.transaction()
 
     try {
-      await trx.insertQuery().table('ps_aors').insert(data.aor)
-      await trx.insertQuery().table('ps_auths').insert(data.auth)
-      await trx.insertQuery().table('ps_endpoints').insert(data.endpoint)
+      await new Endpoint().merge(data.endpoint).useTransaction(trx).save()
+      await new Aor().merge(data.aor).useTransaction(trx).save()
+      await new Auth().merge(data.auth).useTransaction(trx).save()
       await trx.commit()
     } catch (error) {
       await trx.rollback()
@@ -93,9 +93,24 @@ export default class BranchRepository {
     const trx = await Database.transaction()
 
     try {
-      await trx.from(Aor.table).where('id', id).update(data.aor)
-      await trx.from(Auth.table).where('id', id).update(data.auth)
-      await trx.from(Endpoint.table).where('id', id).update(data.endpoint)
+      await (await Endpoint.findOrFail(id))
+        .merge(data.endpoint)
+        .useTransaction(trx)
+        .save()
+
+      await (await Aor.findOrFail(id))
+        .merge(data.aor)
+        .useTransaction(trx)
+        .save()
+
+      await (await Auth.findOrFail(id))
+        .merge(data.auth)
+        .useTransaction(trx)
+        .save()
+
+      // await await trx.from(Aor.table).where('id', id).update(data.aor)
+      // await trx.from(Auth.table).where('id', id).update(data.auth)
+      // await trx.from(Endpoint.table).where('id', id).update(data.endpoint)
       trx.commit()
     } catch (error) {
       trx.rollback()
