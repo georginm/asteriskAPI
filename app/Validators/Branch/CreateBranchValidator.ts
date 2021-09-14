@@ -12,7 +12,7 @@ class CreateBranchValidator {
         rules.minLength(3),
       ]),
 
-      transport: schema.enum(['udp', 'tcp', 'tls', 'ws', 'wss']),
+      transport: schema.string({ trim: true }, [rules.maxLength(40)]),
       context: schema.string({ trim: true }, [rules.maxLength(40)]),
 
       disallow: schema.string({ trim: true }, [

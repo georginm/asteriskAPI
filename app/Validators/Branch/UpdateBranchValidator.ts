@@ -103,12 +103,7 @@ class UpdateBranchValidator {
       rtp_symmetric: schema.enum.optional(['yes', 'no'] as const),
       force_rport: schema.enum.optional(['yes', 'no'] as const),
       direct_media: schema.enum.optional(['yes', 'no'] as const),
-      t38_udptl: schema.enum.optional(['yes', 'no'] as const),
-      t38_udptl_nat: schema.enum.optional(['yes', 'no'] as const),
-      disable_direct_media_on_nat: schema.enum.optional(['yes', 'no'] as const),
-      ice_support: schema.enum.optional(['yes', 'no'] as const),
-      allow_overlap: schema.enum.optional(['yes', 'no'] as const),
-      transport: schema.enum.optional(['udp', 'tcp', 'tls', 'ws', 'wss']),
+      transport: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
 
       dtmf_mode: schema.enum.optional([
         'rfc4733',
