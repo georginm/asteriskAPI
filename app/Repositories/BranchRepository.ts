@@ -86,7 +86,7 @@ export default class BranchRepository {
       throw new InternalServerErrorException(error.message, 500)
     }
 
-    return true
+    return data
   }
 
   public static async update(id, data): Promise<any> {
@@ -117,7 +117,7 @@ export default class BranchRepository {
       throw new InternalServerErrorException(error.message, 500)
     }
 
-    return true
+    return data
   }
 
   public static async delete(id): Promise<any> {
