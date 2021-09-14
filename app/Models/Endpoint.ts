@@ -39,50 +39,50 @@ export default class Endpoint extends BaseModel {
   @column({ columnName: 'mac_address' })
   public macAddress: string // max lenght 18
 
-  @column({ columnName: 't38_udptl' })
-  public t38Udptl: string // yes/no
+  // @column({ columnName: 't38_udptl' })
+  // public t38Udptl: string // yes/no
 
-  @column({ columnName: 't38_udptl_nat' })
-  public t38UdptlNat: string // yes/no
+  // @column({ columnName: 't38_udptl_nat' })
+  // public t38UdptlNat: string // yes/no
 
-  @column({ columnName: 'rtp_timeout' })
-  public rtpTimeout: number
+  // @column({ columnName: 'rtp_timeout' })
+  // public rtpTimeout: number
 
-  @column({ columnName: 'rtp_timeout_hold' })
-  public rtpTimeoutHold: number
+  // @column({ columnName: 'rtp_timeout_hold' })
+  // public rtpTimeoutHold: number
 
-  @column({ columnName: 'rtp_keepalive' })
-  public rtpKeepalive: number
+  // @column({ columnName: 'rtp_keepalive' })
+  // public rtpKeepalive: number
 
   @column({ columnName: 'dtmf_mode' })
   public dtmfMode: string
 
-  @column({ columnName: 'timers_sess_expires' })
-  public timersSessExpires: number
+  // @column({ columnName: 'timers_sess_expires' })
+  // public timersSessExpires: number
 
-  @column({ columnName: 'disable_direct_media_on_nat' }) // yes/no
-  public disableDirectMediaOnNat: string
+  // @column({ columnName: 'disable_direct_media_on_nat' }) // yes/no
+  // public disableDirectMediaOnNat: string
 
-  @column({ columnName: 'ice_support' })
-  public iceSupport: string // yes/no
+  // @column({ columnName: 'ice_support' })
+  // public iceSupport: string // yes/no
 
-  @column({ columnName: 'allow_overlap' })
-  public allowOverlap: string //yes/no
+  // @column({ columnName: 'allow_overlap' })
+  // public allowOverlap: string //yes/no
 
-  @column()
-  public deny: string
+  // @column()
+  // public deny: string
 
-  @column()
-  public permit: string
+  // @column()
+  // public permit: string
 
-  @column({ columnName: 'contact_deny' })
-  public contactDeny: string
+  // @column({ columnName: 'contact_deny' })
+  // public contactDeny: string
 
-  @column({ columnName: 'contact_permit' })
-  public contactPermit: string
+  // @column({ columnName: 'contact_permit' })
+  // public contactPermit: string
 
-  @column({ columnName: 'device_state_busy_at' })
-  public deviceStateBusyAt: number
+  // @column({ columnName: 'device_state_busy_at' })
+  // public deviceStateBusyAt: number
 
   @column({ columnName: 'call_group' })
   public callGroup: string
@@ -99,9 +99,9 @@ export default class Endpoint extends BaseModel {
   @column()
   public callerid: string
 
-  @column({ columnName: 'outbound_auth' })
-  public outboundAuth: string
+  // @column({ columnName: 'outbound_auth' })
+  // public outboundAuth: string
 
-  @column({ columnName: 'outbound_proxy' })
-  public outboundProxy: string
+  // @column({ columnName: 'outbound_proxy' })
+  // public outboundProxy: string
 }

@@ -48,29 +48,29 @@ class UpdateBranchValidator {
         rules.regex(/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/),
       ]),
 
-      deny: schema.string.optional({ trim: true }, [
-        rules.minLength(7),
-        rules.maxLength(95),
-        rules.ipList(),
-      ]),
+      // deny: schema.string.optional({ trim: true }, [
+      //   rules.minLength(7),
+      //   rules.maxLength(95),
+      //   rules.ipList(),
+      // ]),
 
-      permit: schema.string.optional({ trim: true }, [
-        rules.minLength(7),
-        rules.maxLength(95),
-        rules.ipList(),
-      ]),
+      // permit: schema.string.optional({ trim: true }, [
+      //   rules.minLength(7),
+      //   rules.maxLength(95),
+      //   rules.ipList(),
+      // ]),
 
-      contact_deny: schema.string.optional({ trim: true }, [
-        rules.minLength(7),
-        rules.maxLength(95),
-        rules.ipList(),
-      ]),
+      // contact_deny: schema.string.optional({ trim: true }, [
+      //   rules.minLength(7),
+      //   rules.maxLength(95),
+      //   rules.ipList(),
+      // ]),
 
-      contact_permit: schema.string.optional({ trim: true }, [
-        rules.minLength(7),
-        rules.maxLength(95),
-        rules.ipList(),
-      ]),
+      // contact_permit: schema.string.optional({ trim: true }, [
+      //   rules.minLength(7),
+      //   rules.maxLength(95),
+      //   rules.ipList(),
+      // ]),
 
       call_group: schema.string.optional({ trim: true }, [
         rules.maxLength(40),
@@ -91,18 +91,23 @@ class UpdateBranchValidator {
 
       callerid: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
 
-      outbound_auth: schema.string.optional({ trim: true }, [
-        rules.maxLength(40),
-      ]),
+      // outbound_auth: schema.string.optional({ trim: true }, [
+      //   rules.maxLength(40),
+      // ]),
 
-      outbound_proxy: schema.string.optional({ trim: true }, [
-        rules.maxLength(40),
-      ]),
+      // outbound_proxy: schema.string.optional({ trim: true }, [
+      //   rules.maxLength(40),
+      // ]),
 
       rewrite_contact: schema.enum.optional(['yes', 'no'] as const),
       rtp_symmetric: schema.enum.optional(['yes', 'no'] as const),
       force_rport: schema.enum.optional(['yes', 'no'] as const),
       direct_media: schema.enum.optional(['yes', 'no'] as const),
+      // t38_udptl: schema.enum.optional(['yes', 'no'] as const),
+      // t38_udptl_nat: schema.enum.optional(['yes', 'no'] as const),
+      // disable_direct_media_on_nat: schema.enum.optional(['yes', 'no'] as const),
+      // ice_support: schema.enum.optional(['yes', 'no'] as const),
+      // allow_overlap: schema.enum.optional(['yes', 'no'] as const),
       transport: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
 
       dtmf_mode: schema.enum.optional([
@@ -113,11 +118,11 @@ class UpdateBranchValidator {
         'auto_info',
       ] as const),
 
-      rtp_timeout: schema.number.optional(),
-      rtp_timeout_hold: schema.number.optional(),
-      rtp_keepalive: schema.number.optional(),
-      timers_sess_expires: schema.number.optional(),
-      device_state_busy_at: schema.number.optional(),
+      // rtp_timeout: schema.number.optional(),
+      // rtp_timeout_hold: schema.number.optional(),
+      // rtp_keepalive: schema.number.optional(),
+      // timers_sess_expires: schema.number.optional(),
+      // device_state_busy_at: schema.number.optional(),
     }),
 
     aor: schema.object().members({

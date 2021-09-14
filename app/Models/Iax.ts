@@ -18,14 +18,14 @@ export default class Iax extends BaseModel {
   @column()
   public secret: string
 
-  @column()
-  public dbsecret: string
+  // @column()
+  // public dbsecret: string
 
   @column()
   public context: string
 
-  @column()
-  public regcontext: string
+  // @column()
+  // public regcontext: string
 
   @column()
   public host: string
@@ -36,65 +36,65 @@ export default class Iax extends BaseModel {
   @column()
   public port: number
 
-  @column()
-  public defaultip: string
+  // @column()
+  // public defaultip: string
 
-  @column()
-  public sourceaddress: string
+  // @column()
+  // public sourceaddress: string
 
-  @column()
-  public mask: string
+  // @column()
+  // public mask: string
 
-  @column()
-  public regexten: string
+  // @column()
+  // public regexten: string
 
   @column()
   public regseconds: number
 
-  @column()
-  public accountcode: string
+  // @column()
+  // public accountcode: string
 
-  @column()
-  public mohinterpret: string
+  // @column()
+  // public mohinterpret: string
 
-  @column()
-  public mohsuggest: string
+  // @column()
+  // public mohsuggest: string
 
-  @column()
-  public inkeys: string
+  // @column()
+  // public inkeys: string
 
-  @column()
-  public outkeys: string
+  // @column()
+  // public outkeys: string
 
-  @column()
-  public language: string
+  // @column()
+  // public language: string
 
   @column()
   public callerid: string
 
-  @column({ columnName: 'cid_number' })
-  public cidNumber: string
+  // @column({ columnName: 'cid_number' })
+  // public cidNumber: string
 
-  @column()
-  public sendani: string
+  // @column()
+  // public sendani: string
 
-  @column()
-  public fullname: string
+  // @column()
+  // public fullname: string
 
   @column()
   public trunk: string
 
-  @column()
-  public auth: string
+  // @column()
+  // public auth: string
 
-  @column()
-  public maxauthreq: number
+  // @column()
+  // public maxauthreq: number
 
   @column()
   public requirecalltoken: string
 
-  @column()
-  public encryption: string
+  // @column()
+  // public encryption: string
 
   @column()
   public transfer: string
@@ -111,30 +111,30 @@ export default class Iax extends BaseModel {
   @column()
   public allow: string
 
-  @column()
-  public codecpriority: string
+  // @column()
+  // public codecpriority: string
 
   @column()
   public qualify: string
 
-  @column()
-  public qualifysmoothing: string
+  // @column()
+  // public qualifysmoothing: string
 
-  @column()
-  public qualifyfreqok: string
+  // @column()
+  // public qualifyfreqok: string
 
-  @column()
-  public qualifyfreqnotok: string
+  // @column()
+  // public qualifyfreqnotok: string
 
   @column()
   public timezone: string
 
-  @column()
-  public adsi: string
+  // @column()
+  // public adsi: string
 
-  @column()
-  public amaflags: string
+  // @column()
+  // public amaflags: string
 
-  @column()
-  public setvar: string
+  // @column()
+  // public setvar: string
 }
