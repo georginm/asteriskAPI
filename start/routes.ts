@@ -44,6 +44,8 @@ Route.group(() => {
     .except(['create', 'show', 'edit'])
     .as('iaxs')
 
+  Route.get('/iaxs/show/:data', 'IaxsController.show').as('iax.show')
+
   // Queue Routes
   Route.group(() => {
     Route.resource('', 'QueuesController')
