@@ -7,12 +7,30 @@ import Endpoint from 'App/Models/Endpoint'
 export default class BranchRepository {
   public static async index(): Promise<any> {
     try {
-      return await Database.from('ps_endpoints')
-        .join('ps_aors', 'ps_endpoints.aors', '=', 'ps_aors.id')
-        .join('ps_auths', 'ps_endpoints.auth', '=', 'ps_auths.id')
-        .select('ps_endpoints.*')
-        .select('ps_auths.*')
-        .select('ps_aors.*')
+      const data = await Database.rawQuery(
+        'select ' +
+          'pe.id, ' +
+          'pe.context, ' +
+          'pe.transport, ' +
+          'pe.disallow,' +
+          'pe.allow, ' +
+          'pe.rewrite_contact, ' +
+          'pe.rtp_symmetric, ' +
+          'pe.force_rport, ' +
+          'pe.mac_address, ' +
+          'pe.dtmf_mode,' +
+          'pe.call_group,' +
+          'pe.pickup_group,' +
+          'pe.named_call_group,' +
+          'pe.named_pickup_group,' +
+          'pe.callerid,' +
+          "(select json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  from ps_aors as pa where pa.id = pe.aors) as aors, " +
+          "(select json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) from ps_auths as pa2 where pa2.id = pe.auth) as auth " +
+          'from ' +
+          'ps_endpoints pe'
+      )
+
+      return data.rows
     } catch (error) {
       throw new InternalServerErrorException(error.message, 500)
     }
@@ -20,19 +38,36 @@ export default class BranchRepository {
 
   public static async show(where): Promise<any> {
     try {
-      return await Database.from('ps_endpoints')
-        .join('ps_aors', 'ps_endpoints.aors', '=', 'ps_aors.id')
-        .join('ps_auths', 'ps_endpoints.auth', '=', 'ps_auths.id')
-        .select('ps_endpoints.*')
-        .select('ps_auths.*')
-        .select('ps_aors.*')
-        .where('ps_endpoints.id', where)
-        .orWhere('ps_endpoints.context', where)
-        .orWhere('ps_endpoints.transport', where)
-        .orWhere('ps_endpoints.auth', where)
-        .orWhere('ps_endpoints.aors', where)
-        .orWhere('ps_endpoints.mac_address', where)
-        .orWhere('ps_auths.username', where)
+      const data = await Database.rawQuery(
+        'SELECT ' +
+          'pe.id, ' +
+          'pe.context, ' +
+          'pe.transport, ' +
+          'pe.disallow,' +
+          'pe.allow, ' +
+          'pe.rewrite_contact, ' +
+          'pe.rtp_symmetric, ' +
+          'pe.force_rport, ' +
+          'pe.mac_address, ' +
+          'pe.dtmf_mode,' +
+          'pe.call_group,' +
+          'pe.pickup_group,' +
+          'pe.named_call_group,' +
+          'pe.named_pickup_group,' +
+          'pe.callerid,' +
+          "(SELECT json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  FROM ps_aors AS pa WHERE pa.id = pe.aors) AS aors, " +
+          "(SELECT json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) FROM ps_auths AS pa2 WHERE pa2.id = pe.auth) AS auth " +
+          'FROM ' +
+          'ps_endpoints pe ' +
+          `WHERE (pe.id = '${where}') ` +
+          `OR (pe.context = '${where}') ` +
+          `OR (pe.transport = '${where}') ` +
+          `OR (pe.auth = '${where}') ` +
+          `OR (pe.aors = '${where}') ` +
+          `OR (pe.mac_address = '${where}') `
+      )
+
+      return data.rows
     } catch (error) {
       throw new InternalServerErrorException(error.message, 500)
     }
