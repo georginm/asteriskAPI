@@ -40,7 +40,7 @@ Route.group(() => {
   )
 
   //Iax Routes
-  Route.resource('iaxs', 'IaxController')
+  Route.resource('iaxs', 'IaxsController')
     .except(['create', 'show', 'edit'])
     .as('iaxs')
 
