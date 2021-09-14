@@ -10,6 +10,8 @@ export default class IaxRepository extends Iax {
         .orWhere('context', data)
         .orWhere('host', data)
         .orWhere('ipaddr', data)
+        .orWhere('type', data)
+        .orWhere('callerid', data)
     } catch (error) {
       throw new InternalServerErrorException(error.message, 500)
     }
