@@ -1,5 +1,8 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import RegistrationService from 'App/Services/RegistrationService'
+import {
+  CreateRegistrationValidator,
+} from 'App/Validators/Registration'
 
 export default class RegistrationsController {
   public async index({ response }: HttpContextContract) {
@@ -8,7 +11,12 @@ export default class RegistrationsController {
     return response.ok(data)
   }
 
-  public async create({}: HttpContextContract) {}
+  public async store({ request, response }: HttpContextContract) {
+    await request.validate(CreateRegistrationValidator)
+
+    const data = await new RegistrationService().create(request.body())
+    return response.created(data)
+  }
 
   public async store({}: HttpContextContract) {}
 
