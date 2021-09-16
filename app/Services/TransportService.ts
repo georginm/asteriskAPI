@@ -23,4 +23,9 @@ export default class TransportService {
       throw new InternalServerErrorException(error.message)
     }
   }
+
+  public async destroy(id) {
+    return await destroy(TransportRepository.table, 'id', id)
+  }
+
 }
