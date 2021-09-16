@@ -3,6 +3,7 @@ import RegistrationService from 'App/Services/RegistrationService'
 import {
   CreateRegistrationValidator,
   DeleteRegistrationValidator,
+  ListRegistrationValidator,
   UpdateRegistrationValidator,
 } from 'App/Validators/Registration'
 
@@ -37,9 +38,11 @@ export default class RegistrationsController {
     return response.ok({ message: 'Transport Has Been Deleted' })
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async show({ request, response }: HttpContextContract) {
+    await request.validate(ListRegistrationValidator)
 
-  public async update({}: HttpContextContract) {}
+    const data = await new RegistrationService().show(request.params().data)
 
-  public async destroy({}: HttpContextContract) {}
+    return response.ok(data)
+  }
 }
