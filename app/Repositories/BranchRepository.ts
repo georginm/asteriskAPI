@@ -14,6 +14,7 @@ export default class BranchRepository {
       const data = await Database.rawQuery(
         'select ' +
           'pe.id, ' +
+          "REGEXP_MATCHES(pe.id, '^([0-9]{2,})') as branch," +
           'pe.context, ' +
           'pe.transport, ' +
           'pe.disallow,' +
@@ -51,6 +52,7 @@ export default class BranchRepository {
       const data = await Database.rawQuery(
         'SELECT ' +
           'pe.id, ' +
+          "REGEXP_MATCHES(pe.id, '[0-9]{2,}')," +
           'pe.context, ' +
           'pe.transport, ' +
           'pe.disallow,' +
