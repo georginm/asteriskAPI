@@ -11,7 +11,7 @@ export default class AorRepository extends Aor {
         .orWhere('outbound_proxy', data)
         .orderBy('id')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -19,7 +19,7 @@ export default class AorRepository extends Aor {
     try {
       return await Aor.all()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

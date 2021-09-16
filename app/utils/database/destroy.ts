@@ -11,13 +11,12 @@ export const destroy = async (
   try {
     data = await Database.from(table).where(column, value).delete()
   } catch (error) {
-    throw new InternalServerErrorException(error.message, 500)
+    throw new InternalServerErrorException(error.message)
   }
 
   if (!data) {
     throw new BadRequestException(
-      `The ${column} register does not exist in the ${table} table.`,
-      400
+      `The ${column} register does not exist in the ${table} table.`
     )
   }
 

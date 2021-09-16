@@ -28,7 +28,7 @@ export default class QueueMemberRepository extends QueueMember {
         .orderBy('queue_name')
         .orderBy('interface')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -38,7 +38,7 @@ export default class QueueMemberRepository extends QueueMember {
         .orderBy('queue_name')
         .orderBy('interface')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

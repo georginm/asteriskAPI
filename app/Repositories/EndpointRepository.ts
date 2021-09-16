@@ -12,7 +12,7 @@ export default class EndpointRepository extends Endpoint {
         .orWhere('context', data)
         .orderBy('id')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -20,7 +20,7 @@ export default class EndpointRepository extends Endpoint {
     try {
       return await Endpoint.all()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

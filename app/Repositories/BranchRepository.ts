@@ -32,7 +32,7 @@ export default class BranchRepository {
 
       return data.rows
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -69,7 +69,7 @@ export default class BranchRepository {
 
       return data.rows
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -83,7 +83,7 @@ export default class BranchRepository {
       await trx.commit()
     } catch (error) {
       await trx.rollback()
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
 
     return data
@@ -114,7 +114,7 @@ export default class BranchRepository {
       trx.commit()
     } catch (error) {
       trx.rollback()
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
 
     return data
@@ -130,7 +130,7 @@ export default class BranchRepository {
       trx.commit()
     } catch (error) {
       trx.rollback()
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
 
     return true

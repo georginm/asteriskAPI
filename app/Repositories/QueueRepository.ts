@@ -9,7 +9,7 @@ export default class QueueRepository extends Queue {
         .orWhere('context', data)
         .orderBy('name')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -17,7 +17,7 @@ export default class QueueRepository extends Queue {
     try {
       return await Queue.all()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

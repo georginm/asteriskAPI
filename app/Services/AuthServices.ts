@@ -11,7 +11,7 @@ export default class AuthServices {
     try {
       return await AuthRepository.create(data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -23,7 +23,7 @@ export default class AuthServices {
       const item = await AuthRepository.findOrFail(id)
       return await item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 

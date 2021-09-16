@@ -27,7 +27,7 @@ export default class QueueMemberService {
       const item = await QueueMemberRepository.create(data)
       return item
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -59,7 +59,7 @@ export default class QueueMemberService {
 
       return await item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

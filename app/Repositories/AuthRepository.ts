@@ -9,7 +9,7 @@ export default class AuthRepository extends Auth {
         .orWhere('username', data)
         .orderBy('id')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -17,7 +17,7 @@ export default class AuthRepository extends Auth {
     try {
       return await Auth.all()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

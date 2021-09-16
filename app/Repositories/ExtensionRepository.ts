@@ -20,8 +20,7 @@ export default class ExtensionRepository extends Extension {
 
     if (result.length)
       throw new BadRequestException(
-        'The context, exten and priority fields must be unique by extension.',
-        400
+        'The context, exten and priority fields must be unique by extension.'
       )
 
     return true
@@ -37,7 +36,7 @@ export default class ExtensionRepository extends Extension {
         .orderBy('context')
         .orderBy('priority')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -45,7 +44,7 @@ export default class ExtensionRepository extends Extension {
     try {
       return await Extension.query().orderBy('context').orderBy('priority')
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

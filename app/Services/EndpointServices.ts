@@ -16,7 +16,7 @@ export default class EndpointService {
     try {
       return await EndpointRepository.create(data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -35,7 +35,7 @@ export default class EndpointService {
       const item = await EndpointRepository.findOrFail(id)
       return await item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 

@@ -10,7 +10,7 @@ export default class AorServices {
     try {
       return await AorRepository.create(data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -21,7 +21,7 @@ export default class AorServices {
       const item = await AorRepository.findOrFail(id)
       return await item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 

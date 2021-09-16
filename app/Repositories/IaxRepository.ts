@@ -13,7 +13,7 @@ export default class IaxRepository extends Iax {
         .orWhere('type', data)
         .orWhere('callerid', data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -21,7 +21,7 @@ export default class IaxRepository extends Iax {
     try {
       return await Iax.all()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }

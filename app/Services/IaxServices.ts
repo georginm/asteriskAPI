@@ -27,7 +27,7 @@ export default class IaxService {
     try {
       return await IaxRepository.create(data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -39,7 +39,7 @@ export default class IaxService {
       const item = await IaxRepository.findOrFail(id)
       return await item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 

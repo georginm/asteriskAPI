@@ -19,8 +19,7 @@ export const unique = async (
 
   if (data.length) {
     throw new BadRequestException(
-      `The ${column} field must be unique in the ${table} table.`,
-      400
+      `The ${column} field must be unique in the ${table} table.`
     )
   }
 }

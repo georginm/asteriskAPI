@@ -20,7 +20,7 @@ export default class ExtensionService {
     try {
       return await ExtensionRepository.create(data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -35,7 +35,7 @@ export default class ExtensionService {
       const item = await ExtensionRepository.findOrFail(id)
       return await item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 

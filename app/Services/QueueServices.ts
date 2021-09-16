@@ -18,7 +18,7 @@ export default class QueueServices {
     try {
       return await QueueRepository.create(data)
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -30,7 +30,7 @@ export default class QueueServices {
 
       return item.merge(data).save()
     } catch (error) {
-      throw new InternalServerErrorException(error.message, 500)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
