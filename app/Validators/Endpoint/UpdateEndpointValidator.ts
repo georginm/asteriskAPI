@@ -41,6 +41,8 @@ class UpdateEndpointValidator {
       rules.minLength(3),
     ]),
 
+    transport: schema.string.optional({ trim: true }),
+
     macAddress: schema.string.optional({ trim: true }, [
       rules.maxLength(17),
       rules.minLength(17),
@@ -107,7 +109,6 @@ class UpdateEndpointValidator {
     disable_direct_media_on_nat: schema.enum.optional(['yes', 'no'] as const),
     ice_support: schema.enum.optional(['yes', 'no'] as const),
     allow_overlap: schema.enum.optional(['yes', 'no'] as const),
-    transport: schema.enum.optional(['udp', 'tcp', 'tls', 'ws', 'wss']),
 
     dtmf_mode: schema.enum.optional([
       'rfc4733',
