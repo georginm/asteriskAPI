@@ -28,6 +28,11 @@ export default class BranchRepository {
           'pe.named_call_group,' +
           'pe.named_pickup_group,' +
           'pe.callerid,' +
+          'pe.rtp_timeout,' +
+          'pe.rtp_timeout_hold,' +
+          'pe.rtp_keepalive,' +
+          'pe.permit,' +
+          'pe.rtp_keepalive,' +
           "(select json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  from ps_aors as pa where pa.id = pe.aors) as aors, " +
           "(select json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) from ps_auths as pa2 where pa2.id = pe.auth) as auth " +
           'from ' +
@@ -59,6 +64,11 @@ export default class BranchRepository {
           'pe.named_call_group,' +
           'pe.named_pickup_group,' +
           'pe.callerid,' +
+          'pe.rtp_timeout,' +
+          'pe.rtp_timeout_hold,' +
+          'pe.rtp_keepalive,' +
+          'pe.permit,' +
+          'pe.rtp_keepalive,' +
           "(SELECT json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  FROM ps_aors AS pa WHERE pa.id = pe.aors) AS aors, " +
           "(SELECT json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) FROM ps_auths AS pa2 WHERE pa2.id = pe.auth) AS auth " +
           'FROM ' +
