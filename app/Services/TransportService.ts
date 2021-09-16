@@ -12,4 +12,15 @@ export default class TransportService {
       throw new InternalServerErrorException(error.message)
     }
   }
+
+  public async update(data, id): Promise<TransportRepository> {
+    await exists(TransportRepository.table, 'id', id, 'id')
+
+    try {
+      const item = await TransportRepository.findOrFail(id)
+      return await item.merge(data).save()
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
+  }
 }
