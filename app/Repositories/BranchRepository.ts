@@ -36,7 +36,8 @@ export default class BranchRepository {
           "(select json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  from ps_aors as pa where pa.id = pe.aors) as aors, " +
           "(select json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) from ps_auths as pa2 where pa2.id = pe.auth) as auth " +
           'from ' +
-          'ps_endpoints pe'
+          'ps_endpoints pe ' +
+          'ORDER BY pe.id desc;'
       )
 
       return data.rows
