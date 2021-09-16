@@ -123,9 +123,6 @@ export default class BranchRepository {
         .useTransaction(trx)
         .save()
 
-      // await await trx.from(Aor.table).where('id', id).update(data.aor)
-      // await trx.from(Auth.table).where('id', id).update(data.auth)
-      // await trx.from(Endpoint.table).where('id', id).update(data.endpoint)
       trx.commit()
     } catch (error) {
       trx.rollback()
