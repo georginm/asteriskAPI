@@ -48,9 +48,7 @@ Route.group(() => {
 
   // Queue Routes
   Route.group(() => {
-    Route.resource('', 'QueuesController')
-      .only(['index', 'store', 'destroy'])
-      .as('queues')
+    Route.resource('', 'QueuesController').only(['index', 'store']).as('queues')
 
     Route.put('/:name', 'QueuesController.update').as('queue.update')
 
