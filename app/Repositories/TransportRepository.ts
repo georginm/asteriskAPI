@@ -9,4 +9,15 @@ export default class TransportRepository extends Transport {
       throw new InternalServerErrorException(error.message)
     }
   }
+
+  public static async show(data): Promise<Transport[]> {
+    try {
+      return await Transport.query()
+        .where('id', data)
+        .orWhere('tos', data)
+        .orWhere('local_net', data)
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
+  }
 }
