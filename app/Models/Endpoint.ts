@@ -45,14 +45,14 @@ export default class Endpoint extends BaseModel {
   // @column({ columnName: 't38_udptl_nat' })
   // public t38UdptlNat: string // yes/no
 
-  // @column({ columnName: 'rtp_timeout' })
-  // public rtpTimeout: number
+  @column({ columnName: 'rtp_timeout' })
+  public rtpTimeout: number
 
-  // @column({ columnName: 'rtp_timeout_hold' })
-  // public rtpTimeoutHold: number
+  @column({ columnName: 'rtp_timeout_hold' })
+  public rtpTimeoutHold: number
 
-  // @column({ columnName: 'rtp_keepalive' })
-  // public rtpKeepalive: number
+  @column({ columnName: 'rtp_keepalive' })
+  public rtpKeepalive: number
 
   @column({ columnName: 'dtmf_mode' })
   public dtmfMode: string
@@ -69,11 +69,11 @@ export default class Endpoint extends BaseModel {
   // @column({ columnName: 'allow_overlap' })
   // public allowOverlap: string //yes/no
 
-  // @column()
-  // public deny: string
+  @column()
+  public deny: string
 
-  // @column()
-  // public permit: string
+  @column()
+  public permit: string
 
   // @column({ columnName: 'contact_deny' })
   // public contactDeny: string
