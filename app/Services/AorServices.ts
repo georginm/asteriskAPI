@@ -5,7 +5,7 @@ import { destroy, exists, unique } from 'App/utils/database/'
 
 export default class AorServices {
   public async create(data): Promise<AorRepository> {
-    await unique('ps_aors', 'id', data.id, 'id')
+    await unique(AorRepository.table, 'id', data.id, 'id')
 
     try {
       return await AorRepository.create(data)
@@ -15,7 +15,7 @@ export default class AorServices {
   }
 
   public async update(data, id): Promise<AorRepository> {
-    await exists('ps_aors', 'id', id, 'id')
+    await exists(AorRepository.table, 'id', id, 'id')
 
     try {
       const item = await AorRepository.findOrFail(id)
@@ -26,7 +26,7 @@ export default class AorServices {
   }
 
   public async destroy(id) {
-    return await destroy('ps_aors', 'id', id)
+    return await destroy(AorRepository.table, 'id', id)
   }
 
   public async show(data) {

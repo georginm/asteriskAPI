@@ -5,8 +5,8 @@ import { destroy, exists, unique } from 'App/utils/database/'
 
 export default class AuthServices {
   public async create(data): Promise<AuthRepository> {
-    await unique('ps_auths', 'id', data.id, 'id')
-    await unique('ps_auths', 'username', data.username, 'username')
+    await unique(AuthRepository.table, 'id', data.id, 'id')
+    await unique(AuthRepository.table, 'username', data.username, 'username')
 
     try {
       return await AuthRepository.create(data)
@@ -16,8 +16,8 @@ export default class AuthServices {
   }
 
   public async update(data, id: string): Promise<AuthRepository> {
-    await exists('ps_auths', 'id', id, 'id')
-    await unique('ps_auths', 'username', data.username, 'username')
+    await exists(AuthRepository.table, 'id', id, 'id')
+    await unique(AuthRepository.table, 'username', data.username, 'username')
 
     try {
       const item = await AuthRepository.findOrFail(id)
@@ -28,7 +28,7 @@ export default class AuthServices {
   }
 
   public async destroy(id: string): Promise<boolean> {
-    return await destroy('ps_auths', 'id', id)
+    return await destroy(AuthRepository.table, 'id', id)
   }
 
   public async show(data): Promise<Array<AuthRepository>> {

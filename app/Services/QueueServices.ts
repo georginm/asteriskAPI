@@ -13,7 +13,7 @@ export default class QueueServices {
   }
 
   public async create(data): Promise<QueueRepository> {
-    await unique('queues', 'name', data.name)
+    await unique(QueueRepository.table, 'name', data.name)
 
     try {
       return await QueueRepository.create(data)
@@ -23,7 +23,7 @@ export default class QueueServices {
   }
 
   public async update(data, name: string): Promise<QueueRepository | null> {
-    await exists('queues', 'name', name)
+    await exists(QueueRepository.table, 'name', name)
 
     try {
       const item = await QueueRepository.findOrFail(name)
@@ -35,7 +35,7 @@ export default class QueueServices {
   }
 
   public async destroy(name: string): Promise<boolean> {
-    return await destroy('queues', 'name', name)
+    return await destroy(QueueRepository.table, 'name', name)
   }
 
   public async show(data): Promise<QueueRepository[]> {

@@ -5,10 +5,10 @@ import { destroy, exists, unique } from 'App/utils/database/'
 
 export default class EndpointService {
   public async create(data): Promise<EndpointRepository> {
-    await unique('ps_endpoints', 'id', data.id, 'id')
-    await unique('ps_endpoints', 'auth', data.auth, 'id')
-    await unique('ps_endpoints', 'aors', data.aors, 'id')
-    await unique('ps_endpoints', 'mac_address', data.macAddress, 'id')
+    await unique(EndpointRepository.table, 'id', data.id, 'id')
+    await unique(EndpointRepository.table, 'auth', data.auth, 'id')
+    await unique(EndpointRepository.table, 'aors', data.aors, 'id')
+    await unique(EndpointRepository.table, 'mac_address', data.macAddress, 'id')
 
     await exists('ps_auths', 'id', data.auth, 'id')
     await exists('ps_aors', 'id', data.aors, 'id')
@@ -21,12 +21,12 @@ export default class EndpointService {
   }
 
   public async update(data, id): Promise<EndpointRepository | null> {
-    await exists('ps_endpoints', 'id', id)
+    await exists(EndpointRepository.table, 'id', id)
 
-    if (data.auth) await unique('ps_endpoints', 'auth', data.auth)
-    if (data.aors) await unique('ps_endpoints', 'aors', data.aors)
+    if (data.auth) await unique(EndpointRepository.table, 'auth', data.auth)
+    if (data.aors) await unique(EndpointRepository.table, 'aors', data.aors)
     if (data.macAddress)
-      await unique('ps_endpoints', 'mac_address', data.macAddress)
+      await unique(EndpointRepository.table, 'mac_address', data.macAddress)
 
     if (data.auth) await exists('ps_auths', 'id', data.auth)
     if (data.aors) await exists('ps_aors', 'id', data.aors)
@@ -40,7 +40,7 @@ export default class EndpointService {
   }
 
   public async destroy(id: string): Promise<boolean> {
-    return await destroy('ps_endpoints', 'id', id)
+    return await destroy(EndpointRepository.table, 'id', id)
   }
 
   public async show(data): Promise<Array<EndpointRepository>> {

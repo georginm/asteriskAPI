@@ -40,7 +40,7 @@ export default class ExtensionService {
   }
 
   public async destroy(id: string): Promise<boolean> {
-    return await destroy('extensions', 'id', id)
+    return await destroy(ExtensionRepository.table, 'id', id)
   }
 
   public async show(data): Promise<Array<ExtensionRepository>> {

@@ -15,7 +15,7 @@ export default class QueueMemberService {
   public async create(data): Promise<QueueMemberRepository> {
     data.interface = data.interface.replace('-', '/')
 
-    await unique('queue_members', 'interface', data.interface)
+    await unique(QueueMemberRepository.table, 'interface', data.interface)
 
     await QueueMemberRepository.uniqueByRelationship(
       data.queueName,
@@ -32,7 +32,7 @@ export default class QueueMemberService {
 
   public async destroy(branche: string): Promise<boolean> {
     branche = branche.replace('-', '/')
-    return await destroy('queue_members', 'interface', branche)
+    return await destroy(QueueMemberRepository.table, 'interface', branche)
   }
 
   public async show(data: any): Promise<QueueMemberRepository[]> {
@@ -50,7 +50,7 @@ export default class QueueMemberService {
     branche: string
   ): Promise<QueueMemberRepository | null> {
     branche = branche.replace('-', '/')
-    await exists('queue_members', 'interface', branche)
+    await exists(QueueMemberRepository.table, 'interface', branche)
 
     try {
       const item = await QueueMemberRepository.findOrFail(branche)

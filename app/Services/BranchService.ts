@@ -20,15 +20,20 @@ export default class BranchService {
         ' The endpoint.aors and aors.id must be the same.'
       )
 
-    await unique('ps_endpoints', 'id', data.endpoint.id, 'id')
-    await unique('ps_endpoints', 'auth', data.endpoint.auth, 'id')
-    await unique('ps_endpoints', 'aors', data.endpoint.aors, 'id')
-    await unique('ps_endpoints', 'mac_address', data.endpoint.macAddress, 'id')
+    await unique(BranchRepository.t_endpoint, 'id', data.endpoint.id, 'id')
+    await unique(BranchRepository.t_endpoint, 'auth', data.endpoint.auth, 'id')
+    await unique(BranchRepository.t_endpoint, 'aors', data.endpoint.aors, 'id')
+    await unique(
+      BranchRepository.t_endpoint,
+      'mac_address',
+      data.endpoint.macAddress,
+      'id'
+    )
 
-    await unique('ps_auths', 'id', data.auth.id, 'id')
-    await unique('ps_auths', 'username', data.auth.username, 'username')
+    await unique(BranchRepository.t_auth, 'id', data.auth.id, 'id')
+    await unique(BranchRepository.t_auth, 'username', data.auth.username)
 
-    await unique('ps_aors', 'id', data.aor.id, 'id')
+    await unique(BranchRepository.t_aor, 'id', data.aor.id, 'id')
 
     return await BranchRepository.create(data)
   }
@@ -40,21 +45,25 @@ export default class BranchService {
         'Cannot change id of endpoint, aor or auth.'
       )
 
-    await exists('ps_endpoints', 'id', id)
+    await exists(BranchRepository.t_endpoint, 'id', id)
 
-    // await unique('ps_endpoints', 'auth', data.endpoint.auth, 'id')
-    // await unique('ps_endpoints', 'aors', data.endpoint.aors, 'id')
-    await unique('ps_endpoints', 'mac_address', data.endpoint.macAddress, 'id')
-    await unique('ps_auths', 'username', data.auth.username, 'username')
+    // await unique(BranchRepository.t_endpoint, 'auth', data.endpoint.auth, 'id')
+    // await unique(BranchRepository.t_endpoint, 'aors', data.endpoint.aors, 'id')
+    await unique(
+      BranchRepository.t_endpoint,
+      'mac_address',
+      data.endpoint.macAddress
+    )
+    await unique(BranchRepository.t_auth, 'username', data.auth.username)
 
-    // await unique('ps_aors', 'id', data.aor.id, 'id')
-    // await unique('ps_auths', 'id', data.auth.id, 'id')
+    // await unique(BranchRepository.t_aor, 'id', data.aor.id, 'id')
+    // await unique(BranchRepository.t_auth, 'id', data.auth.id, 'id')
 
     return await BranchRepository.update(id, data)
   }
 
   public async delete(id): Promise<BranchRepository> {
-    await exists('ps_endpoints', 'id', id, 'id')
+    await exists(BranchRepository.t_endpoint, 'id', id)
 
     return await BranchRepository.delete(id)
   }
