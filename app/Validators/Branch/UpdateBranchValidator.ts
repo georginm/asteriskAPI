@@ -9,7 +9,8 @@ class UpdateBranchValidator {
     params: schema.object().members({
       id: schema.string({ trim: true }, [
         rules.maxLength(40),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
     }),
 
@@ -34,12 +35,14 @@ class UpdateBranchValidator {
 
       aors: schema.string.optional({ trim: true }, [
         rules.maxLength(5),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
 
       auth: schema.string.optional({ trim: true }, [
         rules.maxLength(5),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
 
       macAddress: schema.string.optional({ trim: true }, [

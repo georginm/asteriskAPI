@@ -9,7 +9,8 @@ class CreateBranchValidator {
     endpoint: schema.object().members({
       id: schema.string({ trim: true }, [
         rules.maxLength(40),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
 
       transport: schema.string({ trim: true }, [rules.maxLength(40)]),
@@ -33,12 +34,14 @@ class CreateBranchValidator {
 
       aors: schema.string({ trim: true }, [
         rules.maxLength(5),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
 
       auth: schema.string({ trim: true }, [
         rules.maxLength(5),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
 
       macAddress: schema.string({ trim: true }, [
@@ -126,7 +129,8 @@ class CreateBranchValidator {
     aor: schema.object().members({
       id: schema.string({ trim: true }, [
         rules.maxLength(40),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
 
       contact: schema.string.optional({ trim: true }, [rules.maxLength(255)]),
@@ -150,7 +154,8 @@ class CreateBranchValidator {
     auth: schema.object().members({
       id: schema.string({ trim: true }, [
         rules.maxLength(40),
-        rules.minLength(3),
+        rules.minLength(2),
+        rules.regex(/[0-9]{2,}/),
       ]),
       username: schema.string({ trim: true }, [rules.maxLength(40)]),
       password: schema.string({ trim: true }, [rules.maxLength(80)]),
