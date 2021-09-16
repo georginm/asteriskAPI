@@ -1,3 +1,4 @@
+import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import TransportRepository from 'App/Repositories/TransportRepository'
 import { destroy, exists, unique } from 'App/utils/database'
@@ -34,5 +35,13 @@ export default class TransportService {
     if (!item.length) throw new BadRequestException('Transport not Exists')
 
     return item
+  }
+
+  public async index(): Promise<TransportRepository[]> {
+    const data = await TransportRepository.index()
+
+    if (!data.length) throw new BadRequestException('Transport not Exists')
+
+    return data
   }
 }
