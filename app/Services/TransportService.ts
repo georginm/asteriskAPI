@@ -28,4 +28,11 @@ export default class TransportService {
     return await destroy(TransportRepository.table, 'id', id)
   }
 
+  public async show(data) {
+    const item = await TransportRepository.show(data)
+
+    if (!item.length) throw new BadRequestException('Transport not Exists')
+
+    return item
+  }
 }
