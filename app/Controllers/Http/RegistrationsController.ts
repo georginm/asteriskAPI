@@ -2,6 +2,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import RegistrationService from 'App/Services/RegistrationService'
 import {
   CreateRegistrationValidator,
+  DeleteRegistrationValidator,
   UpdateRegistrationValidator,
 } from 'App/Validators/Registration'
 
@@ -28,7 +29,13 @@ export default class RegistrationsController {
     return response.ok(data)
   }
 
-  public async show({}: HttpContextContract) {}
+  public async destroy({ request, response }: HttpContextContract) {
+    await request.validate(DeleteRegistrationValidator)
+
+    await new RegistrationService().destroy(request.params().id)
+
+    return response.ok({ message: 'Transport Has Been Deleted' })
+  }
 
   public async edit({}: HttpContextContract) {}
 
