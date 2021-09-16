@@ -5,6 +5,10 @@ import Auth from 'App/Models/Auth'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class BranchRepository {
+  public static t_endpoint = 'ps_endpoints'
+  public static t_aor = 'ps_aors'
+  public static t_auth = 'ps_auths'
+
   public static async index(): Promise<any> {
     try {
       const data = await Database.rawQuery(
