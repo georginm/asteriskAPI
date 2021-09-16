@@ -7,7 +7,7 @@ export default class QueueServices {
   public async index(): Promise<QueueRepository[]> {
     const data = await QueueRepository.index()
 
-    if (!data.length) throw new BadRequestException('Queue not Exists.', 400)
+    if (!data.length) throw new BadRequestException('Queue not Exists.')
 
     return data
   }
@@ -41,7 +41,7 @@ export default class QueueServices {
   public async show(data): Promise<QueueRepository[]> {
     const item = await QueueRepository.show(data)
 
-    if (!item.length) throw new BadRequestException('Queue not Exists.', 400)
+    if (!item.length) throw new BadRequestException('Queue not Exists.')
 
     return item
   }

@@ -32,7 +32,7 @@ export default class AorServices {
   public async show(data) {
     const item = await AorRepository.show(data)
 
-    if (!item.length) throw new BadRequestException('Aor not Exists', 400)
+    if (!item.length) throw new BadRequestException('Aor not Exists')
 
     return item
   }
@@ -40,7 +40,7 @@ export default class AorServices {
   public async index(): Promise<AorRepository[]> {
     const data = await AorRepository.index()
 
-    if (!data.length) throw new BadRequestException('Aor not Exists', 400)
+    if (!data.length) throw new BadRequestException('Aor not Exists')
 
     return data
   }

@@ -7,8 +7,7 @@ export default class QueueMemberService {
   public async index(): Promise<QueueMemberRepository[]> {
     const data = await QueueMemberRepository.index()
 
-    if (!data.length)
-      throw new BadRequestException('Queue Member not Exists.', 400)
+    if (!data.length) throw new BadRequestException('Queue Member not Exists.')
 
     return data
   }
@@ -41,8 +40,7 @@ export default class QueueMemberService {
 
     const item = await QueueMemberRepository.show(data)
 
-    if (!item.length)
-      throw new BadRequestException('QueueMember not Exists.', 400)
+    if (!item.length) throw new BadRequestException('QueueMember not Exists.')
 
     return item
   }

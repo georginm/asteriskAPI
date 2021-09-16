@@ -45,13 +45,13 @@ export default class EndpointService {
 
   public async show(data): Promise<Array<EndpointRepository>> {
     const item = await EndpointRepository.show(data)
-    if (!item.length) throw new BadRequestException('Endpoint Not Exists', 400)
+    if (!item.length) throw new BadRequestException('Endpoint Not Exists')
     return item
   }
 
   public async index() {
     const data = await EndpointRepository.index()
-    if (!data.length) throw new BadRequestException('Endpoint Not Exists', 400)
+    if (!data.length) throw new BadRequestException('Endpoint Not Exists')
     return data
   }
 }

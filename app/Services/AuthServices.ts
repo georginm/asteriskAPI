@@ -34,7 +34,7 @@ export default class AuthServices {
   public async show(data): Promise<Array<AuthRepository>> {
     const item = await AuthRepository.show(data)
 
-    if (!item.length) throw new BadRequestException('Auth not Exists.', 400)
+    if (!item.length) throw new BadRequestException('Auth not Exists.')
 
     return item
   }
@@ -42,7 +42,7 @@ export default class AuthServices {
   public async index(): Promise<Array<AuthRepository>> {
     const data = await AuthRepository.index()
 
-    if (!data.length) throw new BadRequestException('Auth not Exists.', 400)
+    if (!data.length) throw new BadRequestException('Auth not Exists.')
 
     return data
   }

@@ -5,7 +5,7 @@ import { exists, unique } from 'App/utils/database/'
 export default class BranchService {
   public async index(): Promise<BranchRepository[]> {
     const data = await BranchRepository.index()
-    if (!data.length) throw new BadRequestException('Branch not Exists.', 400)
+    if (!data.length) throw new BadRequestException('Branch not Exists.')
     return data
   }
 
@@ -61,7 +61,7 @@ export default class BranchService {
 
   public async show(data): Promise<BranchRepository[]> {
     const item = await BranchRepository.show(data)
-    if (!item.length) throw new BadRequestException('Branch not Exists.', 400)
+    if (!item.length) throw new BadRequestException('Branch not Exists.')
     return item
   }
 }

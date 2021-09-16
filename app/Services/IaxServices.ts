@@ -7,7 +7,7 @@ export default class IaxService {
   public async index(): Promise<IaxRepository[]> {
     const data = await IaxRepository.index()
 
-    if (!data.length) throw new BadRequestException('Iax not exists.', 400)
+    if (!data.length) throw new BadRequestException('Iax not exists.')
 
     return data
   }
@@ -15,7 +15,7 @@ export default class IaxService {
   public async show(data): Promise<IaxRepository[]> {
     const item = await IaxRepository.show(data)
 
-    if (!item.length) throw new BadRequestException('Iax not exists.', 400)
+    if (!item.length) throw new BadRequestException('Iax not exists.')
 
     return item
   }
