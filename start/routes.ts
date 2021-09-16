@@ -75,4 +75,13 @@ Route.group(() => {
       'queuemembers.update'
     )
   }).prefix('/queuemembers')
+
+  // Endpoint Routes
+  Route.resource('/transports', 'TransportsController')
+    .except(['create', 'show', 'edit'])
+    .as('transport')
+
+  Route.get('/transports/show/:data', 'TransportsController.show').as(
+    'transport.show'
+  )
 }).prefix('/api')
