@@ -36,7 +36,7 @@ export default class RegistrationService {
   }
 
   public async update(data, id): Promise<RegistrationRepository> {
-    await exists(RegistrationRepository.table, 'id', data.id)
+    await exists(RegistrationRepository.table, 'id', id)
 
     if (data.endpoint)
       await unique(RegistrationRepository.table, 'endpoint', data.endpoint)
