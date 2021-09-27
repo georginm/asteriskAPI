@@ -76,7 +76,7 @@ Route.group(() => {
     )
   }).prefix('/queuemembers')
 
-  // Endpoint Routes
+  // Transport Routes
   Route.resource('/transports', 'TransportsController')
     .except(['create', 'show', 'edit'])
     .as('transport')
@@ -84,4 +84,21 @@ Route.group(() => {
   Route.get('/transports/show/:data', 'TransportsController.show').as(
     'transport.show'
   )
+
+  // Registration Routes
+  Route.resource('/registrations', 'RegistrationsController')
+    .except(['create', 'show', 'edit'])
+    .as('registration')
+
+  Route.get('/registrations/show/:data', 'RegistrationsController.show').as(
+    'registration.show'
+  )
+
+  // Users
+  Route.resource('/users', 'UsersController')
+    .except(['create', 'edit'])
+    .as('user')
+
+  // Session
+  Route.post('/sessions', 'SessionsController.store').as('session.store')
 }).prefix('/api')
