@@ -14,7 +14,7 @@ export default class RegistrationRepository extends Registration {
     try {
       return await Registration.query()
         .where('id', data)
-        .orWhere('contact_uri', data)
+        .orWhere('client_uri', data)
         .orWhere('contact_user', data)
         .orWhere('server_uri', data)
         .orWhere('transport', data)
