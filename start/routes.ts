@@ -96,9 +96,13 @@ Route.group(() => {
 
   // Users
   Route.resource('/users', 'UsersController')
-    .except(['create', 'edit'])
+    .except(['create', 'edit', 'store'])
     .as('user')
+})
+  .prefix('/api')
+  .middleware('auth')
 
-  // Session
-  Route.post('/sessions', 'SessionsController.store').as('session.store')
-}).prefix('/api')
+Route.resource('/users/store', 'UsersController.store').as('user.store')
+
+// Session
+Route.post('/sessions', 'SessionsController.store').as('session.store')
