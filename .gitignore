@@ -13,3 +13,4 @@ app/database/asterisk-db-manage/queue_log.ini
 app/database/asterisk-db-manage/voicemail.ini
 
 tests
+README
