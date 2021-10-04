@@ -102,6 +102,7 @@ Route.group(() => {
   .prefix('/api')
   .middleware('auth')
 
+// Create User Route
 Route.resource('/users/store', 'UsersController.store').as('user.store')
 
 // Session
