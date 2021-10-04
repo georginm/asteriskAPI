@@ -1,7 +1,7 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import IaxRepository from 'App/Repositories/IaxRepository'
-import { destroy, unique } from 'App/utils/database'
+import { destroy, exists, unique } from 'App/utils/database'
 
 export default class IaxService {
   public async index(): Promise<IaxRepository[]> {
@@ -32,6 +32,7 @@ export default class IaxService {
   }
 
   public async update(data, id): Promise<IaxRepository> {
+    await exists(IaxRepository.table, 'id', id)
     await unique(IaxRepository.table, 'name', data.name)
     await unique(IaxRepository.table, 'username', data.username)
 
