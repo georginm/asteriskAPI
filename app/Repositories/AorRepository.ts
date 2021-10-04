@@ -4,11 +4,15 @@ import Aor from 'App/Models/Aor'
 export default class AorRepository extends Aor {
   public static async show(data) {
     try {
-      return await Aor.query()
-        .where('id', data)
-        .orWhere('contact', data)
-        .orWhere('max_contacts', data)
-        .orWhere('outbound_proxy', data)
+      return await Database.from(this.table)
+        .join('ps_contacts', 'ps_aors.id', '=', 'ps_contacts.endpoint')
+        .select(
+          'ps_aors.id',
+          'ps_aors.max_contacts',
+          'ps_contacts.via_addr',
+          'ps_contacts.via_port'
+        )
+        .where('ps_aors.id', data)
         .orderBy('id')
     } catch (error) {
       throw new InternalServerErrorException(error.message)
@@ -17,7 +21,15 @@ export default class AorRepository extends Aor {
 
   public static async index() {
     try {
-      return await Aor.all()
+      return await Database.from(this.table)
+        .join('ps_contacts', 'ps_aors.id', '=', 'ps_contacts.endpoint')
+        .select(
+          'ps_aors.id',
+          'ps_aors.max_contacts',
+          'ps_contacts.via_addr',
+          'ps_contacts.via_port'
+        )
+        .orderBy('id')
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

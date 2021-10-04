@@ -5,6 +5,7 @@ export default class QueueRepository extends Queue {
   public static async show(data): Promise<Queue[]> {
     try {
       return await Queue.query()
+        .select('name', 'context', 'strategy')
         .where('name', data)
         .orWhere('context', data)
         .orderBy('name')
@@ -15,7 +16,9 @@ export default class QueueRepository extends Queue {
 
   public static async index(): Promise<Queue[]> {
     try {
-      return await Queue.all()
+      return await await Queue.query()
+        .select('name', 'context', 'strategy')
+        .orderBy('name')
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

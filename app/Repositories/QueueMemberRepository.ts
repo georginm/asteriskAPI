@@ -22,6 +22,7 @@ export default class QueueMemberRepository extends QueueMember {
   public static async show(data): Promise<QueueMember[]> {
     try {
       return await QueueMember.query()
+        .select('uniqueid', 'queue_name', 'interface', 'membername')
         .where('queue_name', data)
         .orWhere('interface', data)
         .orWhere('membername', data)
@@ -35,6 +36,7 @@ export default class QueueMemberRepository extends QueueMember {
   public static async index(): Promise<QueueMember[]> {
     try {
       return await QueueMember.query()
+        .select('uniqueid', 'queue_name', 'interface', 'membername')
         .orderBy('queue_name')
         .orderBy('interface')
     } catch (error) {

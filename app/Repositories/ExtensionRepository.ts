@@ -31,10 +31,11 @@ export default class ExtensionRepository extends Extension {
       return await Extension.query()
         .where('context', data)
         .orWhere('exten', data)
-        .orWhere('appdata', data)
+        .orWhere('appdata', 'like', `%${data}%`)
         .orWhere('app', data)
-        .orderBy('context')
         .orderBy('priority')
+        .orderBy('context')
+        .orderBy('exten')
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -42,7 +43,10 @@ export default class ExtensionRepository extends Extension {
 
   public static async index(): Promise<Extension[]> {
     try {
-      return await Extension.query().orderBy('context').orderBy('priority')
+      return await Extension.query()
+        .orderBy('priority')
+        .orderBy('context')
+        .orderBy('exten')
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

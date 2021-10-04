@@ -5,6 +5,7 @@ export default class AuthRepository extends Auth {
   public static async show(data) {
     try {
       return await Auth.query()
+        .select('id', 'username', 'password')
         .where('id', data)
         .orWhere('username', data)
         .orderBy('id')
@@ -15,7 +16,9 @@ export default class AuthRepository extends Auth {
 
   public static async index() {
     try {
-      return await Auth.all()
+      return await Auth.query()
+        .select('id', 'username', 'password')
+        .orderBy('id')
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
