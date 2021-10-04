@@ -13,6 +13,7 @@ export default class IaxRepository extends Iax {
         .orWhere('port', data)
         .orWhere('type', data)
         .orWhere('callerid', data)
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -22,6 +23,7 @@ export default class IaxRepository extends Iax {
     try {
       return await Iax.query()
         .select('id', 'name', 'context', 'username', 'host', 'port')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

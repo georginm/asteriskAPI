@@ -6,6 +6,7 @@ export default class TransportRepository extends Transport {
     try {
       return await Transport.query()
         .select('id', 'bind', 'protocol')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -18,6 +19,7 @@ export default class TransportRepository extends Transport {
         .where('id', data)
         .orWhere('bind', 'like', `%${data}%`)
         .orWhere('local_net', data)
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

@@ -9,6 +9,7 @@ export default class QueueRepository extends Queue {
         .where('name', data)
         .orWhere('context', data)
         .orderBy('name')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -19,6 +20,7 @@ export default class QueueRepository extends Queue {
       return await await Queue.query()
         .select('name', 'context', 'strategy')
         .orderBy('name')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

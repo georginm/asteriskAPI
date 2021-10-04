@@ -6,6 +6,7 @@ export default class RegistrationRepository extends Registration {
     try {
       return await Registration.query()
         .select('id', 'cliente_uri', 'server_uri', 'transport')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -20,6 +21,7 @@ export default class RegistrationRepository extends Registration {
         .orWhere('contact_user', data)
         .orWhere('server_uri', data)
         .orWhere('transport', data)
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

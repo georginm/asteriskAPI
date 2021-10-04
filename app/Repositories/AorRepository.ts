@@ -1,3 +1,4 @@
+import Database from '@ioc:Adonis/Lucid/Database'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import Aor from 'App/Models/Aor'
 
@@ -14,6 +15,7 @@ export default class AorRepository extends Aor {
         )
         .where('ps_aors.id', data)
         .orderBy('id')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -30,6 +32,7 @@ export default class AorRepository extends Aor {
           'ps_contacts.via_port'
         )
         .orderBy('id')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

@@ -13,6 +13,7 @@ export default class EndpointRepository extends Endpoint {
         .where('ps_endpoints.id', data)
         .orWhere('context', data)
         .orderBy('id')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -24,6 +25,7 @@ export default class EndpointRepository extends Endpoint {
         .join(Auth.table, 'ps_endpoints.auth', '=', 'ps_auths.id')
         .select('ps_endpoints.id', 'ps_endpoints.context')
         .select('ps_auths.username')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

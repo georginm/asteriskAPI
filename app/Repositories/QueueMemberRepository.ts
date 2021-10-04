@@ -28,6 +28,7 @@ export default class QueueMemberRepository extends QueueMember {
         .orWhere('membername', data)
         .orderBy('queue_name')
         .orderBy('interface')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -39,6 +40,7 @@ export default class QueueMemberRepository extends QueueMember {
         .select('uniqueid', 'queue_name', 'interface', 'membername')
         .orderBy('queue_name')
         .orderBy('interface')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

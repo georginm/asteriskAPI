@@ -36,6 +36,7 @@ export default class ExtensionRepository extends Extension {
         .orderBy('priority')
         .orderBy('context')
         .orderBy('exten')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -47,6 +48,7 @@ export default class ExtensionRepository extends Extension {
         .orderBy('priority')
         .orderBy('context')
         .orderBy('exten')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

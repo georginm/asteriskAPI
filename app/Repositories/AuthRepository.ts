@@ -9,6 +9,7 @@ export default class AuthRepository extends Auth {
         .where('id', data)
         .orWhere('username', data)
         .orderBy('id')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
@@ -19,6 +20,7 @@ export default class AuthRepository extends Auth {
       return await Auth.query()
         .select('id', 'username', 'password')
         .orderBy('id')
+        .paginate(1, 20)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
