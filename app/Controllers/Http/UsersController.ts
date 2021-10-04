@@ -29,7 +29,7 @@ export default class UsersController {
 
     await new UserService().destroy(request.params().id)
 
-    return response.ok({ message: 'Transport Has Been Deleted' })
+    return response.ok({ message: 'User Has Been Deleted' })
   }
 
   public async show({ request, response, auth }: HttpContextContract) {
