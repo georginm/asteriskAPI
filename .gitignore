@@ -7,10 +7,5 @@ coverage
 tmp
 .nyc_output
 
-app/database/asterisk-db-manage/cdr.ini
-app/database/asterisk-db-manage/config.ini
-app/database/asterisk-db-manage/queue_log.ini
-app/database/asterisk-db-manage/voicemail.ini
-
 tests
 README
