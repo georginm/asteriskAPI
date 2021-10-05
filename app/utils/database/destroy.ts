@@ -5,7 +5,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 export const destroy = async (
   table: string,
   column: string,
-  value: string
+  value: any
 ): Promise<boolean> => {
   var data
   try {

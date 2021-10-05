@@ -4,7 +4,7 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 export const exists = async (
   table: string,
   column: string,
-  value: string,
+  value: any,
   select: string = '*'
 ): Promise<void> => {
   const data = await Database.from(table).select(select).where(column, value)

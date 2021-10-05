@@ -10,7 +10,7 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 export const unique = async (
   table: string,
   column: string,
-  value: string,
+  value: any,
   select: string = '*'
 ): Promise<void> => {
   const data = await Database.from(table)
