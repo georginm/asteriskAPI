@@ -3,7 +3,11 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Aor from 'App/Models/Aor'
 
 export default class AorRepository extends Aor {
-  public static async show(data) {
+  public static async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<Aor[]> {
     try {
       return await Database.from(this.table)
         .join('ps_contacts', 'ps_aors.id', '=', 'ps_contacts.endpoint')
@@ -15,13 +19,13 @@ export default class AorRepository extends Aor {
         )
         .where('ps_aors.id', data)
         .orderBy('id')
-        .paginate(1, 20)
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async index() {
+  public static async index(page, limit): Promise<Aor[]> {
     try {
       return await Database.from(this.table)
         .join('ps_contacts', 'ps_aors.id', '=', 'ps_contacts.endpoint')
@@ -32,7 +36,7 @@ export default class AorRepository extends Aor {
           'ps_contacts.via_port'
         )
         .orderBy('id')
-        .paginate(1, 20)
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

@@ -26,7 +26,11 @@ export default class ExtensionRepository extends Extension {
     return true
   }
 
-  public static async show(data: string): Promise<Extension[]> {
+  public static async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<Extension[]> {
     try {
       return await Extension.query()
         .where('context', data)
@@ -36,19 +40,19 @@ export default class ExtensionRepository extends Extension {
         .orderBy('priority')
         .orderBy('context')
         .orderBy('exten')
-        .paginate(1, 20)
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async index(): Promise<Extension[]> {
+  public static async index(page: number, limit: number): Promise<Extension[]> {
     try {
       return await Extension.query()
         .orderBy('priority')
         .orderBy('context')
         .orderBy('exten')
-        .paginate(1, 20)
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

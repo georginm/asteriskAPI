@@ -8,8 +8,10 @@ import {
 } from 'App/Validators/Auth'
 
 export default class AuthController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new AuthServices().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new AuthServices().index(page)
     return response.ok(data)
   }
 
@@ -42,8 +44,9 @@ export default class AuthController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListAuthValidator)
+    const page = request.input('page', 1)
 
-    const data = await new AuthServices().show(request.params().data)
+    const data = await new AuthServices().show(request.params().data, page)
 
     return response.ok(data)
   }

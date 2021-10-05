@@ -1,26 +1,32 @@
 import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import RegistrationRepository from 'App/Repositories/RegistrationRepository'
+import { pagination } from 'App/utils/pagination'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class RegistrationService {
-  public async index(): Promise<RegistrationRepository[]> {
-    const data = await RegistrationRepository.index()
+  public async index(page: number): Promise<RegistrationRepository[]> {
+    const limit = pagination()
+    const data = await RegistrationRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Registration not Exists')
 
     return data
   }
 
-  public async show(data): Promise<RegistrationRepository[]> {
-    const item = await RegistrationRepository.show(data)
+  public async show(
+    data: string,
+    page: number
+  ): Promise<RegistrationRepository[]> {
+    const limit = pagination()
+    const item = await RegistrationRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('Registration not Exists')
 
     return item
   }
 
-  public async create(data): Promise<RegistrationRepository> {
+  public async create(data: any): Promise<RegistrationRepository> {
     await unique(RegistrationRepository.table, 'id', data.id)
     await unique(RegistrationRepository.table, 'endpoint', data.endpoint)
 
@@ -31,11 +37,11 @@ export default class RegistrationService {
     }
   }
 
-  public async destroy(id) {
+  public async destroy(id: string) {
     return await destroy(RegistrationRepository.table, 'id', id)
   }
 
-  public async update(data, id): Promise<RegistrationRepository> {
+  public async update(data: any, id: string): Promise<RegistrationRepository> {
     await exists(RegistrationRepository.table, 'id', id)
 
     if (data.endpoint)

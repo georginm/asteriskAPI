@@ -1,5 +1,4 @@
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { DateTime } from 'luxon'
 
 export default class Queue extends BaseModel {
   public static table = 'queues'
@@ -168,7 +167,4 @@ export default class Queue extends BaseModel {
 
   @column({ columnName: 'timeoutpriority' })
   public timeoutpriority: string
-
-  @column({ columnName: 'deleted_at' })
-  public deletedAt: DateTime | null
 }

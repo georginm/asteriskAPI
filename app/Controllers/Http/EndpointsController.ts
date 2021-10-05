@@ -8,8 +8,10 @@ import {
 } from 'App/Validators/Endpoint'
 
 export default class EndpointsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new EndpointService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new EndpointService().index(page)
     return response.ok(data)
   }
 
@@ -39,8 +41,9 @@ export default class EndpointsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListEndpointValidator)
+    const page = request.input('page', 1)
 
-    const data = await new EndpointService().show(request.params().data)
+    const data = await new EndpointService().show(request.params().data, page)
 
     return response.ok(data)
   }

@@ -4,7 +4,11 @@ import Auth from 'App/Models/Auth'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class EndpointRepository extends Endpoint {
-  public static async show(data) {
+  public static async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<any> {
     try {
       return await Database.from(Endpoint.table)
         .join(Auth.table, 'ps_endpoints.auth', '=', 'ps_auths.id')
@@ -13,19 +17,19 @@ export default class EndpointRepository extends Endpoint {
         .where('ps_endpoints.id', data)
         .orWhere('context', data)
         .orderBy('id')
-        .paginate(1, 20)
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async index() {
+  public static async index(page, limit): Promise<any> {
     try {
       return await Database.from(Endpoint.table)
         .join(Auth.table, 'ps_endpoints.auth', '=', 'ps_auths.id')
         .select('ps_endpoints.id', 'ps_endpoints.context')
         .select('ps_auths.username')
-        .paginate(1, 20)
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

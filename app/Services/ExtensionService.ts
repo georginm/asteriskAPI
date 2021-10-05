@@ -2,16 +2,19 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import ExtensionRepository from 'App/Repositories/ExtensionRepository'
 import { destroy } from 'App/utils/database/destroy'
+import { pagination } from 'App/utils/pagination'
 
 export default class ExtensionService {
-  public async index(): Promise<ExtensionRepository[]> {
-    const item = await ExtensionRepository.index()
+  public async index(page: number): Promise<ExtensionRepository[]> {
+    const limit = pagination()
+
+    const item = await ExtensionRepository.index(page, limit)
 
     if (!item.length) throw new BadRequestException('Extension not Exists.')
 
     return item
   }
-  public async create(data): Promise<ExtensionRepository> {
+  public async create(data: any): Promise<ExtensionRepository> {
     await ExtensionRepository.uniquePerExtension(
       data.priority,
       data.context,
@@ -24,7 +27,7 @@ export default class ExtensionService {
     }
   }
 
-  public async update(id, data): Promise<ExtensionRepository> {
+  public async update(id: number, data: any): Promise<ExtensionRepository> {
     await ExtensionRepository.uniquePerExtension(
       data.priority,
       data.context,
@@ -43,8 +46,12 @@ export default class ExtensionService {
     return await destroy(ExtensionRepository.table, 'id', id)
   }
 
-  public async show(data): Promise<Array<ExtensionRepository>> {
-    const item = await ExtensionRepository.show(data)
+  public async show(
+    data: string,
+    page: number
+  ): Promise<ExtensionRepository[]> {
+    const limit = pagination()
+    const item = await ExtensionRepository.show(data, page, limit)
     if (!item.length) throw new BadRequestException('Extension not Exists.')
 
     return item

@@ -9,8 +9,10 @@ import {
 } from 'App/Validators/QueueMember'
 
 export default class QueueMembersController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new QueueMemberService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new QueueMemberService().index(page)
     return response.ok(data)
   }
 
@@ -43,8 +45,12 @@ export default class QueueMembersController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListQueueMemberValidator)
+    const page = request.input('page', 1)
 
-    const data = await new QueueMemberService().show(request.params().data)
+    const data = await new QueueMemberService().show(
+      request.params().data,
+      page
+    )
 
     return response.ok(data)
   }

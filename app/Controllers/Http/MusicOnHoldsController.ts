@@ -8,8 +8,10 @@ import {
 } from 'App/Validators/MusicOnHold'
 
 export default class MusicOnHoldsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new MusicOnHoldService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new MusicOnHoldService().index(page)
     return response.ok(data)
   }
 
@@ -39,8 +41,12 @@ export default class MusicOnHoldsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListMusicOnHoldValidator)
+    const page = request.input('page', 1)
 
-    const data = await new MusicOnHoldService().show(request.params().data)
+    const data = await new MusicOnHoldService().show(
+      request.params().data,
+      page
+    )
 
     return response.ok(data)
   }

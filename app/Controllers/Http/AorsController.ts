@@ -8,8 +8,9 @@ import {
 } from 'App/Validators/Aor'
 
 export default class AorsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new AorServices().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const data = await new AorServices().index(page)
     return response.ok(data)
   }
 
@@ -39,7 +40,8 @@ export default class AorsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListAorValidator)
-    const data = await new AorServices().show(request.params().data)
+    const page = request.input('page', 1)
+    const data = await new AorServices().show(request.params().data, page)
 
     return response.ok(data)
   }

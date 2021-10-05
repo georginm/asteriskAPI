@@ -8,8 +8,10 @@ import {
 } from 'App/Validators/Transport'
 
 export default class TransportsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new TransportService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new TransportService().index(page)
 
     return response.ok(data)
   }
@@ -40,8 +42,9 @@ export default class TransportsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListTransportValidator)
+    const page = request.input('page', 1)
 
-    const data = await new TransportService().show(request.params().data)
+    const data = await new TransportService().show(request.params().data, page)
 
     return response.ok(data)
   }

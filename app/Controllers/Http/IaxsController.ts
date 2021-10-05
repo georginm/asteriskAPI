@@ -8,8 +8,10 @@ import {
 } from 'App/Validators/Iax'
 
 export default class IaxsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new IaxService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new IaxService().index(page)
     return response.ok(data)
   }
 
@@ -42,8 +44,9 @@ export default class IaxsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListIaxValidator)
+    const page = request.input('page', 1)
 
-    const data = await new IaxService().show(request.params().data)
+    const data = await new IaxService().show(request.params().data, page)
 
     return response.ok(data)
   }

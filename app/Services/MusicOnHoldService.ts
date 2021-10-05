@@ -2,18 +2,24 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import MusicOnHoldRepository from 'App/Repositories/MusicOnHoldRepository'
 import { destroy, exists, unique } from 'App/utils/database'
+import { pagination } from 'App/utils/pagination'
 
 export default class MusicOnHoldService {
-  public async index(): Promise<MusicOnHoldRepository[]> {
-    const data = await MusicOnHoldRepository.index()
+  public async index(page: number): Promise<MusicOnHoldRepository[]> {
+    const limit = pagination()
+    const data = await MusicOnHoldRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('MusicOnHold not exits')
 
     return data
   }
 
-  public async show(data): Promise<MusicOnHoldRepository[]> {
-    const item = await MusicOnHoldRepository.show(data)
+  public async show(
+    data: string,
+    page: number
+  ): Promise<MusicOnHoldRepository[]> {
+    const limit = pagination()
+    const item = await MusicOnHoldRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('MusicOnHold not Exists')
 

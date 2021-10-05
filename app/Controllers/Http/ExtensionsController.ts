@@ -8,8 +8,9 @@ import {
 } from 'App/Validators/Extension'
 
 export default class ExtensionsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new ExtensionService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const data = await new ExtensionService().index(page)
     return response.ok(data)
   }
 
@@ -42,8 +43,9 @@ export default class ExtensionsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListExtensionValidator)
+    const page = request.input('page', 1)
 
-    const data = await new ExtensionService().show(request.params().data)
+    const data = await new ExtensionService().show(request.params().data, page)
 
     return response.ok(data)
   }

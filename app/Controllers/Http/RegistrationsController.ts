@@ -8,8 +8,10 @@ import {
 } from 'App/Validators/Registration'
 
 export default class RegistrationsController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new RegistrationService().index()
+  public async index({ response, request }: HttpContextContract) {
+    const page = request.input('page', 1)
+
+    const data = await new RegistrationService().index(page)
 
     return response.ok(data)
   }
@@ -40,8 +42,12 @@ export default class RegistrationsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListRegistrationValidator)
+    const page = request.input('page', 1)
 
-    const data = await new RegistrationService().show(request.params().data)
+    const data = await new RegistrationService().show(
+      request.params().data,
+      page
+    )
 
     return response.ok(data)
   }

@@ -2,17 +2,20 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import QueueRepository from 'App/Repositories/QueueRepository'
 import { destroy, exists, unique } from 'App/utils/database'
+import { pagination } from 'App/utils/pagination'
 
 export default class QueueServices {
-  public async index(): Promise<QueueRepository[]> {
-    const data = await QueueRepository.index()
+  public async index(page: number): Promise<QueueRepository[]> {
+    const limit = pagination()
+
+    const data = await QueueRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Queue not Exists.')
 
     return data
   }
 
-  public async create(data): Promise<QueueRepository> {
+  public async create(data: any): Promise<QueueRepository> {
     await unique(QueueRepository.table, 'name', data.name)
 
     try {
@@ -22,7 +25,7 @@ export default class QueueServices {
     }
   }
 
-  public async update(data, name: string): Promise<QueueRepository | null> {
+  public async update(data: any, name: string): Promise<QueueRepository> {
     await exists(QueueRepository.table, 'name', name)
 
     try {
@@ -38,8 +41,10 @@ export default class QueueServices {
     return await destroy(QueueRepository.table, 'name', name)
   }
 
-  public async show(data): Promise<QueueRepository[]> {
-    const item = await QueueRepository.show(data)
+  public async show(data: string, page: number): Promise<QueueRepository[]> {
+    const limit = pagination()
+
+    const item = await QueueRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('Queue not Exists.')
 
