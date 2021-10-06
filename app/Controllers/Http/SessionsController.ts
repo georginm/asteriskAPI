@@ -13,4 +13,13 @@ export default class SessionsController {
       return response.badRequest(error.message)
     }
   }
+
+  public async logout({ response, auth }: HttpContextContract) {
+    try {
+      await auth.use('api').revoke()
+      return response.noContent()
+    } catch (error) {
+      return response.badRequest(error.message)
+    }
+  }
 }
