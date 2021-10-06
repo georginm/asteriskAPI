@@ -6,9 +6,12 @@ import {
   ListMusicOnHoldValidator,
   DeleteMusicOnHoldValidator,
 } from 'App/Validators/MusicOnHold'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class MusicOnHoldsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new MusicOnHoldService().index(page)
@@ -41,6 +44,8 @@ export default class MusicOnHoldsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListMusicOnHoldValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new MusicOnHoldService().show(

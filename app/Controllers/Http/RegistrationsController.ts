@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import RegistrationService from 'App/Services/RegistrationService'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 import {
   CreateRegistrationValidator,
   DeleteRegistrationValidator,
@@ -9,6 +10,8 @@ import {
 
 export default class RegistrationsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new RegistrationService().index(page)
@@ -42,6 +45,8 @@ export default class RegistrationsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListRegistrationValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new RegistrationService().show(

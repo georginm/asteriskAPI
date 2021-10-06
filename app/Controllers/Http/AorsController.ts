@@ -6,11 +6,14 @@ import {
   ListAorValidator,
   UpdateAorValidator,
 } from 'App/Validators/Aor'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class AorsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
-    const data = await new AorServices().index(page)
+
     return response.ok(data)
   }
 
@@ -40,6 +43,9 @@ export default class AorsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListAorValidator)
+    await request.validate(PaginateValidator)
+
+
     const page = request.input('page', 1)
     const data = await new AorServices().show(request.params().data, page)
 

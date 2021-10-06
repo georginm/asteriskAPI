@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import TransportService from 'App/Services/TransportService'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 import {
   CreateTransportValidator,
   DeleteTransportValidator,
@@ -9,6 +10,8 @@ import {
 
 export default class TransportsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new TransportService().index(page)
@@ -42,6 +45,8 @@ export default class TransportsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListTransportValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new TransportService().show(request.params().data, page)

@@ -6,9 +6,12 @@ import {
   DeleteIaxValidator,
   ListIaxValidator,
 } from 'App/Validators/Iax'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class IaxsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new IaxService().index(page)
@@ -44,6 +47,8 @@ export default class IaxsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListIaxValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new IaxService().show(request.params().data, page)

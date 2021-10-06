@@ -6,9 +6,12 @@ import {
   ListAuthValidator,
   UpdateAuthValidator,
 } from 'App/Validators/Auth'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class AuthController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new AuthServices().index(page)
@@ -44,6 +47,8 @@ export default class AuthController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListAuthValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new AuthServices().show(request.params().data, page)

@@ -6,11 +6,14 @@ import {
   UpdateExtensionValidator,
   DeleteExtensionValidator,
 } from 'App/Validators/Extension'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class ExtensionsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
-    const data = await new ExtensionService().index(page)
+
     return response.ok(data)
   }
 
@@ -43,6 +46,8 @@ export default class ExtensionsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListExtensionValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new ExtensionService().show(request.params().data, page)

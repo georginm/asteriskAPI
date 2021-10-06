@@ -1,9 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import UserService from 'App/Services/UserService'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class UsersController {
-  public async index({ response, auth }: HttpContextContract) {
-    await auth.use('api').authenticate()
+  public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
 
     const data = await new UserService().index()
 
@@ -32,8 +33,8 @@ export default class UsersController {
     return response.ok({ message: 'User Has Been Deleted' })
   }
 
-  public async show({ request, response, auth }: HttpContextContract) {
-    await auth.use('api').authenticate()
+  public async show({ request, response }: HttpContextContract) {
+    await request.validate(PaginateValidator)
 
     const data = await new UserService().show(request.params().data)
 

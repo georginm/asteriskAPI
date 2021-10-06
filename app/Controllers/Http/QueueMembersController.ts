@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 import QueueMemberService from 'App/Services/QueueMemberService'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 import {
   CreateQueueMemberValidator,
   DeleteQueueMemberValidator,
@@ -10,6 +11,8 @@ import {
 
 export default class QueueMembersController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new QueueMemberService().index(page)
@@ -45,6 +48,8 @@ export default class QueueMembersController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListQueueMemberValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new QueueMemberService().show(

@@ -6,9 +6,11 @@ import {
   ListEndpointValidator,
   DeleteEndpointValidator,
 } from 'App/Validators/Endpoint'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class EndpointsController {
   public async index({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
     const page = request.input('page', 1)
 
     const data = await new EndpointService().index(page)
@@ -41,6 +43,8 @@ export default class EndpointsController {
 
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListEndpointValidator)
+    await request.validate(PaginateValidator)
+
     const page = request.input('page', 1)
 
     const data = await new EndpointService().show(request.params().data, page)
