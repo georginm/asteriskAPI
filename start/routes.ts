@@ -106,7 +106,7 @@ Route.group(() => {
 
 Route.group(() => {
   // Create User Route
-  Route.resource('/users/store', 'UsersController.store').as('user.store')
+  Route.post('/users/store', 'UsersController.store').as('user.store')
 
   // Session
   Route.post('/sessions', 'SessionsController.store').as('session.store')
