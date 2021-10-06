@@ -37,9 +37,9 @@ export default class ExtensionRepository extends Extension {
         .orWhere('exten', data)
         .orWhere('appdata', 'like', `%${data}%`)
         .orWhere('app', data)
-        .orderBy('priority')
         .orderBy('context')
         .orderBy('exten')
+        .orderBy('priority')
         .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
@@ -49,9 +49,9 @@ export default class ExtensionRepository extends Extension {
   public static async index(page: number, limit: number): Promise<Extension[]> {
     try {
       return await Extension.query()
-        .orderBy('priority')
         .orderBy('context')
         .orderBy('exten')
+        .orderBy('priority')
         .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
