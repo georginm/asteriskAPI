@@ -31,16 +31,19 @@ export default class UserServices {
     return 'User has been deleted.'
   }
 
-  public async show(data): Promise<UserRepository> {
-    const item = await UserRepository.find(data)
-
+  public async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<UserRepository[]> {
+    const item = await UserRepository.show(data, page, limit)
     if (!item) throw new BadRequestException('User not Exists.')
 
     return item
   }
 
-  public async index(): Promise<Array<UserRepository>> {
-    const data = await UserRepository.all()
+  public async index(page: number, limit: number): Promise<UserRepository[]> {
+    const data = await UserRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('User not Exists.')
 
