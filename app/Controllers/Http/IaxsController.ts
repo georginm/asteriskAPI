@@ -12,9 +12,10 @@ export default class IaxsController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new IaxService().index(page)
+    const data = await new IaxService().index(page, limit)
     return response.ok(data)
   }
 
@@ -49,9 +50,10 @@ export default class IaxsController {
     await request.validate(ListIaxValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new IaxService().show(request.params().data, page)
+    const data = await new IaxService().show(request.params().data, page, limit)
 
     return response.ok(data)
   }

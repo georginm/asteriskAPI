@@ -12,9 +12,10 @@ export default class AuthController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new AuthServices().index(page)
+    const data = await new AuthServices().index(page, limit)
     return response.ok(data)
   }
 
@@ -49,9 +50,14 @@ export default class AuthController {
     await request.validate(ListAuthValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new AuthServices().show(request.params().data, page)
+    const data = await new AuthServices().show(
+      request.params().data,
+      page,
+      limit
+    )
 
     return response.ok(data)
   }

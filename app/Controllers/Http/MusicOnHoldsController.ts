@@ -12,9 +12,10 @@ export default class MusicOnHoldsController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new MusicOnHoldService().index(page)
+    const data = await new MusicOnHoldService().index(page, limit)
     return response.ok(data)
   }
 
@@ -46,11 +47,13 @@ export default class MusicOnHoldsController {
     await request.validate(ListMusicOnHoldValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
     const data = await new MusicOnHoldService().show(
       request.params().data,
-      page
+      page,
+      limit
     )
 
     return response.ok(data)

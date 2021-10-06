@@ -2,11 +2,9 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import IaxRepository from 'App/Repositories/IaxRepository'
 import { destroy, exists, unique } from 'App/utils/database'
-import { pagination } from 'App/utils/pagination'
 
 export default class IaxService {
-  public async index(page: number): Promise<IaxRepository[]> {
-    const limit = pagination()
+  public async index(page: number, limit: number): Promise<IaxRepository[]> {
     const data = await IaxRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Iax not exists.')
@@ -14,8 +12,11 @@ export default class IaxService {
     return data
   }
 
-  public async show(data: string, page: number): Promise<IaxRepository[]> {
-    const limit = pagination()
+  public async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<IaxRepository[]> {
     const item = await IaxRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('Iax not exists.')

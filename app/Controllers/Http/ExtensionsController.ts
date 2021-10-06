@@ -12,8 +12,10 @@ export default class ExtensionsController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
+    const data = await new ExtensionService().index(page, limit)
     return response.ok(data)
   }
 
@@ -48,9 +50,14 @@ export default class ExtensionsController {
     await request.validate(ListExtensionValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new ExtensionService().show(request.params().data, page)
+    const data = await new ExtensionService().show(
+      request.params().data,
+      page,
+      limit
+    )
 
     return response.ok(data)
   }

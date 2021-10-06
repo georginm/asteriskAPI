@@ -13,7 +13,9 @@ export default class AorsController {
     await request.validate(PaginateValidator)
 
     const page = request.input('page', 1)
+    const limit = request.input('limit')
 
+    const data = await new AorServices().index(page, limit)
     return response.ok(data)
   }
 
@@ -45,9 +47,14 @@ export default class AorsController {
     await request.validate(ListAorValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
 
     const page = request.input('page', 1)
-    const data = await new AorServices().show(request.params().data, page)
+    const data = await new AorServices().show(
+      request.params().data,
+      page,
+      limit
+    )
 
     return response.ok(data)
   }

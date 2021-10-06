@@ -2,7 +2,6 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import AorRepository from 'App/Repositories/AorRepository'
 import { destroy, exists, unique } from 'App/utils/database/'
-import { pagination } from 'App/utils/pagination'
 
 export default class AorServices {
   public async create(data: any): Promise<AorRepository> {
@@ -30,9 +29,7 @@ export default class AorServices {
     return await destroy(AorRepository.table, 'id', id)
   }
 
-  public async show(data: any, page: number) {
-    const limit = pagination()
-
+  public async show(data: any, page: number, limit: number) {
     const item = await AorRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('Aor not Exists')
@@ -40,8 +37,7 @@ export default class AorServices {
     return item
   }
 
-  public async index(page: number): Promise<AorRepository[]> {
-    const limit = pagination()
+  public async index(page: number, limit: number): Promise<AorRepository[]> {
     const data = await AorRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Aor not Exists')

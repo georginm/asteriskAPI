@@ -12,9 +12,10 @@ export default class RegistrationsController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new RegistrationService().index(page)
+    const data = await new RegistrationService().index(page, limit)
 
     return response.ok(data)
   }
@@ -47,11 +48,13 @@ export default class RegistrationsController {
     await request.validate(ListRegistrationValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
     const data = await new RegistrationService().show(
       request.params().data,
-      page
+      page,
+      limit
     )
 
     return response.ok(data)

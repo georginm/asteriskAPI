@@ -2,12 +2,12 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import ExtensionRepository from 'App/Repositories/ExtensionRepository'
 import { destroy } from 'App/utils/database/destroy'
-import { pagination } from 'App/utils/pagination'
 
 export default class ExtensionService {
-  public async index(page: number): Promise<ExtensionRepository[]> {
-    const limit = pagination()
-
+  public async index(
+    page: number,
+    limit: number
+  ): Promise<ExtensionRepository[]> {
     const item = await ExtensionRepository.index(page, limit)
 
     if (!item.length) throw new BadRequestException('Extension not Exists.')
@@ -48,9 +48,9 @@ export default class ExtensionService {
 
   public async show(
     data: string,
-    page: number
+    page: number,
+    limit: number
   ): Promise<ExtensionRepository[]> {
-    const limit = pagination()
     const item = await ExtensionRepository.show(data, page, limit)
     if (!item.length) throw new BadRequestException('Extension not Exists.')
 

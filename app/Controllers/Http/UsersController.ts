@@ -6,7 +6,9 @@ export default class UsersController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
-    const data = await new UserService().index()
+    const limit = request.input('limit')
+    const page = request.input('page', 1)
+    const data = await new UserService().index(page, limit)
 
     return response.ok(data)
   }
@@ -16,18 +18,14 @@ export default class UsersController {
     return response.created(data)
   }
 
-  public async update({ request, response, auth }: HttpContextContract) {
-    await auth.use('api').authenticate()
-
+  public async update({ request, response }: HttpContextContract) {
     const { id } = request.params()
     const data = await new UserService().update(request.body(), id)
 
     return response.ok(data)
   }
 
-  public async destroy({ request, response, auth }: HttpContextContract) {
-    await auth.use('api').authenticate()
-
+  public async destroy({ request, response }: HttpContextContract) {
     await new UserService().destroy(request.params().id)
 
     return response.ok({ message: 'User Has Been Deleted' })
@@ -36,7 +34,14 @@ export default class UsersController {
   public async show({ request, response }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
-    const data = await new UserService().show(request.params().data)
+    const limit = request.input('limit')
+    const page = request.input('page', 1)
+
+    const data = await new UserService().show(
+      request.params().data,
+      page,
+      limit
+    )
 
     return response.ok(data)
   }

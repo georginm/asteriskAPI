@@ -2,8 +2,6 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import AuthRepository from 'App/Repositories/AuthRepository'
 import { destroy, exists, unique } from 'App/utils/database/'
-import { pagination } from 'App/utils/pagination'
-
 export default class AuthServices {
   public async create(data: any): Promise<AuthRepository> {
     await unique(AuthRepository.table, 'id', data.id, 'id')
@@ -32,8 +30,11 @@ export default class AuthServices {
     return await destroy(AuthRepository.table, 'id', id)
   }
 
-  public async show(data: string, page: number): Promise<AuthRepository[]> {
-    const limit = pagination()
+  public async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<AuthRepository[]> {
     const item = await AuthRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('Auth not Exists.')
@@ -41,8 +42,7 @@ export default class AuthServices {
     return item
   }
 
-  public async index(page: number): Promise<AuthRepository[]> {
-    const limit = pagination()
+  public async index(page: number, limit: number): Promise<AuthRepository[]> {
     const data = await AuthRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Auth not Exists.')

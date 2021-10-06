@@ -2,11 +2,12 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
 import { destroy, exists, unique } from 'App/utils/database'
-import { pagination } from 'App/utils/pagination'
 
 export default class QueueMemberService {
-  public async index(page: number): Promise<QueueMemberRepository[]> {
-    const limit = pagination()
+  public async index(
+    page: number,
+    limit: number
+  ): Promise<QueueMemberRepository[]> {
     const data = await QueueMemberRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Queue Member not Exists.')
@@ -37,9 +38,12 @@ export default class QueueMemberService {
     return await destroy(QueueMemberRepository.table, 'interface', branche)
   }
 
-  public async show(data: any, page: number): Promise<QueueMemberRepository[]> {
+  public async show(
+    data: any,
+    page: number,
+    limit: number
+  ): Promise<QueueMemberRepository[]> {
     data = data.replace('-', '/')
-    const limit = pagination()
 
     const item = await QueueMemberRepository.show(data, page, limit)
 

@@ -12,9 +12,10 @@ export default class TransportsController {
   public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new TransportService().index(page)
+    const data = await new TransportService().index(page, limit)
 
     return response.ok(data)
   }
@@ -47,9 +48,14 @@ export default class TransportsController {
     await request.validate(ListTransportValidator)
     await request.validate(PaginateValidator)
 
+    const limit = request.input('limit')
     const page = request.input('page', 1)
 
-    const data = await new TransportService().show(request.params().data, page)
+    const data = await new TransportService().show(
+      request.params().data,
+      page,
+      limit
+    )
 
     return response.ok(data)
   }

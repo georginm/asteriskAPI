@@ -2,7 +2,6 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import TransportRepository from 'App/Repositories/TransportRepository'
 import { destroy, exists, unique } from 'App/utils/database'
-import { pagination } from 'App/utils/pagination'
 
 export default class TransportService {
   public async create(data: any): Promise<TransportRepository> {
@@ -30,9 +29,7 @@ export default class TransportService {
     return await destroy(TransportRepository.table, 'id', id)
   }
 
-  public async show(data: string, page: number) {
-    const limit = pagination()
-
+  public async show(data: string, page: number, limit: number) {
     const item = await TransportRepository.show(data, page, limit)
 
     if (!item.length) throw new BadRequestException('Transport not Exists')
@@ -40,9 +37,10 @@ export default class TransportService {
     return item
   }
 
-  public async index(page: number): Promise<TransportRepository[]> {
-    const limit = pagination()
-
+  public async index(
+    page: number,
+    limit: number
+  ): Promise<TransportRepository[]> {
     const data = await TransportRepository.index(page, limit)
 
     if (!data.length) throw new BadRequestException('Transport not Exists')

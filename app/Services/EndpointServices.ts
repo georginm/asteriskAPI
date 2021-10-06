@@ -2,7 +2,6 @@ import BadRequestException from 'App/Exceptions/BadRequestException'
 import InternalServerErrorException from 'App/Exceptions/InternalServerErrorException'
 import EndpointRepository from 'App/Repositories/EndpointRepository'
 import { destroy, exists, unique } from 'App/utils/database/'
-import { pagination } from 'App/utils/pagination'
 
 export default class EndpointService {
   public async create(data: any): Promise<EndpointRepository> {
@@ -21,10 +20,7 @@ export default class EndpointService {
     }
   }
 
-  public async update(
-    data: any,
-    id: string
-  ): Promise<EndpointRepository > {
+  public async update(data: any, id: string): Promise<EndpointRepository> {
     await exists(EndpointRepository.table, 'id', id)
 
     if (data.auth) await unique(EndpointRepository.table, 'auth', data.auth)
@@ -47,15 +43,20 @@ export default class EndpointService {
     return await destroy(EndpointRepository.table, 'id', id)
   }
 
-  public async show(data: string, page: number): Promise<EndpointRepository[]> {
-    const limit = pagination()
+  public async show(
+    data: string,
+    page: number,
+    limit: number
+  ): Promise<EndpointRepository[]> {
     const item = await EndpointRepository.show(data, page, limit)
     if (!item.length) throw new BadRequestException('Endpoint Not Exists')
     return item
   }
 
-  public async index(page: number): Promise<EndpointRepository[]> {
-    const limit = pagination()
+  public async index(
+    page: number,
+    limit: number
+  ): Promise<EndpointRepository[]> {
     const data = await EndpointRepository.index(page, limit)
     if (!data.length) throw new BadRequestException('Endpoint Not Exists')
     return data
