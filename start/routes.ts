@@ -98,6 +98,8 @@ Route.group(() => {
   Route.resource('/users', 'UsersController')
     .except(['create', 'edit', 'store'])
     .as('user')
+
+  Route.get('/sessions', 'SessionsController.logout').as('session.logout')
 })
   .prefix('/api')
   .middleware('auth')
