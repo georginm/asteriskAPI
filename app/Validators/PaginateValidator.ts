@@ -6,9 +6,9 @@ export default class PaginateValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    limit: schema.number([rules.range(1, 100)]),
+    limit: schema.number.optional([rules.range(1, 100)]),
 
-    // filter: schema.string.optional({ trim: true }),
+    filter: schema.string.optional({ trim: true }),
   })
 
   public messages = validation
