@@ -19,32 +19,29 @@ export default class QueueMemberRepository extends QueueMember {
     return true
   }
 
-  public static async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<QueueMember[]> {
+  public static async index(id: number): Promise<QueueMember[]> {
     try {
-      return await QueueMember.query()
-        .select('uniqueid', 'queue_name', 'interface', 'membername')
-        .where('queue_name', data)
-        .orWhere('interface', data)
-        .orWhere('membername', data)
-        .orderBy('queue_name')
-        .orderBy('interface')
-        .paginate(page, limit)
+      return await QueueMember.query().where('uniqueid', id).paginate(1, 1)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async index(
+  public static async show(
     page: number,
-    limit: number
+    limit: number,
+    filter: string | null
   ): Promise<QueueMember[]> {
     try {
       return await QueueMember.query()
         .select('uniqueid', 'queue_name', 'interface', 'membername')
+        .if(filter, (query) => {
+          query
+            .where('queue_name', 'ilike', `%${filter}%`)
+            .orWhere('interface', 'ilike', `%${filter}%`)
+            .orWhere('membername', 'ilike', `%${filter}%`)
+        })
+        .orderBy('uniqueid', 'asc')
         .orderBy('queue_name')
         .orderBy('interface')
         .paginate(page, limit)

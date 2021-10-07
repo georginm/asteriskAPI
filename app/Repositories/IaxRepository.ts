@@ -2,31 +2,31 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Iax from 'App/Models/Iax'
 
 export default class IaxRepository extends Iax {
-  public static async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<Iax[]> {
+  public static async index(id: number): Promise<Iax[]> {
     try {
-      return await Iax.query()
-        .select('id', 'name', 'context', 'username', 'host', 'port')
-        .where('name', data)
-        .orWhere('username', data)
-        .orWhere('context', data)
-        .orWhere('host', data)
-        .orWhere('port', data)
-        .orWhere('type', data)
-        .orWhere('callerid', data)
-        .paginate(page, limit)
+      return await Iax.query().where('id', id).paginate(1, 1)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async index(page: number, limit: number): Promise<Iax[]> {
+  public static async show(
+    page: number,
+    limit: number,
+    filter: string | null
+  ): Promise<Iax[]> {
     try {
       return await Iax.query()
         .select('id', 'name', 'context', 'username', 'host', 'port')
+        .if(filter, (query) => {
+          query
+            .where('name', 'ilike', `%${filter}%`)
+            .orWhere('username', 'ilike', `%${filter}%`)
+            .orWhere('context', 'ilike', `%${filter}%`)
+            .orWhere('host', 'ilike', `%${filter}%`)
+            .orWhere('callerid', 'ilike', `%${filter}%`)
+        })
+        .orderBy('id', 'desc')
         .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)

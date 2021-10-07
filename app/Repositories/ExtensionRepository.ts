@@ -26,29 +26,35 @@ export default class ExtensionRepository extends Extension {
     return true
   }
 
-  public static async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<Extension[]> {
+  /**
+   *
+   * @param data
+   * @param page
+   * @param limit
+   * @returns
+   */
+  public static async index(id: string): Promise<Extension[]> {
     try {
-      return await Extension.query()
-        .where('context', data)
-        .orWhere('exten', data)
-        .orWhere('appdata', 'like', `%${data}%`)
-        .orWhere('app', data)
-        .orderBy('context')
-        .orderBy('exten')
-        .orderBy('priority')
-        .paginate(page, limit)
+      return await Extension.query().where('id', id).paginate(1, 1)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async index(page: number, limit: number): Promise<Extension[]> {
+  public static async show(
+    page: number,
+    limit: number,
+    filter: string | null
+  ): Promise<Extension[]> {
     try {
       return await Extension.query()
+        .if(filter, (query) => {
+          query
+            .where('context', 'ilike', `%${filter}%`)
+            .orWhere('exten', 'ilike', `%${filter}%`)
+            .orWhere('appdata', 'ilike', `%${filter}%`)
+            .orWhere('app', 'ilike', `%${filter}%`)
+        })
         .orderBy('context')
         .orderBy('exten')
         .orderBy('priority')

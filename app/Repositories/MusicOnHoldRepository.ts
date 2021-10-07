@@ -2,31 +2,31 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import MusicOnHold from 'App/Models/MusicOnHold'
 
 export default class MusicOnHoldRepository extends MusicOnHold {
-  public static async index(
+  public static async show(
     page: number,
-    limit: number
+    limit: number,
+    filter: string | null
   ): Promise<MusicOnHold[]> {
     try {
       return await MusicOnHold.query()
         .select('name', 'directory', 'sort')
+        .if(filter, (query) => {
+          query
+            .where('name', 'ilike', `%${filter}%`)
+            .orWhere('directory', 'ilike', `%${filter}%`)
+            .orWhere('sort', 'ilike', `%${filter}%`)
+        })
         .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<MusicOnHold[]> {
+  public static async index(name: string): Promise<MusicOnHold[]> {
     try {
       return await MusicOnHold.query()
-        .select('name', 'directory', 'sort')
-        .where('name', data)
-        .orWhere('directory', 'like', `%${data}%`)
-        .orWhere('sort', data)
-        .paginate(page, limit)
+        .where('name', 'ilike', `${name}`)
+        .paginate(1, 1)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }

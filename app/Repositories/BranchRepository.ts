@@ -9,82 +9,85 @@ export default class BranchRepository {
   public static t_aor = 'ps_aors'
   public static t_auth = 'ps_auths'
 
-  public static async index(): Promise<any> {
+  /**
+   *
+   * @param page
+   * @returns
+   */
+  public static async show(page: number, limit: number, filter): Promise<any> {
     try {
-      const data = await Database.rawQuery(
-        'select ' +
-          'pe.id, ' +
-          "REGEXP_MATCHES(pe.id, '^([0-9]{2,})') as branch," +
-          'pe.context, ' +
-          'pe.transport, ' +
-          'pe.disallow,' +
-          'pe.allow, ' +
-          'pe.rewrite_contact, ' +
-          'pe.rtp_symmetric, ' +
-          'pe.force_rport, ' +
-          'pe.mac_address, ' +
-          'pe.dtmf_mode,' +
-          'pe.call_group,' +
-          'pe.pickup_group,' +
-          'pe.named_call_group,' +
-          'pe.named_pickup_group,' +
-          'pe.callerid,' +
-          'pe.rtp_timeout,' +
-          'pe.rtp_timeout_hold,' +
-          'pe.rtp_keepalive,' +
-          'pe.permit,' +
-          'pe.rtp_keepalive,' +
-          "(select json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  from ps_aors as pa where pa.id = pe.aors) as aors, " +
-          "(select json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) from ps_auths as pa2 where pa2.id = pe.auth) as auth " +
-          'from ' +
-          'ps_endpoints pe ' +
-          'ORDER BY pe.id desc;'
-      )
-
-      return data.rows
+      return await Database.from(Endpoint.table)
+        .join(Auth.table, 'ps_endpoints.auth', '=', 'ps_auths.id')
+        .select('ps_endpoints.id', 'ps_endpoints.context')
+        .select('ps_auths.username')
+        .if(filter, (query) => {
+          query
+            .where('ps_endpoints.id', `${filter}`)
+            .orWhere('ps_endpoints.context', 'ilike', `%${filter}%`)
+            .orWhere('ps_auths.username', 'ilike', `%${filter}%`)
+        })
+        .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
-  public static async show(where): Promise<any> {
+  /**
+   *
+   * @param
+   * @returns
+   */
+  public static async index(id: string): Promise<any> {
     try {
-      const data = await Database.rawQuery(
-        'SELECT ' +
-          'pe.id, ' +
-          "REGEXP_MATCHES(pe.id, '[0-9]{2,}')," +
-          'pe.context, ' +
-          'pe.transport, ' +
-          'pe.disallow,' +
-          'pe.allow, ' +
-          'pe.rewrite_contact, ' +
-          'pe.rtp_symmetric, ' +
-          'pe.force_rport, ' +
-          'pe.mac_address, ' +
-          'pe.dtmf_mode,' +
-          'pe.call_group,' +
-          'pe.pickup_group,' +
-          'pe.named_call_group,' +
-          'pe.named_pickup_group,' +
-          'pe.callerid,' +
-          'pe.rtp_timeout,' +
-          'pe.rtp_timeout_hold,' +
-          'pe.rtp_keepalive,' +
-          'pe.permit,' +
-          'pe.rtp_keepalive,' +
-          "(SELECT json_build_object('id', pa.id, 'contact', pa.contact, 'max_contacts', pa.max_contacts)  FROM ps_aors AS pa WHERE pa.id = pe.aors) AS aors, " +
-          "(SELECT json_build_object('id', pa2.id, 'username', pa2.username, 'password', pa2.password) FROM ps_auths AS pa2 WHERE pa2.id = pe.auth) AS auth " +
-          'FROM ' +
-          'ps_endpoints pe ' +
-          `WHERE (pe.id = '${where}') ` +
-          `OR (pe.context = '${where}') ` +
-          `OR (pe.transport = '${where}') ` +
-          `OR (pe.auth = '${where}') ` +
-          `OR (pe.aors = '${where}') ` +
-          `OR (pe.mac_address = '${where}') `
-      )
+      return await Database.query().select(
+        Database.raw(`
+          json_build_object(
+            'endpoint',
+            (
+              SELECT
+                row_to_json("ps_endpoints")
+              FROM
+                "ps_endpoints"
+              WHERE
+                ps_endpoints.id = '${id}'
+            ),
 
-      return data.rows
+            'aor',
+            (
+              SELECT
+                row_to_json("ps_aors")
+              FROM
+                "ps_aors"
+              WHERE
+                ps_aors.id = (
+                  SELECT
+                    ps_endpoints.aors
+                  FROM
+                    ps_endpoints
+                  WHERE
+                    ps_endpoints.id = '${id}'
+                )
+            ),
+
+            'auth',
+            (
+              SELECT
+                row_to_json("ps_auths")
+              FROM
+                "ps_auths"
+              WHERE
+                ps_auths.id = (
+                  SELECT
+                    ps_endpoints.auth
+                  FROM
+                    ps_endpoints
+                  WHERE
+                    ps_endpoints.id = '${id}'
+                )
+            )
+          ) as Branch
+        `)
+      )
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
