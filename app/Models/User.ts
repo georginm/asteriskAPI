@@ -12,7 +12,7 @@ export default class User extends BaseModel {
   public static table = 'users'
 
   @column({ isPrimary: true })
-  public id: number
+  public id: string
 
   @column()
   public email: string
