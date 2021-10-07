@@ -6,10 +6,9 @@ class UpdateQueueMemberValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    params: schema.object().members({
-      interface: schema.string({ trim: true }, [rules.maxLength(80)]),
-    }),
+    id: schema.number(),
 
+    interface: schema.string.optional({ trim: true }, [rules.maxLength(80)]),
     queueName: schema.string.optional({ trim: true }, [rules.maxLength(80)]),
 
     membername: schema.string.optional({ trim: true }, [rules.maxLength(80)]),

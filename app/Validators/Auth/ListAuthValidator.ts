@@ -6,12 +6,7 @@ class ListAuthValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string.optional({ trim: true }, [
-      rules.maxLength(40),
-      rules.minLength(3),
-    ]),
-
-    username: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    id: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
   })
 
   public messages = validation

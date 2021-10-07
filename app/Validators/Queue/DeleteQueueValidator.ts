@@ -5,9 +5,7 @@ class DeleteQueueValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    params: schema.object().members({
-      name: schema.string({ trim: true }, [rules.maxLength(128)]),
-    }),
+    name: schema.string({ trim: true }, [rules.maxLength(128)]),
   })
 
   public messages = {}

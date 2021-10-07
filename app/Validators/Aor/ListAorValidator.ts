@@ -6,9 +6,7 @@ class ListAorValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    params: schema.object().members({
-      data: schema.string({ trim: true }, [rules.maxLength(40)]),
-    }),
+    id: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
   })
 
   public messages = validation

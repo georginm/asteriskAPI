@@ -6,9 +6,8 @@ class UpdateQueueValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    params: schema.object().members({
-      name: schema.string({ trim: true }, [rules.maxLength(128)]),
-    }),
+    name: schema.string({ trim: true }, [rules.maxLength(128)]),
+
     context: schema.string.optional({ trim: true }, [rules.maxLength(128)]),
     joinempty: schema.string.optional({ trim: true }, [rules.maxLength(128)]),
     leavewhenempty: schema.string.optional({ trim: true }, [

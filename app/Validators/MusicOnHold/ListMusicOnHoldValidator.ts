@@ -6,9 +6,7 @@ class ListMusicOnHoldValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    param: schema.object().members({
-      data: schema.string({ trim: true }, [rules.maxLength(255)]),
-    }),
+    name: schema.string({ trim: true }, [rules.maxLength(255)]),
   })
 
   public messages = validation
