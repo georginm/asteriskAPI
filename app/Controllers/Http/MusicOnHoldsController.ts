@@ -9,13 +9,12 @@ import {
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class MusicOnHoldsController {
-  public async index({ response, request }: HttpContextContract) {
+  public async show({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
+    const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new MusicOnHoldService().index(page, limit)
+    const data = await new MusicOnHoldService().show(page, limit, filter)
     return response.ok(data)
   }
 
@@ -43,18 +42,10 @@ export default class MusicOnHoldsController {
     return response.ok({ message: 'MusicOnHold Has Been Deleted.' })
   }
 
-  public async show({ request, response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     await request.validate(ListMusicOnHoldValidator)
-    await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
-
-    const data = await new MusicOnHoldService().show(
-      request.params().data,
-      page,
-      limit
-    )
+    const data = await new MusicOnHoldService().index(request.qs().name)
 
     return response.ok(data)
   }

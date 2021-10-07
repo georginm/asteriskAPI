@@ -6,10 +6,15 @@ import {
   ListBrachValidator,
   UpdateBranchValidator,
 } from 'App/Validators/Branch'
+import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class BranchesController {
-  public async index({ response }: HttpContextContract) {
-    const data = await new BranchService().index()
+  public async show({ response, request }: HttpContextContract) {
+    await request.validate(PaginateValidator)
+
+    const { limit = 10, page = 1, filter = null } = request.all()
+
+    const data = await new BranchService().show(page, limit, filter)
     return response.ok(data)
   }
 
@@ -40,10 +45,10 @@ export default class BranchesController {
     return response.ok({ message: 'Branch has been deleted.' })
   }
 
-  public async show({ request, response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     await request.validate(ListBrachValidator)
 
-    const data = await new BranchService().show(request.params().data)
+    const data = await new BranchService().index(request.qs().id)
     return response.ok(data)
   }
 }

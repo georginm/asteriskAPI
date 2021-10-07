@@ -9,13 +9,20 @@ import {
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class EndpointsController {
-  public async index({ response, request }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
+    await request.validate(ListEndpointValidator)
+    // await request.validate(PaginateValidator)
+
+    const data = await new EndpointService().index(request.qs().id)
+
+    return response.ok(data)
+  }
+  public async show({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
+    const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new EndpointService().index(page, limit)
+    const data = await new EndpointService().show(page, limit, filter)
     return response.ok(data)
   }
 
@@ -41,21 +48,5 @@ export default class EndpointsController {
     await new EndpointService().destroy(request.params().id)
 
     return response.ok({ message: 'Endpoint Has Been Deleted.' })
-  }
-
-  public async show({ request, response }: HttpContextContract) {
-    await request.validate(ListEndpointValidator)
-    await request.validate(PaginateValidator)
-
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
-
-    const data = await new EndpointService().show(
-      request.params().data,
-      page,
-      limit
-    )
-
-    return response.ok(data)
   }
 }

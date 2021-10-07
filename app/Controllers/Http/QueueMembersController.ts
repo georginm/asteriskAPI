@@ -10,13 +10,12 @@ import {
 } from 'App/Validators/QueueMember'
 
 export default class QueueMembersController {
-  public async index({ response, request }: HttpContextContract) {
+  public async show({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
+    const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new QueueMemberService().index(page, limit)
+    const data = await new QueueMemberService().show(page, limit, filter)
     return response.ok(data)
   }
 
@@ -29,7 +28,7 @@ export default class QueueMembersController {
 
   public async destroy({ request, response }: HttpContextContract) {
     await request.validate(DeleteQueueMemberValidator)
-    await new QueueMemberService().destroy(request.params().interface)
+    await new QueueMemberService().destroy(request.qs().id)
 
     return response.ok({
       message: 'QueueMember Has Been Deleted',
@@ -41,24 +40,16 @@ export default class QueueMembersController {
 
     const data = await new QueueMemberService().update(
       request.body(),
-      request.params().interface
+      request.qs().id
     )
 
     return response.ok(data)
   }
 
-  public async show({ request, response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     await request.validate(ListQueueMemberValidator)
-    await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
-
-    const data = await new QueueMemberService().show(
-      request.params().data,
-      page,
-      limit
-    )
+    const data = await new QueueMemberService().index(request.qs().id)
 
     return response.ok(data)
   }

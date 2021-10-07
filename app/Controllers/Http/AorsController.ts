@@ -6,16 +6,26 @@ import {
   ListAorValidator,
   UpdateAorValidator,
 } from 'App/Validators/Aor'
+import { IndexAorValidator } from 'App/Validators/Aor/IndexAorValidator'
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class AorsController {
-  public async index({ response, request }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
+    await request.validate(IndexAorValidator)
     await request.validate(PaginateValidator)
 
-    const page = request.input('page', 1)
-    const limit = request.input('limit')
+    const data = await new AorServices().index(request.qs().id)
 
-    const data = await new AorServices().index(page, limit)
+    return response.ok(data)
+  }
+
+  public async show({ response, request }: HttpContextContract) {
+    await request.validate(ListAorValidator)
+    await request.validate(PaginateValidator)
+
+    const { page = 1, limit = 10, filter = null } = request.all()
+
+    const data = await new AorServices().show(page, limit, filter)
     return response.ok(data)
   }
 
@@ -41,21 +51,5 @@ export default class AorsController {
     await new AorServices().destroy(request.params().id)
 
     return response.ok({ message: 'Aor has been deleted.' })
-  }
-
-  public async show({ request, response }: HttpContextContract) {
-    await request.validate(ListAorValidator)
-    await request.validate(PaginateValidator)
-
-    const limit = request.input('limit')
-
-    const page = request.input('page', 1)
-    const data = await new AorServices().show(
-      request.params().data,
-      page,
-      limit
-    )
-
-    return response.ok(data)
   }
 }

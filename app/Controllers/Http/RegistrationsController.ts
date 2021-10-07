@@ -9,13 +9,12 @@ import {
 } from 'App/Validators/Registration'
 
 export default class RegistrationsController {
-  public async index({ response, request }: HttpContextContract) {
+  public async show({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
+    const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new RegistrationService().index(page, limit)
+    const data = await new RegistrationService().show(page, limit, filter)
 
     return response.ok(data)
   }
@@ -44,18 +43,10 @@ export default class RegistrationsController {
     return response.ok({ message: 'Transport Has Been Deleted' })
   }
 
-  public async show({ request, response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     await request.validate(ListRegistrationValidator)
-    await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
-
-    const data = await new RegistrationService().show(
-      request.params().data,
-      page,
-      limit
-    )
+    const data = await new RegistrationService().index(request.qs().id)
 
     return response.ok(data)
   }

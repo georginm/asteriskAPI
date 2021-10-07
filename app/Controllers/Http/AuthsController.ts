@@ -9,13 +9,13 @@ import {
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class AuthController {
-  public async index({ response, request }: HttpContextContract) {
+  public async show({ response, request }: HttpContextContract) {
+    await request.validate(ListAuthValidator)
     await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
+    const { page = 1, limit = 10, filter = null } = request.all()
 
-    const data = await new AuthServices().index(page, limit)
+    const data = await new AuthServices().show(page, limit, filter)
     return response.ok(data)
   }
 
@@ -46,18 +46,10 @@ export default class AuthController {
     return response.ok({ message: 'Auth has been deleted.' })
   }
 
-  public async show({ request, response }: HttpContextContract) {
+  public async index({ request, response }: HttpContextContract) {
     await request.validate(ListAuthValidator)
-    await request.validate(PaginateValidator)
 
-    const limit = request.input('limit')
-    const page = request.input('page', 1)
-
-    const data = await new AuthServices().show(
-      request.params().data,
-      page,
-      limit
-    )
+    const data = await new AuthServices().index(request.qs().id)
 
     return response.ok(data)
   }
