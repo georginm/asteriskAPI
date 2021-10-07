@@ -4,11 +4,12 @@ import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class QueueMemberService {
-  public async index(
+  public async show(
     page: number,
-    limit: number
+    limit: number,
+    filter: string | null
   ): Promise<QueueMemberRepository[]> {
-    const data = await QueueMemberRepository.index(page, limit)
+    const data = await QueueMemberRepository.show(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Queue Member not Exists.')
 
@@ -16,8 +17,6 @@ export default class QueueMemberService {
   }
 
   public async create(data: any): Promise<QueueMemberRepository> {
-    data.interface = data.interface.replace('-', '/')
-
     await unique(QueueMemberRepository.table, 'interface', data.interface)
 
     await QueueMemberRepository.uniqueByRelationship(
@@ -33,34 +32,23 @@ export default class QueueMemberService {
     }
   }
 
-  public async destroy(branche: string): Promise<boolean> {
-    branche = branche.replace('-', '/')
-    return await destroy(QueueMemberRepository.table, 'interface', branche)
+  public async destroy(id: number): Promise<boolean> {
+    return await destroy(QueueMemberRepository.table, 'uniqueid', id)
   }
 
-  public async show(
-    data: any,
-    page: number,
-    limit: number
-  ): Promise<QueueMemberRepository[]> {
-    data = data.replace('-', '/')
-
-    const item = await QueueMemberRepository.show(data, page, limit)
+  public async index(id: number): Promise<QueueMemberRepository[]> {
+    const item = await QueueMemberRepository.index(id)
 
     if (!item.length) throw new BadRequestException('QueueMember not Exists.')
 
     return item
   }
 
-  public async update(
-    data: any,
-    branche: string
-  ): Promise<QueueMemberRepository> {
-    branche = branche.replace('-', '/')
-    await exists(QueueMemberRepository.table, 'interface', branche)
+  public async update(data: any, id: number): Promise<QueueMemberRepository> {
+    await exists(QueueMemberRepository.table, 'uniqueid', id)
 
     try {
-      const item = await QueueMemberRepository.findOrFail(branche)
+      const item = await QueueMemberRepository.findByOrFail('uniqueid', id)
 
       return await item.merge(data).save()
     } catch (error) {

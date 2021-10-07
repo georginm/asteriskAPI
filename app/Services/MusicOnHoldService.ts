@@ -4,23 +4,20 @@ import MusicOnHoldRepository from 'App/Repositories/MusicOnHoldRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class MusicOnHoldService {
-  public async index(
+  public async show(
     page: number,
-    limit: number
+    limit: number,
+    filter: string | null
   ): Promise<MusicOnHoldRepository[]> {
-    const data = await MusicOnHoldRepository.index(page, limit)
+    const data = await MusicOnHoldRepository.show(page, limit, filter)
 
-    if (!data.length) throw new BadRequestException('MusicOnHold not exits')
+    if (!data.length) throw new BadRequestException('MusicOnHold not Exists')
 
     return data
   }
 
-  public async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<MusicOnHoldRepository[]> {
-    const item = await MusicOnHoldRepository.show(data, page, limit)
+  public async index(name: string): Promise<MusicOnHoldRepository[]> {
+    const item = await MusicOnHoldRepository.index(name)
 
     if (!item.length) throw new BadRequestException('MusicOnHold not Exists')
 
@@ -29,7 +26,7 @@ export default class MusicOnHoldService {
 
   public async create(data): Promise<MusicOnHoldRepository> {
     await unique(MusicOnHoldRepository.table, 'name', data.name)
-
+    console.log(data)
     try {
       return await MusicOnHoldRepository.create(data)
     } catch (error) {

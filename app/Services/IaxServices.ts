@@ -4,20 +4,20 @@ import IaxRepository from 'App/Repositories/IaxRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class IaxService {
-  public async index(page: number, limit: number): Promise<IaxRepository[]> {
-    const data = await IaxRepository.index(page, limit)
+  public async show(
+    page: number,
+    limit: number,
+    filter: string | null
+  ): Promise<IaxRepository[]> {
+    const data = await IaxRepository.show(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Iax not exists.')
 
     return data
   }
 
-  public async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<IaxRepository[]> {
-    const item = await IaxRepository.show(data, page, limit)
+  public async index(id: number): Promise<IaxRepository[]> {
+    const item = await IaxRepository.index(id)
 
     if (!item.length) throw new BadRequestException('Iax not exists.')
 

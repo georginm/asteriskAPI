@@ -43,21 +43,18 @@ export default class EndpointService {
     return await destroy(EndpointRepository.table, 'id', id)
   }
 
-  public async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<EndpointRepository[]> {
-    const item = await EndpointRepository.show(data, page, limit)
+  public async index(id: string): Promise<EndpointRepository[]> {
+    const item = await EndpointRepository.index(id)
     if (!item.length) throw new BadRequestException('Endpoint Not Exists')
     return item
   }
 
-  public async index(
+  public async show(
     page: number,
-    limit: number
+    limit: number,
+    filter: string | null
   ): Promise<EndpointRepository[]> {
-    const data = await EndpointRepository.index(page, limit)
+    const data = await EndpointRepository.show(page, limit, filter)
     if (!data.length) throw new BadRequestException('Endpoint Not Exists')
     return data
   }

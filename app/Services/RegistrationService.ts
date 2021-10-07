@@ -4,23 +4,20 @@ import RegistrationRepository from 'App/Repositories/RegistrationRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class RegistrationService {
-  public async index(
+  public async show(
     page: number,
-    limit: number
+    limit: number,
+    filter: string | null
   ): Promise<RegistrationRepository[]> {
-    const data = await RegistrationRepository.index(page, limit)
+    const data = await RegistrationRepository.show(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Registration not Exists')
 
     return data
   }
 
-  public async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<RegistrationRepository[]> {
-    const item = await RegistrationRepository.show(data, page, limit)
+  public async index(id: string): Promise<RegistrationRepository[]> {
+    const item = await RegistrationRepository.index(id)
 
     if (!item.length) throw new BadRequestException('Registration not Exists')
 

@@ -4,8 +4,12 @@ import QueueRepository from 'App/Repositories/QueueRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class QueueServices {
-  public async index(page: number, limit: number): Promise<QueueRepository[]> {
-    const data = await QueueRepository.index(page, limit)
+  public async show(
+    page: number,
+    limit: number,
+    filter: string | null
+  ): Promise<QueueRepository[]> {
+    const data = await QueueRepository.show(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Queue not Exists.')
 
@@ -38,12 +42,8 @@ export default class QueueServices {
     return await destroy(QueueRepository.table, 'name', name)
   }
 
-  public async show(
-    data: string,
-    page: number,
-    limit: number
-  ): Promise<QueueRepository[]> {
-    const item = await QueueRepository.show(data, page, limit)
+  public async index(name: string): Promise<QueueRepository[]> {
+    const item = await QueueRepository.index(name)
 
     if (!item.length) throw new BadRequestException('Queue not Exists.')
 
