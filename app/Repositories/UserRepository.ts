@@ -2,20 +2,18 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import User from 'App/Models/User'
 
 export default class UserRepository extends User {
-  public static async show(page: number, limit: number): Promise<User[]> {
+  public static async show(id: string): Promise<User[]> {
     try {
-      return await User.query()
-        .select('id', 'fullname', 'email')
-        .paginate(page, limit)
+      return await User.query().where('id', id).paginate(1, 1)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
   }
 
   public static async index(
-    filter: string,
     page: number,
-    limit: number
+    limit: number,
+    filter: string
   ): Promise<User[]> {
     console.log(filter)
     try {

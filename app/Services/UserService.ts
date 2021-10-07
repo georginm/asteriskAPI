@@ -32,18 +32,18 @@ export default class UserServices {
   }
 
   public async show(
-    filter: string,
     page: number,
-    limit: number
+    limit: number,
+    filter: string
   ): Promise<UserRepository[]> {
-    const item = await UserRepository.index(filter, page, limit)
+    const item = await UserRepository.index(page, limit, filter)
     if (!item) throw new BadRequestException('User not Exists.')
 
     return item
   }
 
-  public async index(page: number, limit: number): Promise<UserRepository[]> {
-    const data = await UserRepository.show(page, limit)
+  public async index(id: string): Promise<UserRepository[]> {
+    const data = await UserRepository.show(id)
 
     if (!data.length) throw new BadRequestException('User not Exists.')
 
