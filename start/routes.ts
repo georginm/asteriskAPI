@@ -67,4 +67,4 @@ Route.group(() => {
 
   // Session
   Route.post('/sessions', 'SessionsController.store').as('session.store')
-}).prefix('/api')
+}).prefix('/api/v1')
