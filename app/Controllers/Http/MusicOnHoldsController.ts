@@ -29,6 +29,9 @@ export default class MusicOnHoldsController {
     await request.validate(UpdateMusicOnHoldValidator)
 
     const { name } = request.params()
+
+    console.log(name)
+
     const data = await new MusicOnHoldService().update(request.body(), name)
 
     return response.ok(data)
