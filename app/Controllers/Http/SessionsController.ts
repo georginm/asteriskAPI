@@ -10,7 +10,7 @@ export default class SessionsController {
         .attempt(email, password, { expiresIn: '1day' })
       return response.ok(token)
     } catch (error) {
-      return response.badRequest(error.message)
+      return response.badRequest({ message: 'email/password invalid' })
     }
   }
 
