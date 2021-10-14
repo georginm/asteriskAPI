@@ -7,10 +7,7 @@ class UpdateAorValidator {
 
   public schema = schema.create({
     params: schema.object().members({
-      id: schema.string({ trim: true }, [
-        rules.maxLength(40),
-        rules.minLength(3),
-      ]),
+      id: schema.string({ trim: true }, [rules.maxLength(40)]),
     }),
 
     contact: schema.string.optional({ trim: true }, [rules.maxLength(255)]),

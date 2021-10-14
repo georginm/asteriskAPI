@@ -9,7 +9,6 @@ class UpdateBranchValidator {
     params: schema.object().members({
       id: schema.string({ trim: true }, [
         rules.maxLength(40),
-        rules.minLength(2),
         rules.regex(/[0-9]{2,}/),
       ]),
     }),
