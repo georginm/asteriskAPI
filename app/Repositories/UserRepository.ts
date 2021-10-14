@@ -19,10 +19,13 @@ export default class UserRepository extends User {
     try {
       return await User.query()
         .select('id', 'fullname', 'email')
-        .where('id', filter)
-        .orWhere('fullname', 'ilike', `%${filter}%`)
-        .orWhere('cpf', 'ilike', `%${filter}%`)
-        .orWhere('email', 'ilike', `%${filter}%`)
+        .if(filter, (query) => {
+          query
+            .where('id', filter)
+            .orWhere('fullname', 'ilike', `%${filter}%`)
+            .orWhere('cpf', 'ilike', `%${filter}%`)
+            .orWhere('email', 'ilike', `%${filter}%`)
+        })
         .paginate(page, limit)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
