@@ -10,7 +10,6 @@ import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class AuthController {
   public async index({ response, request }: HttpContextContract) {
-    await request.validate(ListAuthValidator)
     await request.validate(PaginateValidator)
 
     const { page = 1, limit = 10, filter = null } = request.all()
