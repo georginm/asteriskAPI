@@ -9,6 +9,8 @@ export default class PaginateValidator {
     limit: schema.number.optional([rules.range(1, 100)]),
 
     filter: schema.string.optional({ trim: true }),
+
+    page: schema.number.optional(),
   })
 
   public messages = validation
