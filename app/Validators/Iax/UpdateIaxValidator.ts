@@ -7,7 +7,7 @@ class UpdateIaxValidator {
 
   public schema = schema.create({
     params: schema.object().members({
-      id: schema.number.optional(),
+      id: schema.string({ trim: true }, [rules.maxLength(40)]),
     }),
 
     name: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
