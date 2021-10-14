@@ -6,7 +6,9 @@ class ListQueueMemberValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.number(),
+    params: schema.object().members({
+      id: schema.number(),
+    }),
   })
 
   public messages = validation

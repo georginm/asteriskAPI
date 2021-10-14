@@ -6,7 +6,9 @@ class ListEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [rules.maxLength(40)]),
+    params: schema.object().members({
+      id: schema.string({ trim: true }, [rules.maxLength(40)]),
+    }),
   })
 
   public messages = validator

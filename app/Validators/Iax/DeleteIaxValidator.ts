@@ -1,4 +1,4 @@
-import { schema } from '@ioc:Adonis/Core/Validator'
+import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import validation from 'App/localization/validation'
 
@@ -7,7 +7,7 @@ class DeleteIaxValidator {
 
   public schema = schema.create({
     params: schema.object().members({
-      id: schema.number(),
+      id: schema.string({ trim: true }, [rules.maxLength(40)]),
     }),
   })
 
