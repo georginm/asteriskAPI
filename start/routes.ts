@@ -41,10 +41,26 @@ Route.group(() => {
     .except(['create', 'edit'])
     .as('transport')
 
-  // MusiconHold Routes
-  Route.resource('/musiconholds', 'MusicOnHoldsController')
-    .except(['create', 'edit'])
-    .as('musiconhold')
+  // Music On Hold Routes
+  Route.get('/musiconholds/:name', 'MusicOnHoldsController.show').as(
+    'musiconhold.show'
+  )
+
+  Route.put('/musiconholds/:name', 'MusicOnHoldsController.update').as(
+    'musiconhold.update'
+  )
+
+  Route.delete('/musiconholds/:name', 'MusicOnHoldsController.destroy').as(
+    'musiconhold.destroy'
+  )
+
+  Route.post('/musiconholds', 'MusicOnHoldsController.store').as(
+    'musiconhold.store'
+  )
+
+  Route.get('/musiconholds', 'MusicOnHoldsController.index').as(
+    'musiconhold.index'
+  )
 
   // Registration Routes
   Route.resource('/registrations', 'RegistrationsController')
