@@ -9,12 +9,12 @@ import {
 } from 'App/Validators/Queue'
 
 export default class QueuesController {
-  public async show({ response, request }: HttpContextContract) {
+  public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
     const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new QueueServices().show(page, limit, filter)
+    const data = await new QueueServices().index(page, limit, filter)
 
     return response.ok(data)
   }
@@ -43,10 +43,10 @@ export default class QueuesController {
     return response.ok({ message: 'Queue Has Been Deleted' })
   }
 
-  public async index({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     await request.validate(ListQueueValidator)
 
-    const data = await new QueueServices().index(request.qs().name)
+    const data = await new QueueServices().show(request.qs().name)
 
     return response.ok(data)
   }

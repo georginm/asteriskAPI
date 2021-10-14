@@ -29,21 +29,20 @@ export default class AorServices {
     return await destroy(AorRepository.table, 'id', id)
   }
 
-  public async index(id: string) {
-    const item = await AorRepository.index(id)
+  public async show(id: string) {
+    const item = await AorRepository.show(id)
 
     if (!item.length) throw new BadRequestException('Aor not Exists')
 
     return item
   }
 
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string | null
   ): Promise<AorRepository[]> {
-    const data = await AorRepository.show(page, limit, filter)
-
+    const data = await AorRepository.index(page, limit, filter)
     if (!data.length) throw new BadRequestException('Aor not Exists')
 
     return data

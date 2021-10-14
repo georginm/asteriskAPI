@@ -3,12 +3,12 @@ import BranchRepository from 'App/Repositories/BranchRepository'
 import { exists, unique } from 'App/utils/database/'
 
 export default class BranchService {
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string | null
   ): Promise<BranchRepository[]> {
-    const data = await BranchRepository.show(page, limit, filter)
+    const data = await BranchRepository.index(page, limit, filter)
     if (!data.length) throw new BadRequestException('Branch not Exists.')
     return data
   }
@@ -72,8 +72,8 @@ export default class BranchService {
     return await BranchRepository.delete(id)
   }
 
-  public async index(id: string): Promise<BranchRepository[]> {
-    const item = await BranchRepository.index(id)
+  public async show(id: string): Promise<BranchRepository[]> {
+    const item = await BranchRepository.show(id)
     if (!item[0].branch.endpoint)
       throw new BadRequestException('Branch not Exists.')
     return item

@@ -29,20 +29,20 @@ export default class TransportService {
     return await destroy(TransportRepository.table, 'id', id)
   }
 
-  public async index(id: string) {
-    const item = await TransportRepository.index(id)
+  public async show(id: string) {
+    const item = await TransportRepository.show(id)
 
     if (!item.length) throw new BadRequestException('Transport not Exists')
 
     return item
   }
 
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string | null
   ): Promise<TransportRepository[]> {
-    const data = await TransportRepository.show(page, limit, filter)
+    const data = await TransportRepository.index(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Transport not Exists')
 

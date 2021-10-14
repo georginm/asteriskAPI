@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Iax from 'App/Models/Iax'
 
 export default class IaxRepository extends Iax {
-  public static async index(id: number): Promise<Iax[]> {
+  public static async show(id: number): Promise<Iax[]> {
     try {
       return await Iax.query().where('id', id).paginate(1, 1)
     } catch (error) {
@@ -10,7 +10,7 @@ export default class IaxRepository extends Iax {
     }
   }
 
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null

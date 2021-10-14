@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Queue from 'App/Models/Queue'
 
 export default class QueueRepository extends Queue {
-  public static async index(name: string): Promise<Queue[]> {
+  public static async show(name: string): Promise<Queue[]> {
     try {
       return await Queue.query().where('name', name).paginate(1, 1)
     } catch (error) {
@@ -10,7 +10,7 @@ export default class QueueRepository extends Queue {
     }
   }
 
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null

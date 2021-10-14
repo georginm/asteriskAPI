@@ -33,7 +33,7 @@ export default class ExtensionRepository extends Extension {
    * @param limit
    * @returns
    */
-  public static async index(id: string): Promise<Extension[]> {
+  public static async show(id: string): Promise<Extension[]> {
     try {
       return await Extension.query().where('id', id).paginate(1, 1)
     } catch (error) {
@@ -41,7 +41,7 @@ export default class ExtensionRepository extends Extension {
     }
   }
 
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null

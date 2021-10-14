@@ -9,12 +9,12 @@ import {
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class BranchesController {
-  public async show({ response, request }: HttpContextContract) {
+  public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
     const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new BranchService().show(page, limit, filter)
+    const data = await new BranchService().index(page, limit, filter)
     return response.ok(data)
   }
 
@@ -45,10 +45,10 @@ export default class BranchesController {
     return response.ok({ message: 'Branch has been deleted.' })
   }
 
-  public async index({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     await request.validate(ListBrachValidator)
 
-    const data = await new BranchService().index(request.qs().id)
+    const data = await new BranchService().show(request.params().id)
     return response.ok(data)
   }
 }

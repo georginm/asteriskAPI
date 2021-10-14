@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import MusicOnHold from 'App/Models/MusicOnHold'
 
 export default class MusicOnHoldRepository extends MusicOnHold {
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null
@@ -22,7 +22,7 @@ export default class MusicOnHoldRepository extends MusicOnHold {
     }
   }
 
-  public static async index(name: string): Promise<MusicOnHold[]> {
+  public static async show(name: string): Promise<MusicOnHold[]> {
     try {
       return await MusicOnHold.query()
         .where('name', 'ilike', `${name}`)

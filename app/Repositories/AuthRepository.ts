@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Auth from 'App/Models/Auth'
 
 export default class AuthRepository extends Auth {
-  public static async index(id: string): Promise<Auth[]> {
+  public static async show(id: string): Promise<Auth[]> {
     try {
       return await Auth.query().where('id', id).paginate(1, 1)
     } catch (error) {
@@ -10,7 +10,7 @@ export default class AuthRepository extends Auth {
     }
   }
 
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null
@@ -20,7 +20,7 @@ export default class AuthRepository extends Auth {
         .select('id', 'username', 'password')
         .if(filter, (query) => {
           query
-            .where('id', `${filter}`)
+            .where('id', 'ilike', `%${filter}%`)
             .orWhere('username', 'ilike', `%${filter}%`)
         })
         .orderBy('id')

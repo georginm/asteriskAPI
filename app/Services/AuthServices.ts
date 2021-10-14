@@ -30,20 +30,20 @@ export default class AuthServices {
     return await destroy(AuthRepository.table, 'id', id)
   }
 
-  public async index(id: string): Promise<AuthRepository[]> {
-    const item = await AuthRepository.index(id)
+  public async show(id: string): Promise<AuthRepository[]> {
+    const item = await AuthRepository.show(id)
 
     if (!item.length) throw new BadRequestException('Auth not Exists.')
 
     return item
   }
 
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string | null
   ): Promise<AuthRepository[]> {
-    const data = await AuthRepository.show(page, limit, filter)
+    const data = await AuthRepository.index(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Auth not Exists.')
 

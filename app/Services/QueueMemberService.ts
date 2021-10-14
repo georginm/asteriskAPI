@@ -4,12 +4,12 @@ import QueueMemberRepository from 'App/Repositories/QueueMemberRepository'
 import { destroy, exists, unique } from 'App/utils/database'
 
 export default class QueueMemberService {
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string | null
   ): Promise<QueueMemberRepository[]> {
-    const data = await QueueMemberRepository.show(page, limit, filter)
+    const data = await QueueMemberRepository.index(page, limit, filter)
 
     if (!data.length) throw new BadRequestException('Queue Member not Exists.')
 
@@ -36,8 +36,8 @@ export default class QueueMemberService {
     return await destroy(QueueMemberRepository.table, 'uniqueid', id)
   }
 
-  public async index(id: number): Promise<QueueMemberRepository[]> {
-    const item = await QueueMemberRepository.index(id)
+  public async show(id: number): Promise<QueueMemberRepository[]> {
+    const item = await QueueMemberRepository.show(id)
 
     if (!item.length) throw new BadRequestException('QueueMember not Exists.')
 

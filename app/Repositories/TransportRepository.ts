@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Transport from 'App/Models/Transport'
 
 export default class TransportRepository extends Transport {
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null
@@ -23,7 +23,7 @@ export default class TransportRepository extends Transport {
     }
   }
 
-  public static async index(id: string): Promise<Transport[]> {
+  public static async show(id: string): Promise<Transport[]> {
     try {
       return await Transport.query().where('id', id).paginate(1, 1)
     } catch (error) {

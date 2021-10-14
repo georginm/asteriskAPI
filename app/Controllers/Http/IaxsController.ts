@@ -9,12 +9,12 @@ import {
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class IaxsController {
-  public async show({ response, request }: HttpContextContract) {
+  public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
     const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new IaxService().show(page, limit, filter)
+    const data = await new IaxService().index(page, limit, filter)
     return response.ok(data)
   }
 
@@ -45,10 +45,10 @@ export default class IaxsController {
     return response.ok({ message: 'Iax Has Been Deleted' })
   }
 
-  public async index({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     await request.validate(ListIaxValidator)
 
-    const data = await new IaxService().index(request.qs().id)
+    const data = await new IaxService().show(request.params().id)
 
     return response.ok(data)
   }

@@ -9,12 +9,12 @@ import {
 } from 'App/Validators/Transport'
 
 export default class TransportsController {
-  public async show({ response, request }: HttpContextContract) {
+  public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
     const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new TransportService().show(page, limit, filter)
+    const data = await new TransportService().index(page, limit, filter)
 
     return response.ok(data)
   }
@@ -43,10 +43,10 @@ export default class TransportsController {
     return response.ok({ message: 'Transport Has Been Deleted' })
   }
 
-  public async index({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     await request.validate(ListTransportValidator)
 
-    const data = await new TransportService().index(request.qs().id)
+    const data = await new TransportService().show(request.params().id)
 
     return response.ok(data)
   }

@@ -14,7 +14,7 @@ export default class BranchRepository {
    * @param page
    * @returns
    */
-  public static async show(page: number, limit: number, filter): Promise<any> {
+  public static async index(page: number, limit: number, filter): Promise<any> {
     try {
       return await Database.from(Endpoint.table)
         .join(Auth.table, 'ps_endpoints.auth', '=', 'ps_auths.id')
@@ -37,7 +37,7 @@ export default class BranchRepository {
    * @param
    * @returns
    */
-  public static async index(id: string): Promise<any> {
+  public static async show(id: string): Promise<any> {
     try {
       return await Database.query().select(
         Database.raw(`

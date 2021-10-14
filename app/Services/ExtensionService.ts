@@ -4,12 +4,12 @@ import ExtensionRepository from 'App/Repositories/ExtensionRepository'
 import { destroy } from 'App/utils/database/destroy'
 
 export default class ExtensionService {
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string | null
   ): Promise<ExtensionRepository[]> {
-    const item = await ExtensionRepository.show(page, limit, filter)
+    const item = await ExtensionRepository.index(page, limit, filter)
 
     if (!item.length) throw new BadRequestException('Extension not Exists.')
 
@@ -47,8 +47,8 @@ export default class ExtensionService {
     return await destroy(ExtensionRepository.table, 'id', id)
   }
 
-  public async index(id: string): Promise<ExtensionRepository[]> {
-    const item = await ExtensionRepository.index(id)
+  public async show(id: string): Promise<ExtensionRepository[]> {
+    const item = await ExtensionRepository.show(id)
 
     if (!item.length) throw new BadRequestException('Extension not Exists.')
 

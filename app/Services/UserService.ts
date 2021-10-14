@@ -31,7 +31,7 @@ export default class UserServices {
     return 'User has been deleted.'
   }
 
-  public async show(
+  public async index(
     page: number,
     limit: number,
     filter: string
@@ -42,7 +42,7 @@ export default class UserServices {
     return item
   }
 
-  public async index(id: string): Promise<UserRepository[]> {
+  public async show(id: string): Promise<UserRepository[]> {
     const data = await UserRepository.show(id)
 
     if (!data.length) throw new BadRequestException('User not Exists.')

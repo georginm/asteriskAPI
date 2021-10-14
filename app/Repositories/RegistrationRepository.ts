@@ -2,7 +2,7 @@ import InternalServerErrorException from 'App/Exceptions/InternalServerErrorExce
 import Registration from 'App/Models/Registration'
 
 export default class RegistrationRepository extends Registration {
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null
@@ -24,7 +24,7 @@ export default class RegistrationRepository extends Registration {
     }
   }
 
-  public static async index(id: string): Promise<Registration[]> {
+  public static async show(id: string): Promise<Registration[]> {
     try {
       return await Registration.query().where('id', id).paginate(1, 1)
     } catch (error) {

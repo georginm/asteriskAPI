@@ -19,7 +19,7 @@ export default class QueueMemberRepository extends QueueMember {
     return true
   }
 
-  public static async index(id: number): Promise<QueueMember[]> {
+  public static async show(id: number): Promise<QueueMember[]> {
     try {
       return await QueueMember.query().where('uniqueid', id).paginate(1, 1)
     } catch (error) {
@@ -27,7 +27,7 @@ export default class QueueMemberRepository extends QueueMember {
     }
   }
 
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null

@@ -6,26 +6,22 @@ import {
   ListAorValidator,
   UpdateAorValidator,
 } from 'App/Validators/Aor'
-import { IndexAorValidator } from 'App/Validators/Aor/IndexAorValidator'
+
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class AorsController {
-  public async index({ request, response }: HttpContextContract) {
-    await request.validate(IndexAorValidator)
-    await request.validate(PaginateValidator)
-
-    const data = await new AorServices().index(request.qs().id)
+  public async show({ request, response }: HttpContextContract) {
+    await request.validate(ListAorValidator)
+    const data = await new AorServices().show(request.params().id)
 
     return response.ok(data)
   }
 
-  public async show({ response, request }: HttpContextContract) {
-    await request.validate(ListAorValidator)
+  public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
     const { page = 1, limit = 10, filter = null } = request.all()
-
-    const data = await new AorServices().show(page, limit, filter)
+    const data = await new AorServices().index(page, limit, filter)
     return response.ok(data)
   }
 

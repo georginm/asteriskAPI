@@ -9,12 +9,12 @@ import {
 import PaginateValidator from 'App/Validators/PaginateValidator'
 
 export default class ExtensionsController {
-  public async show({ response, request }: HttpContextContract) {
+  public async index({ response, request }: HttpContextContract) {
     await request.validate(PaginateValidator)
 
     const { limit = 10, page = 1, filter = null } = request.all()
 
-    const data = await new ExtensionService().show(page, limit, filter)
+    const data = await new ExtensionService().index(page, limit, filter)
     return response.ok(data)
   }
 
@@ -45,10 +45,10 @@ export default class ExtensionsController {
     })
   }
 
-  public async index({ request, response }: HttpContextContract) {
+  public async show({ request, response }: HttpContextContract) {
     await request.validate(ListExtensionValidator)
 
-    const data = await new ExtensionService().index(request.qs().id)
+    const data = await new ExtensionService().show(request.params().id)
 
     return response.ok(data)
   }

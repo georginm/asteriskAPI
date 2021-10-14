@@ -4,7 +4,7 @@ import Auth from 'App/Models/Auth'
 import Endpoint from 'App/Models/Endpoint'
 
 export default class EndpointRepository extends Endpoint {
-  public static async index(id: string): Promise<any> {
+  public static async show(id: string): Promise<any> {
     try {
       return await Endpoint.query().where('id', id)
     } catch (error) {
@@ -12,7 +12,7 @@ export default class EndpointRepository extends Endpoint {
     }
   }
 
-  public static async show(
+  public static async index(
     page: number,
     limit: number,
     filter: string | null
@@ -24,7 +24,7 @@ export default class EndpointRepository extends Endpoint {
         .select('ps_auths.username')
         .if(filter, (query) => {
           query
-            .where('ps_endpoints.id', `${filter}`)
+            .where('ps_endpoints.id', 'ilike', `%${filter}%`)
             .orWhere('ps_endpoints.context', 'ilike', `%${filter}%`)
             .orWhere('ps_auths.username', 'ilike', `%${filter}%`)
         })
