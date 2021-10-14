@@ -58,7 +58,7 @@ Route.group(() => {
 
   Route.get('/sessions', 'SessionsController.logout').as('session.logout')
 })
-  .prefix('/api')
+  .prefix('/api/v1')
   .middleware('auth')
 
 Route.group(() => {
