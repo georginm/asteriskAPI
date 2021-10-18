@@ -6,7 +6,7 @@ class UpdateMusicOnHoldValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    param: schema.object().members({
+    params: schema.object().members({
       name: schema.string({ trim: true }, [rules.maxLength(255)]),
     }),
 
