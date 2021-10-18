@@ -16,7 +16,7 @@ class CreateQueueMemberValidator {
     penalty: schema.number.optional(),
     paused: schema.number.optional(),
     wrapuptime: schema.number.optional(),
-    ringinuse: schema.string.optional({ trim: true }, [rules.maxLength(5)]),
+    ringinuse: schema.enum.optional(['yes', 'no'] as const),
   })
 
   public messages = validation
