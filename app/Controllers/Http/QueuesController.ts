@@ -46,7 +46,7 @@ export default class QueuesController {
   public async show({ request, response }: HttpContextContract) {
     await request.validate(ListQueueValidator)
 
-    const data = await new QueueServices().show(request.qs().name)
+    const data = await new QueueServices().show(request.params().name)
 
     return response.ok(data)
   }
