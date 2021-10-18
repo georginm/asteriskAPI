@@ -6,10 +6,7 @@ class CreateEndpointValidator {
   constructor(protected ctx: HttpContextContract) {}
 
   public schema = schema.create({
-    id: schema.string({ trim: true }, [
-      rules.maxLength(40),
-      rules.minLength(3),
-    ]),
+    id: schema.string({ trim: true }, [rules.maxLength(40)]),
 
     transport: schema.string({ trim: true }, [rules.maxLength(40)]),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
@@ -25,20 +22,14 @@ class CreateEndpointValidator {
     allow: schema.string({ trim: true }, [
       rules.maxLength(20),
       rules.regex(
-        /^(([\w]{3,6}\s?([\w]{3,7})?))(,([\w]{3,6}\s?([\w]{3,7})?)){0,12}$/
+        /^(([\w]{3,6})(\s[\w]{3,7})?)(,([\w]{3,6})(\s[\w]{3,7})?){0,12}$/
       ),
       rules.codecExists(),
     ]),
 
-    aors: schema.string({ trim: true }, [
-      rules.maxLength(5),
-      rules.minLength(3),
-    ]),
+    aors: schema.string({ trim: true }, [rules.maxLength(40)]),
 
-    auth: schema.string({ trim: true }, [
-      rules.maxLength(5),
-      rules.minLength(3),
-    ]),
+    auth: schema.string({ trim: true }, [rules.maxLength(40)]),
 
     macAddress: schema.string({ trim: true }, [
       rules.maxLength(17),
@@ -58,56 +49,54 @@ class CreateEndpointValidator {
       rules.ipList(),
     ]),
 
-    contact_deny: schema.string.optional({ trim: true }, [
+    contactDeny: schema.string.optional({ trim: true }, [
       rules.minLength(7),
       rules.maxLength(95),
       rules.ipList(),
     ]),
 
-    contact_permit: schema.string.optional({ trim: true }, [
+    contactPermit: schema.string.optional({ trim: true }, [
       rules.minLength(7),
       rules.maxLength(95),
       rules.ipList(),
     ]),
 
-    call_group: schema.string.optional({ trim: true }, [
+    callGroup: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
       rules.callGroupExists(),
     ]),
 
-    pickup_group: schema.string.optional({ trim: true }, [
+    pickupGroup: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
       rules.callGroupExists(),
     ]),
 
-    named_call_group: schema.string.optional({ trim: true }, [
+    namedCallGroup: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
     ]),
-    named_pickup_group: schema.string.optional({ trim: true }, [
+    namedPickupGroup: schema.string.optional({ trim: true }, [
       rules.maxLength(40),
     ]),
 
     callerid: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
 
-    outbound_auth: schema.string.optional({ trim: true }, [
-      rules.maxLength(40),
-    ]),
+    // outboundAuth: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
 
-    outbound_proxy: schema.string.optional({ trim: true }, [
-      rules.maxLength(40),
-    ]),
+    // outboundProxy: schema.string.optional({ trim: true }, [
+    //   rules.maxLength(40),
+    // ]),
 
-    rewrite_contact: schema.enum.optional(['yes', 'no'] as const),
-    rtp_symmetric: schema.enum.optional(['yes', 'no'] as const),
-    force_rport: schema.enum.optional(['yes', 'no'] as const),
-    direct_media: schema.enum.optional(['yes', 'no'] as const),
-    t38_udptl: schema.enum.optional(['yes', 'no'] as const),
-    t38_udptl_nat: schema.enum.optional(['yes', 'no'] as const),
-    disable_direct_media_on_nat: schema.enum.optional(['yes', 'no'] as const),
-    ice_support: schema.enum.optional(['yes', 'no'] as const),
-    allow_overlap: schema.enum.optional(['yes', 'no'] as const),
+    rewriteContact: schema.enum(['yes', 'no'] as const),
+    rtpSymmetric: schema.enum(['yes', 'no'] as const),
+    forceRport: schema.enum(['yes', 'no'] as const),
+    directMedia: schema.enum.optional(['yes', 'no'] as const),
+    // t38Udptl: schema.enum.optional(['yes', 'no'] as const),
+    // t38UdptlNat: schema.enum.optional(['yes', 'no'] as const),
+    // disableDirectMediaOnNat: schema.enum.optional(['yes', 'no'] as const),
+    // iceSupport: schema.enum.optional(['yes', 'no'] as const),
+    // allowOverlap: schema.enum.optional(['yes', 'no'] as const),
 
-    dtmf_mode: schema.enum.optional([
+    dtmfMode: schema.enum.optional([
       'rfc4733',
       'inband',
       'info',
@@ -115,11 +104,11 @@ class CreateEndpointValidator {
       'auto_info',
     ] as const),
 
-    rtp_timeout: schema.number.optional(),
-    rtp_timeout_hold: schema.number.optional(),
-    rtp_keepalive: schema.number.optional(),
-    timers_sess_expires: schema.number.optional(),
-    device_state_busy_at: schema.number.optional(),
+    rtpTimeout: schema.number.optional(),
+    rtpTimeoutHold: schema.number.optional(),
+    rtpKeepalive: schema.number.optional(),
+    // timersSessExpires: schema.number.optional(),
+    // deviceStateBusyAt: schema.number.optional(),
   })
 
   public messages = validation
