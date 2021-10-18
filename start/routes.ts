@@ -27,9 +27,15 @@ Route.group(() => {
   Route.resource('iaxs', 'IaxsController').except(['create', 'edit']).as('iaxs')
 
   // Queue Routes
-  Route.resource('/queues', 'QueuesController')
-    .except(['create', 'edit'])
-    .as('queues')
+  Route.get('/queues/:name', 'QueuesController.show').as('queues.show')
+
+  Route.put('/queues/:name', 'QueuesController.update').as('queues.update')
+
+  Route.delete('/queues/:name', 'QueuesController.destroy').as('queues.destroy')
+
+  Route.post('/queues', 'QueuesController.store').as('queues.store')
+
+  Route.get('/queues', 'QueuesController.index').as('queues.index')
 
   // Queue Members
   Route.resource('/queuemembers', 'QueueMembersController')
