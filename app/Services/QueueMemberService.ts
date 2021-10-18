@@ -18,6 +18,7 @@ export default class QueueMemberService {
 
   public async create(data: any): Promise<QueueMemberRepository> {
     await unique(QueueMemberRepository.table, 'interface', data.interface)
+    await unique(QueueMemberRepository.table, 'membername', data.membername)
 
     await QueueMemberRepository.uniqueByRelationship(
       data.queueName,
@@ -46,6 +47,8 @@ export default class QueueMemberService {
 
   public async update(data: any, id: number): Promise<QueueMemberRepository> {
     await exists(QueueMemberRepository.table, 'uniqueid', id)
+    await unique(QueueMemberRepository.table, 'interface', data.interface)
+    await unique(QueueMemberRepository.table, 'membername', data.membername)
 
     try {
       const item = await QueueMemberRepository.findByOrFail('uniqueid', id)
