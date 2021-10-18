@@ -15,7 +15,6 @@ export default class UserRepository extends User {
     limit: number,
     filter: string
   ): Promise<User[]> {
-    console.log(filter)
     try {
       return await User.query()
         .select('id', 'fullname', 'email')
