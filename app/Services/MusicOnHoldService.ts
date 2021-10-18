@@ -26,7 +26,6 @@ export default class MusicOnHoldService {
 
   public async create(data): Promise<MusicOnHoldRepository> {
     await unique(MusicOnHoldRepository.table, 'name', data.name)
-    console.log(data)
     try {
       return await MusicOnHoldRepository.create(data)
     } catch (error) {
