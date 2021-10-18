@@ -31,7 +31,7 @@ validator.rule(
       return
     }
 
-    const codecs = ['alaw', 'ulaw', 'all', 'gsm']
+    const codecs = ['alaw', 'ulaw', 'all', 'gsm', 'g729']
 
     const fields = value.split(',')
     var counter = 0
