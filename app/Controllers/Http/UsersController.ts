@@ -28,7 +28,7 @@ export default class UsersController {
   public async destroy({ request, response }: HttpContextContract) {
     await new UserService().destroy(request.params().id)
 
-    return response.ok({ message: 'User Has Been Deleted' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

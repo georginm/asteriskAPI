@@ -39,7 +39,7 @@ export default class MusicOnHoldsController {
 
     await new MusicOnHoldService().delete(request.params().name)
 
-    return response.ok({ message: 'MusicOnHold Has Been Deleted.' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

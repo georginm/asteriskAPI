@@ -40,9 +40,7 @@ export default class ExtensionsController {
     await request.validate(DeleteExtensionValidator)
 
     await new ExtensionService().destroy(request.params().id)
-    return response.ok({
-      message: 'Extension Has Been Deleted',
-    })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

@@ -40,7 +40,7 @@ export default class TransportsController {
 
     await new TransportService().destroy(request.params().id)
 
-    return response.ok({ message: 'Transport Has Been Deleted' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

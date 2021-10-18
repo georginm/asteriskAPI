@@ -42,7 +42,7 @@ export default class IaxsController {
 
     await new IaxService().delete(request.params().id)
 
-    return response.ok({ message: 'Iax Has Been Deleted' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

@@ -42,7 +42,7 @@ export default class BranchesController {
 
     await new BranchService().delete(request.params().id)
 
-    return response.ok({ message: 'Branch has been deleted.' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

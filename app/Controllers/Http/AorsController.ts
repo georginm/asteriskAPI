@@ -46,6 +46,6 @@ export default class AorsController {
     await request.validate(DeleteAorValidator)
     await new AorServices().destroy(request.params().id)
 
-    return response.ok({ message: 'Aor has been deleted.' })
+    return response.noContent()
   }
 }

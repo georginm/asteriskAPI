@@ -42,7 +42,7 @@ export default class AuthController {
 
     await new AuthServices().destroy(request.params().id)
 
-    return response.ok({ message: 'Auth has been deleted.' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

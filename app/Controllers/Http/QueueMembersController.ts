@@ -30,9 +30,7 @@ export default class QueueMembersController {
     await request.validate(DeleteQueueMemberValidator)
     await new QueueMemberService().destroy(request.params().id)
 
-    return response.ok({
-      message: 'QueueMember Has Been Deleted',
-    })
+    return response.noContent()
   }
 
   public async update({ request, response }: HttpContextContract) {

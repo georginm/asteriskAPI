@@ -40,7 +40,7 @@ export default class QueuesController {
 
     await new QueueServices().destroy(request.params().name)
 
-    return response.ok({ message: 'Queue Has Been Deleted' })
+    return response.noContent()
   }
 
   public async show({ request, response }: HttpContextContract) {

@@ -47,6 +47,6 @@ export default class EndpointsController {
 
     await new EndpointService().destroy(request.params().id)
 
-    return response.ok({ message: 'Endpoint Has Been Deleted.' })
+    return response.noContent()
   }
 }
