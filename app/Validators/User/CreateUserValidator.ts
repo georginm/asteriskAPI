@@ -14,7 +14,7 @@ export default class CreateUserValidator {
     cpf: schema.string({ trim: true }, [
       rules.regex(/(\d{3})(.)(\d{3})(.)(\d{3})(-)(\d{2}))/),
     ]),
-    fullname: schema.string({ trim: true }),
+    fullname: schema.string({ trim: true }, [rules.maxLength(100)]),
     password: schema.string({ trim: true }, [
       rules.minLength(6),
       rules.maxLength(180),
