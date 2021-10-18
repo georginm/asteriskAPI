@@ -10,7 +10,7 @@ class CreateIaxValidator {
     username: schema.string({ trim: true }, [rules.maxLength(40)]),
     secret: schema.string({ trim: true }, [rules.maxLength(40)]),
     context: schema.string({ trim: true }, [rules.maxLength(40)]),
-    host: schema.string({ trim: true }, [rules.maxLength(40)]),
+    host: schema.string({ trim: true }, [rules.maxLength(40), rules.ipList()]),
     disallow: schema.string.optional({ trim: true }, [
       rules.maxLength(200),
       rules.codecExists(),
@@ -25,7 +25,10 @@ class CreateIaxValidator {
 
     port: schema.number(),
 
-    ipaddr: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
+    ipaddr: schema.string.optional({ trim: true }, [
+      rules.maxLength(40),
+      rules.ipList(),
+    ]),
     // regcontext: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
     // dbsecret: schema.string.optional({ trim: true }, [rules.maxLength(40)]),
     // defaultip: schema.string.optional({ trim: true }, [rules.maxLength(20)]),
