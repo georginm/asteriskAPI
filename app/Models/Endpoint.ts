@@ -75,11 +75,11 @@ export default class Endpoint extends BaseModel {
   @column()
   public permit: string
 
-  // @column({ columnName: 'contact_deny' })
-  // public contactDeny: string
+  @column({ columnName: 'contact_deny' })
+  public contactDeny: string
 
-  // @column({ columnName: 'contact_permit' })
-  // public contactPermit: string
+  @column({ columnName: 'contact_permit' })
+  public contactPermit: string
 
   // @column({ columnName: 'device_state_busy_at' })
   // public deviceStateBusyAt: number
