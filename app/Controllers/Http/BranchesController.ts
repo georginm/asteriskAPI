@@ -23,7 +23,7 @@ export default class BranchesController {
 
     const data = await new BranchService().create(request.body())
 
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -34,7 +34,7 @@ export default class BranchesController {
       request.params().id
     )
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {

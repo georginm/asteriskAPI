@@ -34,7 +34,7 @@ export default class IaxsController {
       request.params().id
     )
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -50,6 +50,6 @@ export default class IaxsController {
 
     const data = await new IaxService().show(request.params().id)
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 }

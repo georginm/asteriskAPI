@@ -23,7 +23,7 @@ export default class AuthController {
 
     const data = await new AuthServices().create(request.body())
 
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -34,7 +34,7 @@ export default class AuthController {
       request.params().id
     )
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {

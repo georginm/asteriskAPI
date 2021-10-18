@@ -23,7 +23,7 @@ export default class QueuesController {
     await request.validate(CreateQueueValidator)
 
     const data = await new QueueServices().create(request.body())
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -32,7 +32,7 @@ export default class QueuesController {
     const { name } = request.params()
     const data = await new QueueServices().update(request.body(), name)
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {

@@ -22,19 +22,16 @@ export default class MusicOnHoldsController {
     await request.validate(CreateMusicOnHoldValidator)
 
     const data = await new MusicOnHoldService().create(request.body())
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async update({ request, response }: HttpContextContract) {
     await request.validate(UpdateMusicOnHoldValidator)
-
     const { name } = request.params()
-
-    console.log(name)
 
     const data = await new MusicOnHoldService().update(request.body(), name)
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {

@@ -23,7 +23,7 @@ export default class QueueMembersController {
     await request.validate(CreateQueueMemberValidator)
 
     const data = await new QueueMemberService().create(request.body())
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {
@@ -43,7 +43,7 @@ export default class QueueMembersController {
       request.params().id
     )
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async show({ request, response }: HttpContextContract) {

@@ -23,7 +23,7 @@ export default class RegistrationsController {
     await request.validate(CreateRegistrationValidator)
 
     const data = await new RegistrationService().create(request.body())
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -32,7 +32,7 @@ export default class RegistrationsController {
     const { id } = request.params()
     const data = await new RegistrationService().update(request.body(), id)
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {

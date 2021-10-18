@@ -29,7 +29,7 @@ export default class AorsController {
     await request.validate(CreateAorValidator)
     const data = await new AorServices().create(request.body())
 
-    return response.created(data)
+    return response.created({ data })
   }
 
   public async update({ request, response }: HttpContextContract) {
@@ -39,7 +39,7 @@ export default class AorsController {
       request.params().id
     )
 
-    return response.ok(data)
+    return response.ok({ data })
   }
 
   public async destroy({ request, response }: HttpContextContract) {
