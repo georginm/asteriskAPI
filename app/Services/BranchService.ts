@@ -14,14 +14,15 @@ export default class BranchService {
   }
 
   public async create(data): Promise<BranchRepository> {
-    if (data.endpoint.auth !== data.auth.id)
+    if (data.endpoint.id !== data.auth.id || data.endpoint.id !== data.aor.id)
+      throw new BadRequestException('Endpoint id, aors and auth do not match')
+    else if (data.endpoint.auth !== data.auth.id)
       throw new BadRequestException(
-        ' The endpoint.auth and auths.id must be the same.'
+        'The endpoint.auth and auths.id must be the same.'
       )
-
-    if (data.endpoint.aors !== data.aor.id)
+    else if (data.endpoint.aors !== data.aor.id)
       throw new BadRequestException(
-        ' The endpoint.aors and aors.id must be the same.'
+        'The endpoint.aors and aors.id must be the same.'
       )
 
     await unique(BranchRepository.t_endpoint, 'id', data.endpoint.id, 'id')
@@ -43,7 +44,6 @@ export default class BranchService {
   }
 
   public async update(data, id): Promise<BranchRepository> {
-    // Nenhum dos ids pode vir no corpo da requisição.
     if (data.endpoint.id || data.auth.id || data.aor.id)
       throw new BadRequestException(
         'Cannot change id of endpoint, aor or auth.'
