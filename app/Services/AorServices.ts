@@ -14,12 +14,12 @@ export default class AorServices {
     }
   }
 
-  public async update(data: any, id: string): Promise<AorRepository> {
+  public async update(item: any, id: string): Promise<AorRepository> {
     await exists(AorRepository.table, 'id', id, 'id')
 
     try {
-      const item = await AorRepository.findOrFail(id)
-      return await item.merge(data).save()
+      const data = await AorRepository.findOrFail(id)
+      return await data.merge(item).save()
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
