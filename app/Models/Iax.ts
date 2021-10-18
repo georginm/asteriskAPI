@@ -42,8 +42,8 @@ export default class Iax extends BaseModel {
   // @column()
   // public sourceaddress: string
 
-  // @column()
-  // public mask: string
+  @column()
+  public mask: string
 
   // @column()
   // public regexten: string
