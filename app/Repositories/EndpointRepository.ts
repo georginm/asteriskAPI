@@ -6,7 +6,7 @@ import Endpoint from 'App/Models/Endpoint'
 export default class EndpointRepository extends Endpoint {
   public static async show(id: string): Promise<any> {
     try {
-      return await Endpoint.query().where('id', id)
+      return await Endpoint.query().where('id', id).paginate(1, 1)
     } catch (error) {
       throw new InternalServerErrorException(error.message)
     }
