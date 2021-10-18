@@ -9,7 +9,6 @@ class CreateBranchValidator {
     endpoint: schema.object().members({
       id: schema.string({ trim: true }, [
         rules.maxLength(40),
-        rules.minLength(2),
         rules.regex(/[0-9]{2,}/),
       ]),
 
@@ -34,13 +33,11 @@ class CreateBranchValidator {
 
       aors: schema.string({ trim: true }, [
         rules.maxLength(5),
-        rules.minLength(2),
         rules.regex(/[0-9]{2,}/),
       ]),
 
       auth: schema.string({ trim: true }, [
         rules.maxLength(5),
-        rules.minLength(2),
         rules.regex(/[0-9]{2,}/),
       ]),
 
